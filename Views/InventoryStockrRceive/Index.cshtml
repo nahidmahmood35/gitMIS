@@ -1,0 +1,593 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Invantory Stock Receive </h3>
+    </div>
+    <div class="box-body ">
+        <div class="form-group">
+            <label class="col-sm-1">Slip No</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control required" id="txtSlipNo">
+                <input type="text" class="form-control none" id="txtInvoiceNo" value="0" disabled>
+            </div>
+            <label class="col-sm-1" for="txtSlipDate">Slip Date</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control datepicker required" id="txtSlipDate" />
+            </div>
+            <label class="col-sm-1"> Company</label>
+            <div class="col-sm-3">
+                <select class="form-control required select2" id="txtCompany"> </select>
+            </div>
+            <div class="col-sm-2"><a data-toggle="modal" data-target="#newCompany" class="btn btn-sm btn-primary">Add Company</a></div>
+            <div class="modal fade" id="newCompany">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-2">Name</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="txtCompanyName">
+                                </div>
+                                <label class="col-sm-2">Address</label>
+                               
+                                <div class="col-sm-5">
+                                    <textarea class="form-control" id="txtAddress" rows="1" cols="5"></textarea>
+                                        
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2">Contact</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="txtContact">
+                                </div>
+                                <label class="col-sm-2">OP.Balance</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control isnumber" id="txtOpeningBalance">
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-sm" onclick="SaveCompanyInfo()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2">P.O No</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="txtPoNo">
+            </div>
+            <label class="col-sm-2"> Department</label>
+            <div class="col-sm-4">
+                <select class="form-control required select2" id="txtDepartment"> </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2">Remarks </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="txtRemarks">
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="table-scrollable">
+                <table class="table table-striped table-hover table-bordered">
+                    <tbody class="entry-form">
+                    <tr>
+                        <td class="none"><input type="text" class="none" id="txtProductId" /></td>
+                        <td><input type="text" class="form-control" id="txtNameOfProduct"></td>
+                        <td><input type="text" class="form-control" id="txtRackNo" disabled></td>
+                        <td><input type="text" class="form-control" id="txtCellNo" disabled></td>
+                        <td><input type="text" class="form-control" id="txtPerUnit" disabled></td>
+                        <td><input type="text" class="form-control " id="txtUnitePrice" value="0" disabled></td>
+                        <td><input type="text" class="form-control " id="txtQuantity" value="1"></td>
+                        <td><input type="text" class="form-control " id="txtTotalTp" value="0"></td>
+                        <td><input type="text" class="form-control" id="txtMRP" disabled></td>
+                        <td><input type="text" class="form-control StockPreviousDate" id="txtExpireDate" /></td>
+                        <td><input type="text" class="form-control " id="txtRackNoInput" value="0"></td>
+                        <td><input type="text" class="form-control " id="txtCellNoInput" value="0"></td>
+                        <td><button type="button" class="btn btn-sm btn-blue" id="btnAdd" onclick="add();">Add</button></td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                    <tr>
+                        <th class="col-sm-2">Product Name</th>
+                        <th class="">Rack No</th>
+                        <th class="">Cell No</th>
+                        <th class="">Unit</th>
+                        <th class="">Price</th>
+                        <th class="">Qty</th>
+                        <th class="">Total</th>
+                        <th class="">Per Product price</th>
+                        <th class="">Expire Date</th>
+                        <th class="">Rack No</th>
+                        <th class="">Cell No</th>
+                        <th class="">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center" id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 col-sm-offset-8">Vat Amount</label>
+            <div class="col-sm-2 ">
+                <input type="text" class="form-control isnumber" id="txtVatAmount" value="0">
+            </div>
+        </div>
+            <div class="form-group">
+
+               
+                <label class="col-sm-2 col-sm-offset-8">Less Amount</label>
+                <div class="col-sm-2 ">
+                    <input type="text" class="form-control isnumber" id="txtLessAmount" value="0">
+                </div>
+
+
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 col-sm-offset-8">Total  Price</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="txtTotalPrice" disabled>
+                </div>
+                <div class="col-sm-4 none">
+                    <input type="text" class="form-control none" id="txtTotalPriceWithOutVatLess" disabled>
+                </div>
+            </div>
+
+
+            <div class="button-group text-center">
+                <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+                <input type="submit" class="btn btn-sm btn-success" id="btnList" value="View All">
+            </div>
+        </div>
+    <div class="col-sm-12 toshow" style="display:none;">
+        <div class="box box-info">
+            <div class="box-header with-border">Stock Requsition Allocation</div>
+
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetCompanyList();
+        GetDepartmentList();
+
+        $(document).on("keyup", "#txtVatAmount, #txtLessAmount", calculateGrid);
+
+        $('#txtNameOfProduct').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "InvStockReceiveApi/GetProductInfo",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtNameOfProduct").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtProductId").val(ui.item.id);
+                $("#txtNameOfProduct").val(ui.item.productName);
+                $("#txtRackNo").val(ui.item.rackNumber);
+                $("#txtCellNo").val(ui.item.cellNumber);
+                $("#txtRackNoInput").val(ui.item.rackNumber);
+                $("#txtCellNoInput").val(ui.item.cellNumber);
+                $("#txtPerUnit").val(ui.item.unit);
+                $("#txtUnitePrice").val(ui.item.unitPrice);
+                return false;
+            },
+            minLength: 2
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Code</th><th>Name</th><th>Unit price</th><th>Unit</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.id + "</td>";
+            html += "<td>" + item.productName + "</td>";
+            html += "<td>" + item.unitPrice + "</td>";
+            html += "<td>" + item.unit + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+
+
+
+    function GetDepartmentList() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "InvStockReceiveApi/GetDepartmentList",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtDepartment').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtDepartment').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function SaveCompanyInfo() {
+        $.ajax({
+            url: apiUrl + "InvStockReceiveApi/GetSaveCompanyInfo",
+            type: 'GET',
+            datatype: JSON,
+            data: {
+                'name': $("#txtCompanyName").val(),
+                'address': $("#txtAddress").val(),
+                'opBalance': $("#txtOpeningBalance").val(),
+                'contact': $("#txtContact").val(),
+            },
+            success: function (data) {
+                if (data.result == 0) {
+                    $('.modal').modal('hide');
+                    alert("Company information are not save");
+                } else {
+                    $('#txtCompany').append($('<option></option>').val(data.result).html($("#txtCompanyName").val()).prop('selected', true));
+                    $('.modal').modal('hide');
+                    alert("Company information are save");
+                }
+                //alert(data.result);
+                //alert(JSON.stringify(data));
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function GetCompanyList() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "InvStockReceiveApi/GetCompanyList",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtCompany').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtCompany').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    $("#txtTotalTp").on('keyup', function () {
+        //var Vat = parseFloat($("#txtQuantity").val()).toFixed(2);
+        //var Less = parseFloat($("#txtQuantity").val()).toFixed(2);
+        var qty = parseFloat($("#txtQuantity").val()).toFixed(2);
+        var price = parseFloat($("#txtTotalTp").val()).toFixed(2);
+        $("#txtMRP").val(parseFloat(price / qty).toFixed(2));
+
+    });
+
+    var dateToday = new Date();
+    $(function () {
+        $(".StockPreviousDate").datepicker({
+            changeYear: true,
+            changeMonth: true,
+            yearRange: '1960:2090',
+            dateFormat: 'yy-mm-dd',
+            minDate: dateToday
+        });
+    });
+
+
+
+
+
+    function add() {
+        var res = validate();
+        if (res == false) {
+            return false;
+        }
+        var productId = $("#txtProductId").val();
+        var nameOfProduct = $("#txtNameOfProduct").val();
+        var previousRackNo = $("#txtRackNo").val();
+        var previousCellNo = $("#txtCellNo").val();
+        var previousUnit = $("#txtPerUnit").val();
+        var previousPrice = $("#txtUnitePrice").val();
+        var quantity = $("#txtQuantity").val();
+        var price = $("#txtTotalTp").val();
+        var pricePerUnit = $("#txtMRP").val();
+        var expireDate = $("#txtExpireDate").val();
+        var rackNo = $("#txtRackNoInput").val();
+        var CellNo = $("#txtCellNoInput").val();
+
+        var html = '';
+        if ($('#tbody').html != '') {
+            html = $('#tbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr>';
+        html += '<td class="none">' + productId + '</td>';
+        html += '<td class="col-sm-2">' + nameOfProduct + '</td>';
+        html += '<td>' + previousRackNo + '</td>';
+        html += '<td>' + previousCellNo + '</td>';
+        html += '<td>' + previousUnit + '</td>';
+        html += '<td>' + previousPrice + '</td>';
+        html += '<td class="qty">' + quantity + '</td>';
+        html += '<td class="total">' + price + '</td>';
+        html += '<td>' + pricePerUnit + '</td>';
+        html += '<td>' + expireDate + '</td>';
+        html += '<td>' + rackNo + '</td>';
+        html += '<td>' + CellNo + '</td>';
+        html += '<td class="txtVat none">0</td>';
+        html += '<td class="txtLess none">0</td>';
+        html += '<td><a href="javascript:;" class="deleteRow"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        html += '</tr>';
+        $('#tbody').html(html);
+
+        
+        $("#txtVatAmount").val(0); 
+        $("#txtLessAmount").val(0);
+
+        var tamount = sumColumn(8);
+        $("#txtTotalPrice").val(tamount);
+        $("#txtTotalPrice").val(parseFloat(sumColumn(8)) + parseFloat($("#txtVatAmount").val()) - parseFloat($("#txtLessAmount").val()));
+        $("#txtTotalPriceWithOutVatLess").val(tamount);
+        $(".entry-form input").val('');
+        $("#txtNameOfProduct").focus();
+        return false;
+    }
+
+    function calculateGrid() {
+        $("#tbody .txtVat").each(function () {
+            var vat = parseFloat($("#txtVatAmount").val()).toFixed(6);
+            var TotalPrice = parseFloat($(this).closest("tr").find('.total').text()).toFixed(6);
+            var gTotal = parseFloat($("#txtTotalPriceWithOutVatLess").val()).toFixed(6);
+            var qty = parseFloat($(this).closest("tr").find('.qty').text()).toFixed(6);
+            $(this).text(parseFloat(((vat * TotalPrice) / gTotal) / qty).toFixed(4));
+        });
+        $("#tbody .txtLess").each(function () {
+            var less = parseFloat($("#txtLessAmount").val()).toFixed(6);
+            var TotalPrice = parseFloat($(this).closest("tr").find('.total').text()).toFixed(6);
+            var gTotal = parseFloat($("#txtTotalPriceWithOutVatLess").val()).toFixed(6);
+            var qty = parseFloat($(this).closest("tr").find('.qty').text()).toFixed(6);
+            $(this).text(parseFloat(((less * TotalPrice) / gTotal) / qty).toFixed(4));
+        });
+    }
+
+    $("#txtVatAmount, #txtLessAmount").on('keyup', function () {
+        var vat = parseFloat($("#txtVatAmount").val());
+        var less = parseFloat($("#txtLessAmount").val());
+        var amount = parseFloat(sumColumn(8));
+        $("#txtTotalPrice").val(amount + vat - less);
+
+    });
+    function validate() {
+        var isValid = true;
+        var table = $("table #tbody");
+        var itemId = $("#txtProductId").val();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                $("#txtNameOfProduct").focus();
+                isValid = false;
+            }
+        });
+        if ($("#txtExpireDate ").val() == "") { var d = $.datepicker.formatDate('yy-mm-dd', new Date()); $("#txtExpireDate ").val(d); }
+        return isValid;
+    };
+
+
+    $("table #tbody").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        $("#txtTotalPrice").val(parseFloat(sumColumn(8)) + parseFloat($("#txtVatAmount").val()) - parseFloat($("#txtLessAmount").val()));
+        return false;
+    });
+    //----------------Data table-------------------
+    $('#btnList').on('click', function () {
+        $(".toshow").fadeToggle(500);
+        LoadDataTable();
+    });
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                //url: apiUrl + "InvStockReceiveApi/GetRequisitionListTable?userName=" +@System.Web.HttpContext.Current.Session["UserName"] +"",
+                url: apiUrl + "InvStockReceiveApi/GetRequisitionListTable",
+                dataSrc: ""
+            },
+            "columns": [
+                //{ "data": "reqNo", "title": "ReqNo" , "render": function (data) { return '<a href="javascript:;" onclick="GetPharRequisitionDetailList(' + data + ');">' + data + '</a>'; } },
+                //{ "data": "reqDate", "title": "ReqDate", "render": function (data) { return (window.ToJsonDate(data)); } },
+                //{ "data": "reqNote", "title": "ReqNote" },
+                //{ "data": "deptName", "title": "DeptName" },
+                //{ "data": "reqBy", "title": "ReqBy" },
+                //  {  "data": "reqNo", width: "80px", "title": "Action","render": function (data) {
+                // return "<a href='javascript:;' class='md-trigger' onclick='return GetReprintByInvoice(\"" + data + "\")'><span class='glyphicon glyphicon-edit'></span></a>";
+                //         }
+
+                { "data": "invoiceDate", "title": "Date", "render": function (data) { return (window.ToJsonDate(data)); } },
+                { "data": "slipNo", "title": "Slip No" },
+                { "data": "poNo", "title": "P.O No" },
+                { "data": "companyName", "title": "company Name" },
+                { "data": "pnoName", "title": "Department Name" },
+                {
+                    "data": "invoiceNo", width: "80px", "title": "Action", "render": function (data) {
+                        return "<a href='javascript:;' class='md-trigger' onclick='return GetInvoiceDetails(\"" + data + "\")'><span class='glyphicon glyphicon-edit'></span></a>";
+                    }
+                }
+
+            ]
+
+        });
+    }
+    //----------------Data table-------------------
+
+    $("table #tbody").on("click","a.deleteRow",function(event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        return false;
+    });
+
+
+    function GetInvoiceDetails(InvoiceId) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "InvStockReceiveApi/GetInvoiceDetails",
+            dataType: "Json",
+            data: { 'InvoiceId': InvoiceId },
+            success: function (data) {
+               //alert(JSON.stringify(data));
+                //return false;
+                $('#tbody').empty(); 
+                $('#txtInvoiceNo').val(data[0].invoiceNo);
+                $('#txtCompany').val(data[0].companyId).trigger('change');;
+                $('#txtDepartment').val(data[0].pnoId).trigger('change');;
+                $('#txtRemarks').val(data[0].remarks);
+                $('#txtTotalPriceWithOutVatLess').val(data[0].totalPricePerProduct + data[0].lessAmount - data[0].vatAmount);
+                $('#txtSlipNo').val(data[0].slipNo);
+                $('#txtSlipDate').val(ToJsonDate(data[0].slipDate));
+                $('#txtLessAmount').val(data[0].lessAmount);
+                $('#txtVatAmount').val(data[0].vatAmount);
+                $('#txtPoNo').val(data[0].poNo);
+                $('#txtTotalPrice').val(data[0].totalPricePerProduct);
+
+                    $.each(data, function (key, item) {
+                        var rows = "<tr>"
+                            + '<td class="none">' + item.itemId + '</td>'
+                            + '<td class="">' + item.productName + '</td>'
+                            + '<td class="">' + item.rackNo + '</td>'
+                            + '<td class="">' + item.callNo + '</td>'
+                            + '<td class="">' + item.unit + '</td>'
+                            + '<td class="">' + item.pricePerProduct + '</td>'
+                            + '<td class="qty">' + item.quantity + '</td>'
+                            + '<td class="total">' + (item.quantity * item.pricePerProduct) + '</td>'
+                            + '<td class="">' + item.pricePerProduct + '</td>'
+                            + '<td class="">' + ToJsonDate(item.expireDate) + '</td>'
+                            + '<td class="">' + item.rackNo + '</td>'
+                            + '<td class="">' + item.callNo + '</td>'
+                            + '<td class="txtVat none">' + item.vatPerItem + '</td>'
+                            + '<td class="txtLess none">' + item.lessPerItem + '</td>'
+                            + "<td><a href='javascript:;' class='deleteRow'><span class='glyphicon glyphicon-trash'></span></a></td>"
+                            + "</tr>";
+                        $('#tbody').append(rows);
+                //$('#tbody').empty();
+                //$('#txtEmployeeName').val(data[0].emName);
+                //$('#txtDepartment').val(data[0].departmentName);
+                //$("#txtDesignation").val(data[0].emDesignationName);
+                //$('#txtShiftStaus').val(data[0].emShiftStatus).trigger('change');
+
+                //if (data[0].dayNameId!==0) {
+                //    $.each(data, function (key, item) {
+                //        var rows = "<tr>"
+                //            + '<td class="none">' + item.dayNameId + '</td>'
+                //            + '<td class="col-sm-5">' + item.dayName + '</td>'
+                //            + '<td class="none">' + item.shiftNameId + '</td>'
+                //            + '<td class="col-sm-5">' + item.shiftName + '</td>'
+                //            + "<td><a href='javascript:;' class='deleteRow'><span class='glyphicon glyphicon-trash'></span></a></td>"
+                //            + "</tr>";
+                //        $('#tbody').append(rows);
+
+                    });
+                //}
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function Save() {
+        var res = validationPsr();
+        if (res == true) {
+            var vouchers = [];
+            var table = $('table #tbody');
+            table.find('tr').each(function () {
+                var $tds = $(this).find('td'),
+                    ItemId = $tds.eq(0).text(),
+                    productName = $tds.eq(1).text(),
+                    quantity = $tds.eq(6).text(),
+                    totalPricePerProduct = $tds.eq(7).text(),
+                    pricePerProduct = $tds.eq(8).text(),
+                    expireDate = $tds.eq(9).text(),
+                    rackNo = $tds.eq(10).text(),
+                    callNo = $tds.eq(11).text(),
+                    vatPerItem = $tds.eq(12).text(),
+                    lessPerItem = $tds.eq(13).text();
+
+
+                var voucher = {
+                    InvoiceNo: $("#txtInvoiceNo").val(),
+                    CompanyId: $("#txtCompany option:selected").val(),
+                    DepartmentId: $("#txtDepartment option:selected").val(),
+                    Remarks: $("#txtRemarks").val(),
+                    TotalPrice: parseFloat($("#txtTotalPriceWithOutVatLess").val()).toFixed(6),
+                    SlipNo: $("#txtSlipNo").val(),
+                    SlipDate: $("#txtSlipDate").val(),
+                    ItemId:ItemId,
+                    productName :productName,
+                    quantity:quantity,
+                    totalPricePerProduct :totalPricePerProduct,
+                    pricePerProduct:pricePerProduct,
+                    expireDate :expireDate,
+                    rackNo:rackNo,
+                    callNo: callNo,
+                    vatPerItem: vatPerItem,
+                    lessPerItem: lessPerItem,
+                    LessAmount: $("#txtLessAmount").val(),
+                    VatAmount: $("#txtVatAmount").val(),
+                    PoNo: $("#txtPoNo").val(),
+                    PaymentAmount: $("#txtPaymentAmount").val(),
+                    UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                };
+                vouchers.push(voucher);
+            });
+            //alert(JSON.stringify(vouchers));
+            //return false;
+            $.ajax({
+                type: "POST",
+                url: '@UrlConfig.Action("Save", "InvStockReceiveApi")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+
+
+                    if (data.output != "error") {
+                        alert(data.output);
+                        window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                        location.reload(true);
+                    } else { alert(data.output); }
+                }
+            });
+            return false;
+        }
+        else { alert("Please fill required field"); }
+        return false;
+    }
+
+
+    function validationPsr() {
+        var isValid = true;
+        if ($("#txtSlipNo").val() == '') { $('#txtSlipNo').css('border-color', 'red'); isValid = false; }
+        else { $('#txtSlipNo').css('border-color', 'lightgrey'); }
+        if ($("#txtCompany").val() == '') { $('#txtCompany').css('border-color', 'red'); isValid = false; }
+        else { $('#txtCompany').css('border-color', 'lightgrey'); }
+        if ($('#txtRemarks').val() == '') { $('#txtRemarks').val('N/A'); }
+        return isValid;
+    }
+</script>
+
+

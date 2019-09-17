@@ -1,0 +1,320 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border"><span>Phar Report</span></div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Report Date From</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepicker required" id="txtReportDateFrom">
+                    </div>
+                    <label class="col-sm-2">Report Date To</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepicker required" id="txtReportDateTo">
+                    </div>
+                </div>
+                <div class="button-group text-center">
+                    <div class="button-group text-center">
+                        <input type="submit" class="btn btn-success" id="btnSave2" onclick="GetPharSalesPrint();" value="Medicine Sales">
+                        <input type="submit" class="btn btn-success" id="btnSave3" onclick="GetPharSalesPrint2();" value="Medicine Collection">
+                        <input type="submit" class="btn btn-success" id="btnSave4" onclick="GetPharSalesPrint3();" value="Medicine Sales And Collection">
+                        <input type="submit" class="btn btn-success" id="btnSave5" onclick="GetPharSalesPrint4();" value="Invoice Register (Due Coll.)">
+                        <input type="submit" class="btn btn-success" id="btnSave6" onclick="GetPharSalesPrint5();" value="Due Invoice List(Details)">
+                        <input type="submit" class="btn btn-success" id="btnSave7" onclick="GetPharSalesPrint6();" value="Medicine Sales And Collection(User Wise)">
+                        <input type="submit" class="btn btn-success" id="btnSave8" onclick="GetPharSalesPrint7();" value="Profit Report">
+                        <input type="submit" class="btn btn-success" id="btnSave9" onclick="GetPharSalesPrint8();" value="Sales And Collection Report User WiseSummary)">
+                        <input type="submit" class="btn btn-success" id="btnSave10" onclick="GetPharSalesPrint9();" value="OUTLET WISE NET SALES REPORT(Details)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        function GetPharSalesPrint(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+            };
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+        function GetPharSalesPrint2(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+                //  ReportFileName: reportNameSales,
+            };
+
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint2", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+        function GetPharSalesPrint3(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+                //  ReportFileName: reportNameSales,
+            };
+
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint3", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+
+        function GetPharSalesPrint4(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+                //  ReportFileName: reportNameSales,
+            };
+
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint4", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+
+
+        function GetPharSalesPrint5(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+                //  ReportFileName: reportNameSales,
+            };
+
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint5", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+
+        function GetPharSalesPrint7(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+                //  ReportFileName: reportNameSales,
+            };
+          
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint7", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+        
+
+        function GetPharSalesPrint8(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+                //  ReportFileName: reportNameSales,
+            };
+
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint8", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+        function GetPharSalesPrint9(parameters) {
+            var object = {
+                DateTo: $("#txtReportDateTo").val(),
+                DateFrom: $("#txtReportDateFrom").val(),
+                //  ReportFileName: reportNameSales,
+            };
+
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("GetPharSalesPrint9", "PharReport")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: object,
+                success: function (data) {
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+
+
+
+
+
+
+    </script>

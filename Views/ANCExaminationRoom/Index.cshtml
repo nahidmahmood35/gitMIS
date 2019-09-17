@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Patients</label>
+                    <div class="col-sm-2"><input type="text" class="form-control" id="txtPatients" /></div>
+                    <label class="col-sm-1 control-label">Room No</label>
+                    <div class="col-sm-2"><input type="text" class="form-control" id="txtRoomNo" /></div>
+                    <label class="col-sm-2 control-label">Visiting Date</label>
+                    <div class="col-sm-2"><input type="text" class="form-control datepicker" id="txtVisitingDate" /></div>
+                    <div class="col-sm-1"><button type="button" class="btn btn-info btn-sm" onclick="show();">Show</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Patient List</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered table-striped datatable none">
+                        <thead>
+                            <tr>
+                                <th class="text-center">PatientID</th>
+                                <th class="text-center">Patient Name</th>
+                                <th class="text-center">Mobile</th>
+                                <th class="text-center">Age</th>
+                                <th class="text-center">Department</th>
+                                <th class="text-center">Room.No</th>
+                                <th class="text-right">Entry Time</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">PatientID</td>
+                                <td class="text-center">Patient Name</td>
+                                <td class="text-center">Mobile</td>
+                                <td class="text-center">Age</td>
+                                <td class="text-center">Department</td>
+                                <td class="text-center">Room.No</td>
+                                <td class="text-right">Entry Time</td>
+                                <td class="text-right"><a href="javascript:;" class="btn btn-sm btn-info" onclick="showModal(1)">Action</a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">Patient</td>
+                                <td class="text-center">Name</td>
+                                <td class="text-center">Mobilea</td>
+                                <td class="text-center">12</td>
+                                <td class="text-center">afsd</td>
+                                <td class="text-center">343</td>
+                                <td class="text-right">12.12</td>
+                                <td class="text-right"><a href="javascript:;" class="btn btn-sm btn-info" onclick="showModal(2)">Action</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-lg" id="newDepartment">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <p class="modal-title">Add New Department</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Department</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtNewDepartment">
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-success btn-sm" onclick="SaveDepartment()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function show() {
+        $(".datatable").css('display', 'table');
+        $(".datatable").DataTable({
+            @*searching: true,
+            destroy: true,
+            bAutoWidth: false,
+            "ajax": {
+                type: "GET",
+                url: '@Url.Action("GetInvoiceList", "DiagnosisInvoice")',
+                datatype: JSON,
+                data: { 'dateFrom': $("#txtDateFrom").val(), 'dateTo': $("#txtDateTo").val() },
+            },
+            "columns": [
+                { "data": "PtRegNo", "title": "PatientID" },
+                { "data": "PtName", "title": "Patient Name" },
+                { "data": "Mobile", "title": "Mobile" },
+                { "data": "Age", "title": "Age" },
+                { "data": "Department", "title": "Department" },
+                { "data": "RoomNo", "title": "Room.No" },
+                { "data": "EntryTime", "title": "EntryTime", "render": function (data) { return (ToJsonDate(data)); } },
+                { "data": "Id", autoWidth: true, "render": function (data) { return "<a href='javascript:;' class='md-trigger' onclick='return GetInvoicePrint(" + data + ")'><i class='fa fa-print'></i></a>"; } },
+
+            ]*@
+        });
+    }
+
+    function showModal(param) {
+        $('#newDepartment').modal('show');
+    }
+
+</script>

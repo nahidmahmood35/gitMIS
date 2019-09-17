@@ -1,0 +1,260 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel with-nav-tabs panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1default" data-toggle="tab">Investigation Chart</a></li>
+                    <li><a href="#tab2default" data-toggle="tab">Chart List</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1default">
+                        <div class="form-group">
+                            <label class="col-sm-2">Code</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtPCode">
+                            </div>
+                            <label class="col-sm-2">Short Desc</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtShortDesc">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Long Desc</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtLongDesc">
+                            </div>
+                            <label class="col-sm-2">Main Project Name</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="txtDeptName">
+                                    <option value="0">--Select Option--</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Clinical</option>
+                                    <option value="3">Diagnosis</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Sub Project Name</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="txtSubDeptName">
+                                    <option value="0">--Select Option--</option>
+                                    <option value="1">Lab Test</option>
+                                    <option value="2">Lesar</option>
+                                    <option value="3">OPD</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2">Sub Dept Name</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="txtSubSubDeptName">
+                                    <option value="0">--Select Option--</option>
+                                    <option value="1">Blood</option>
+                                    <option value="2">BMD</option>
+                                    <option value="3">CCU</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Charge</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" id="txtCharge">
+                            </div>
+                            <label class="col-sm-2">Less Fixed Amount</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtLessAmount">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Normal Value</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" id="txtNormalValue">
+                            </div>
+                            <label class="col-sm-2">Report File Name</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtRptFileName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Out Test</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="txtOutTest">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2">Delivery Duration</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtDeliveryDuration">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Report Group</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="txtReportGroup">
+                                    <option value="0">--Select Option--</option>
+                                    <option value="1">Lab Test</option>
+                                    <option value="2">Lesar</option>
+                                    <option value="3">OPD</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2">Status</label>
+                            <div class="col-sm-4">
+                                Active <input type="checkbox" id="txtStatus" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Ref. Fee</label>
+                            <div class="col-sm-4 input-list">
+                                <input type="text" class="form-control" id="txtRefFee">
+                                <select class="form-control" id="txtRefFeeType">
+                                    <option value="0">% Per Test</option>
+                                    <option value="1">Tk Per Test</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2">Report Fee</label>
+                            <div class="col-sm-4 input-list">
+                                <input type="text" class="form-control" id="txtRptComPcorTk">
+                                <select class="form-control" id="txtRptCom">
+                                    <option value="0">% Per Test</option>
+                                    <option value="1">Tk Per Test</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Collection Fee</label>
+                            <div class="col-sm-4 input-list">
+                                <input type="text" class="form-control" id="txtCollFeeTkPc">
+                                <select class="form-control" id="txtCollectionFee">
+                                    <option value="0">% Per Test</option>
+                                    <option value="1">Tk Per Test</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2">Others Fee</label>
+                            <div class="col-sm-4 input-list">
+                                <input type="text" class="form-control" id="txtOthersFeeTkPc">
+                                <select class="form-control" id="txtOthersFee">
+                                    <option value="0">% Per Test</option>
+                                    <option value="1">Tk Per Test</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group text-right">
+                            <input type="submit" class="btn btn-sm btn-success" onclick="Save();" value="Save">
+                            <input type="submit" class="btn btn-sm btn-primary" value="Update">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab2default">
+                        <table class="table table-bordered table-striped table-hover" id="table-example">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Charge</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        //loadData();
+    });
+</script>
+
+<script>
+    $('#txtIsStaff').on('change', function () {
+        if ($('#txtIsStaff').val() == 1) { $('.div-display').css('display', 'block'); }
+        else { $('.div-display').css('display', 'none'); }
+    });
+    function loadData() {
+        $("#table-example").DataTable({
+            searching: true,
+            destroy: true,
+            bAutoWidth: false,
+            aaSorting: [],
+            "ajax": {
+                url: '@Url.Action("GetSalesInvoiceList", "SalesNewItem")',
+                type: "GET",
+                datatype: "json",
+            },
+            "columns": [
+                { "data": "PatientName", "name": "PatientName" },
+                { "data": "TelephoneNo", "name": "TelephoneNo" },
+                { "data": "PatientAddress", "name": "PatientAddress" },
+                { "data": "FatherName", "name": "FatherName" },
+                { "data": "MotherName", "name": "MotherName" },
+                { "data": "Id", width: "100px", "render": function (data) { return "<a href='javascript:;' onclick='DeleteSupplierDetailsById(" + data + ")'><span class='glyphicon glyphicon-trash'></span></a>"; } }
+            ]
+        });
+    }
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                PCode: $('#txtPCode').val(),
+                ShortDesc: $('#txtShortDesc').val(),
+                LongDesc: $('#txtLongDesc').val(),
+                DeptName: $('#txtDeptName option:selected').text(),
+                SubDeptName: $('#txtSubDeptName option:selected').text(),
+                SubSubDeptName: $('#txtSubSubDeptName option:selected').text(),
+                Charge: $('#txtCharge').val(),
+                LessAmount: $('#txtLessAmount').val(),
+                NormalValue: $('#txtNormalValue').val(),
+                RptFileName: $('#txtRptFileName').val(),
+                OutTest: $('#txtOutTest option:selected').text(),
+                DeliveryDuration: $('#txtDeliveryDuration').val(),
+                ReportGroup: $('#txtReportGroup option:selected').text(),
+                RefFee: $('#txtRefFee').val(),
+                RefFeeType: $('#txtRefFeeType option:selected').text(),
+                RptComPcorTk: $('#txtRptComPcorTk').val(),
+                RptCom: $('#txtRptCom option:selected').text(),
+                CollFeeTkPc: $('#txtCollFeeTkPc').val(),
+                CollectionFee: $('#txtCollectionFee option:selected').text(),
+                OthersFeeTkPc: $('#txtOthersFeeTkPc').val(),
+                OthersFee: $('#txtOthersFee option:selected').text(),
+            };
+            alert(JSON.stringify(object));
+            $.ajax({
+                url: '@Url.Action("Save", "InvestigationChart")',
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    alert("Save Success");
+                    location.reload(true);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+</script>
+

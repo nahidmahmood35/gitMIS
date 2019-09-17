@@ -1,0 +1,182 @@
+﻿@using System.Diagnostics
+@using HospitalManagementApp_Api.Models
+@using HospitalManagementApp_Api.Models.DynamicMenuModel
+<!doctype html>
+<html lang="en">
+<head>
+    <title>HOSPITAL MIS || BIGBANG COMPUTER'S LTD.</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/css/themify-icons.css">
+    <link rel="stylesheet" href="~/Content/css/jquery-ui.css" />
+    <link rel="stylesheet" href="~/Content/css/select2/select2.css" />
+    <link rel="stylesheet" href="~/Content/Script_Editor/summernote.css" />
+    <link rel="stylesheet" href="~/Content/css/pace-theme-minimal.css">
+    <link href="~/Content/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/Content/css/main.min.css">
+    <link rel="stylesheet" href="~/Content/css/demo.min.css">
+    <link rel="stylesheet" href="~/Content/css/Site.css" />
+
+    <script src="~/Content/js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // apiUrl = 'http://localhost:49668/api/';
+            apiUrl = '@UrlConfig.HttpRouteUrl()';
+        });
+    </script>
+
+</head>
+<body>
+    <!-- WRAPPER -->
+    <div id="wrapper">
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="brand">
+                <p>MCHTI</p>
+                @*<a href="#">
+                        <img src="~/Content/Image/bbclLogo3.png" alt="Logo" class="img-responsive logo">
+                    </a>*@
+            </div>
+            <div class="container-fluid">
+                <div id="tour-fullwidth" class="navbar-btn">
+                    <button type="button" class="btn-toggle-fullwidth"><i class="ti-arrow-circle-left"></i></button>
+                </div>
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a><span id="dateTimeShow"></span></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                @*<img src="@System.Web.HttpContext.Current.Session["UserImage"]" alt="Avatar">*@
+                                <span>User Name: @System.Web.HttpContext.Current.Session["UserName"]</span>
+                            </a>
+                            <ul class="dropdown-menu logged-user-menu">
+                                <li><a href="@Url.Action("Index", "CompanyInfo")"><i class="ti-user"></i><span>My Profile</span></a></li>
+                                <li><a href="@Url.Action("Index", "UserAccess")"><i class="ti-user"></i><span>User Access</span></a></li>
+                                <li><a href="/login"><i class="ti-power-off"></i> <span>Logout</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- END NAVBAR -->
+        <!-- LEFT SIDEBAR -->
+        <div id="sidebar-nav" class="sidebar">
+            <nav>
+                    <ul>
+                        @{
+                            var allParent = Session["allParent"] as List<Parent>;
+                            var allChild = Session["allChild"] as List<Child>;
+                            Debug.Assert(allParent != null, "allParent != null");
+
+
+                            <li id='cssmenu'>
+                                <ul>
+                                    @if (allParent != null)
+                                    {
+                                        foreach (var parentNode in allParent.ToList())
+                                        {
+                                            <li class="has-sub">
+                                                <a href="javascript:;"><span>@parentNode.Name</span><i class="fa fa-arrow-circle-right"></i></a>
+                                                <ul>
+                                                    @if (allChild != null)
+                                                    {
+                                                        foreach (var childNote in allChild.Where(m => m.ParentNode == @parentNode.Name).ToList())
+                                                        {
+                                                            <li>@Html.ActionLink((string)childNote.Name, (string)childNote.ActionName, (string)childNote.ControllerName, null, null)</li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                @*<button type="button" class="btn-toggle-minified" title="Toggle Minified Menu"><i class="ti-arrows-horizontal"></i></button>*@
+            </nav>
+        </div>
+        <!-- END LEFT SIDEBAR -->
+        <!-- MAIN -->
+        <div class="main">
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <div class="container-fluid admin-content">
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- END MAIN CONTENT -->
+        </div>
+        <!-- END MAIN -->
+        <div class="clearfix"></div>
+    </div>
+    <!-- END WRAPPER -->
+    <!-- Javascript -->
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    @*<script src="~/Content/js/pace.min.js"></script>*@
+    <script src="~/Content/js/klorofilpro-common.min.js"></script>
+    <script src="~/Content/js/jquery-ui.min.js"></script>
+    <script src="~/Content/css/select2/select2.js"></script>
+    <script src="~/Content/js/jquery.dataTables.js"></script>
+    <script src="~/Content/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="~/Content/Script_Editor/summernote.min.js"></script>
+    @*<script src="~/Content/js/iEdit.js"></script>*@
+    <script  src="~/Content/js/custom.js"></script>
+    <script src="~/Content/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.selectNoAdd').select2();
+            function getDateTime() {
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = now.getMonth() + 1;
+                var day = now.getDate();
+                var hour = now.getHours();
+                var minute = now.getMinutes();
+                var second = now.getSeconds();
+                var dateTime = day + '-' + month + '-' + year + ' ' + hour + ':' + minute + ':' + second;
+                return dateTime;
+            }
+
+            // example usage: realtime clock
+            setInterval(function () {
+                dateTime = getDateTime();
+                document.querySelector("#dateTimeShow").innerHTML = dateTime;
+            }, 1000);
+        });
+
+        $('#cssmenu .has-sub a').on('click', function () {
+            $(this).find('i').toggleClass("fa-arrow-circle-down fa-arrow-circle-right");
+        });
+
+        $('.summernote').summernote({
+            height: 100,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                //['Insert', ['link', 'table']]
+            ]
+        });
+        //$('input').autocomplete({
+        //    position: { collision: "flip" }
+        //});
+        var minOffset = -100, maxOffset = 100; // Change to whatever you want // minOffset = 0 for current year 
+        var thisYear = (new Date()).getFullYear();
+        for (var i = minOffset; i <= maxOffset; i++) {
+            var year = thisYear + i;
+            $('<option>', { value: year, text: year }).appendTo(".year");
+        }
+        $(".year").val(thisYear);
+
+    </script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

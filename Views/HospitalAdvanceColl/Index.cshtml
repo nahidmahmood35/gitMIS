@@ -1,0 +1,365 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Reg No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtId" />
+                    </div>
+                    <label class="col-sm-2">AdmissionDate</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="AdmissionDate" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientName" disabled>
+                    </div>
+                    <label class="col-sm-2">AdmissionTime</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtAdmissionTime" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Mobile</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtMobileNo" disabled>
+                    </div>
+                    <label class="col-sm-2">Age</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtPatientAge" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Gender</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtPatientGender" disabled>
+                    </div>
+                    <label class="col-sm-2">Address</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtPatientAddress" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Room No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtRoomNo" disabled />
+                    </div>
+                    <label class="col-sm-2">Floor No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtFloorNo" disabled />
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <div class="col-sm-4">
+        <div class="box box-info payment-area">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-6">Total Advance</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtTotalAdvance" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Receive Amount</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtReceiveAmount" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="payment-method">
+                        <ul class="navigation">
+                            <li class="active"><a data-toggle="tab" href="#cash">Cash</a></li>
+                            <li><a data-toggle="tab" href="#card">Card</a></li>
+                            <li><a data-toggle="tab" href="#Cheque">Cheque</a></li>
+                        </ul>
+                        <div class="user-body">
+                            <div class="tab-content">
+                                <div id="cash" class="tab-pane active">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cash Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control required isnumber" id="txtCashAmount" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="card" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Card Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCardAmount" value="0"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Card Number</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtCardNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Bank Name</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="txtCardBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Cheque" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cheaque Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCheaqueAmount" value="0" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cheaque Number</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtCheaqueNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Bank Name</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="txtCheaqueBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6">Remarks</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control defaultNA" id="txtRemarks" placeholder="Remarks" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-info" id="btnList"  value="View All">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#txtId').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "AdmissionApi/GetAdmittedPatientList",
+                    dataType: "Json",
+                    data: { 'id': 0, 'searchString': $("#txtId").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtId").val(ui.item.ptIndoorId);
+                $("#txtPatientName").val(ui.item.ptName);
+                $("#txtMobileNo").val(ui.item.ptMobileNo);
+                $("#AdmissionDate").val(ToJsonDate(ui.item.admissionDate));
+                $("#txtAdmissionTime").val(ui.item.admissionTime);
+                $("#txtPatientAge").val(ui.item.ptAgeDetail);
+                $("#txtPatientGender").val(ui.item.ptGenderName);
+                $("#txtPatientAddress").val(ui.item.ptAddress);
+                $("#txtRoomNo").val(ui.item.bedNo);
+                $("#txtFloorNo").val(ui.item.floorNo);
+                advanceAmount(ui.item.ptIndoorId);
+                $("#txtCashAmount").focus();
+                return false;
+            },
+        minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Name</th><th>Mobile</th><th>FatherName</th><th>Address</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.ptFatherName + "</td>";
+            html += "<td>" + item.ptAddress + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+    $("#txtCashAmount, #txtCardAmount, #txtCheaqueAmount").keyup(function () {
+        var cash = parseFloat($("#txtCashAmount").val());
+        var card = parseFloat($("#txtCardAmount").val());
+        var cheque = parseFloat($("#txtCheaqueAmount").val());
+        $("#txtReceiveAmount").val(parseFloat(cash + card + cheque));
+    });
+    function advanceAmount(param) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "IndoorAdvanceCollectionApi/GetTotalAdvanceCollectionByIndoorId",
+            dataType: "Json",
+            data: { 'indoorId': param },
+            success: function (data) {
+                $('#txtTotalAdvance').val(data);
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function Save() {
+        var res = validation();
+        var custom = customvalid();
+        if (res & custom == true) {
+            var object = {
+                PtIndoorId: $('#txtId').val(),
+                TotalAmount: $('#txtReceiveAmount').val(),
+                CashAmount: $('#txtCashAmount').val(),
+                CardAmount: $('#txtCardAmount').val(),
+                CheaqueAmount: $('#txtCheaqueAmount').val(),
+                CardBankId: $('#txtCardBankId').val(),
+                CheaqueBankId: $('#txtCheaqueBankId').val(),
+                CardNumber: $('#txtCardNumber').val(),
+                CheaqueNumber: $('#txtCheaqueNumber').val(),
+                Remarks: $('#txtRemarks').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            };
+            $.ajax({
+                url: apiUrl + "IndoorAdvanceCollectionApi/Post",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }else {alert("Please fill required field");}
+        return false;
+    }
+
+    $('#btnList').on('click', function () {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    });
+  
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                url: apiUrl + "IndoorAdvanceCollectionApi/GetAdvanceCollectionList",
+                dataSrc: "",
+            },
+            "columns": [
+                    { "data": "id", "title": "Id", visible: false },
+                    { "data": "invoiceNo", "title": "TrNo" },
+                    { "data": "invoiceDate", "title": "TrDate", "render": function (data) { return (ToJsonDate(data)); } },
+                    { "data": "admissionDate", "title": "AdmissionDate", "render": function (data) { return (ToJsonDate(data)); } },
+                    { "data": "patientId", "title": "Id" },
+                    { "data": "name", "title": "Name", width: "250px" },
+                    { "data": "mobileNo", "title": "MobileNo" },
+                    { "data": "description", "title": "BedNo" },
+                    { "data": "roomNo", "title": "RoomNo", visible: false },
+                    { "data": "floorNo", "title": "FloorNo" },
+                    { "data": "deptName", "title": "Department" },
+                    { "data": "charge", "title": "Amount" },
+                    
+                    {
+                        "data": "id", width: "50px", "title": "Action",
+                        "render": function (data) {
+                            return "<a href='javascript:;' class='md-trigger' onclick='return GetReprintAdvanceCollection(" + data + ")'><span class='glyphicon glyphicon-edit'></span></a>";
+                        }
+                    }
+            ]
+
+        });
+    }
+
+
+    function GetReprintAdvanceCollection(param) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "IndoorAdvanceCollectionApi/GetReprintAdvanceCollection",
+            dataType: "Json",
+            data: { 'id': param },
+            success: function (data) {
+                window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+
+
+
+
+
+
+
+    function customvalid() {
+        var isValid = true;
+
+        if ($("#txtCashAmount").val() != 0 || $("#txtCardAmount").val() != 0 || $("#txtCheaqueAmount").val() != 0) {
+            isValid = true;
+        }
+        if ($("#txtCardAmount").val() > 0) {
+            if ($("#txtCardNumber").val() && $("#txtCardBankId").val() == 0) {
+                alert("Please add Card Number or Bank Name");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").removeClass("active");
+                isValid = false;
+            }
+        }
+
+        if ($("#txtCheaqueAmount").val() > 0) {
+            if ($("#txtCheaqueNumber").val() && $("#txtCheaqueBankId").val() == 0) {
+                alert("Please add Cheaque Number or Bank Name");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").removeClass("active");
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+</script>
+

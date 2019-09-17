@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Mobile No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtTelephoneNo" maxlength="11">
+                    </div>
+                    <label class="col-sm-2">Patient Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientName">
+                        <input type="text" class="none" id="txtId">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Date Of Birth</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepicker required" id="txtDateOfBirth" onchange="GetCurrentAge()">
+                    </div>
+                    <div class="col-sm-2 input3">
+                        <input type="text" class="form-control" id="txtAgeDay" placeholder="Day" onchange="GetDateOfBirth()">
+                        <input type="text" class="form-control" id="txtAgeMonth" placeholder="Month" onchange="GetDateOfBirth()">
+                        <input type="text" class="form-control" id="txtAgeYear" placeholder="Year" onchange="GetDateOfBirth()">
+                    </div>
+                    <label class="col-sm-2">Gender</label>
+                    <div class="col-sm-4">
+                        <select class="form-control required" id="txtGender"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Spouse Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultNA" id="txtSpouseName">
+                    </div>
+                    <label class="col-sm-2">Address</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultNA" id="txtPatientAddress">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Department</label>
+                    <div class="col-sm-4">
+                        <select class="form-control required" id="txtOutDoorDepartment" onchange="GetRoomNoByDeptName()"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">RoomNo</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultNA" id="txtRoomNo">
+                    </div>
+                </div>                
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-sm btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-sm btn-danger none" id="btnDelete" value="Delete">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#txtTelephoneNo').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetPatientRegistrationList", "PatientRegistrationApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtTelephoneNo").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtId").val(ui.item.ptRegId);
+                $("#txtPatientName").val(ui.item.ptName);
+                $("#txtTelephoneNo").val(ui.item.ptMobileNo);
+                $('#txtGender').val(ui.item.ptGendeId);
+                $('#txtFathersName').val(ui.item.ptFatherName);
+                $('#txtMothersName').val(ui.item.ptMotherName);
+                $('#txtSpouseName').val(ui.item.ptSpooseName);
+                $('#txtPatientAddress').val(ui.item.ptAddress);
+                $('#txtArea').val(ui.item.ptArea);
+                $('#txtReligion').val(ui.item.ptReligionId);
+                $('#txtBloodGroup').val(ui.item.ptBloodGroupId);
+                $('#txtOccupation').val(ui.item.ptOccupation);
+                $('#txtNationalId').val(ui.item.ptNationalIdNo);
+                $('#txtPassportNo').val(ui.item.ptPassportNo);
+                $('#txtInformationFrom').val(ui.item.ptIntroducerId);
+                $('#txtNameofIntroducer').val(ui.item.ptIntroducerId);
+                $('#txtDateOfBirth').val(ToJsonDate(ui.item.ptDob)).trigger("change");
+                $("#btnSave").val("Update");
+                $("#btnDelete").css("display", "unset");
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.ptFatherName + "</td>";
+            html += "<td>" + item.ptAddress + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+    function GetCurrentAge() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetCurrentAge", "PatientRegistration")',
+            dataType: "Json",
+            data: { 'dateOfBirth': $('#txtDateOfBirth').val() },
+            success: function (data) {
+                $('#txtAgeYear').val(data.Year);
+                $('#txtAgeMonth').val(data.Month);
+                $('#txtAgeDay').val(data.Day);
+            }
+        });
+    }
+
+    function GetRoomNoByDeptName() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetRoomNoByDeptId", "HelpApi")',
+            dataType: "Json",
+            data: { 'subSubPnoId': 78, 'deptId': $('#txtOutDoorDepartment').val() },
+            success: function (data) {
+                $('#txtRoomNo').val(data);
+                
+            }
+        });
+    }
+
+
+    function GetDateOfBirth() {
+        if ($('#txtAgeYear').val() == "") { $('#txtAgeYear').val(0); }
+        if ($('#txtAgeMonth').val() == "") { $('#txtAgeMonth').val(0); }
+        if ($('#txtAgeDay').val() == "") { $('#txtAgeDay').val(0); }
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetDateOfBirth", "PatientRegistration")',
+            dataType: "Json",
+            data: { 'day': $('#txtAgeDay').val(), 'month': $('#txtAgeMonth').val(), 'years': $('#txtAgeYear').val() },
+            success: function (data) {
+                $('#txtDateOfBirth').val(data);
+            }
+        });
+    }
+
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                PtRegId: $('#txtId').val(),
+                PtMobileNo: $('#txtTelephoneNo').val(),
+                PtName: $('#txtPatientName').val(),
+                PtGendeId: $('#txtGender').val(),
+                PtDob: $('#txtDateOfBirth').val(),
+                PtFatherName: $('#txtFathersName').val(),
+                PtMotherName: $('#txtMothersName').val(),
+                PtSpooseName: $('#txtSpouseName').val(),
+                PtAddress: $('#txtPatientAddress').val(),
+                PtArea: $('#txtArea').val(),
+                PtReligionId: $('#txtReligion').val(),
+                PtBloodGroupId: $('#txtBloodGroup').val(),
+                PtOccupation: $('#txtOccupation').val(),
+                PtNationalIdNo: $('#txtNationalId').val(),
+                PtPassportNo: $('#txtPassportNo').val(),
+                PtIntroducerId: $('#txtInformationFrom').val(),
+                PtIntroducerName: $('#txtNameofIntroducer').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            };
+            $.ajax({
+                url: "@UrlConfig.Action("Post", "PatientRegistrationApi")",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+</script>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            GetGenderList();
+            GeDepartmentList();
+        })
+    </script>
+}
+

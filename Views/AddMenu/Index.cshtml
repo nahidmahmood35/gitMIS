@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #treeview > ul > li > ul > li.k-last {
+        display: none !important;
+    }
+</style>
+<link href="~/Content/css/kendo.common-material.min.css" rel="stylesheet" />
+<link href="~/Content/css/kendo.material.min.css" rel="stylesheet" />
+<link href="https://kendo.cdn.telerik.com/2017.2.504/styles/kendo.common-material.min.css" rel="stylesheet" />
+<script src="~/Content/js/tree.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1default" data-toggle="tab">Patient Admission</a></li>
+                    <li><a href="#tab2default" data-toggle="tab">Admission List</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1default">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label class="col-sm-4">Department Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtDepartmentName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4">Main Menu</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtMainMenuName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4">Sub Menu</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtSubMenuName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4">Menu SlNo</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtMenuSlNo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4">Controller Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtControllerName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4">View Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtViewName">
+                                </div>
+                            </div>
+                            <div class="button-group text-center">
+                                <input type="submit" class="btn btn-sm btn-success" id="Save" onclick="Save();" value="Save">
+                            </div>
+                        </div>
+                      
+                    </div>
+                    <div class="tab-pane fade" id="tab2default">
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#txtDepartmentName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetList", "AddMenu")',
+                    dataType: "Json",
+                    data: { 'param': "DepartmentName" },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtDepartmentName").val(ui.item.Name);
+                return false;
+            },
+            minLength: 1
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var html = "<div class='col-sm-12 grid-value'>" + item.Name + "</div>";
+            return $("<li class='row'></li>").append(html).appendTo(ul);
+        };
+
+        $('#txtMainMenuName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetList", "AddMenu")',
+                    dataType: "Json",
+                    data: { 'param': "MainMenuName" },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtMainMenuName").val(ui.item.Name);
+                return false;
+            },
+            minLength: 1
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var html = "<div class='col-sm-12 grid-value'>" + item.Name + "</div>";
+            return $("<li class='row'></li>").append(html).appendTo(ul);
+        };
+        $('#txtSubMenuName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetList", "AddMenu")',
+                    dataType: "Json",
+                    data: { 'param': "SubMenuName" },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtSubMenuName").val(ui.item.Name);
+                return false;
+            },
+            minLength: 1
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var html = "<div class='col-sm-12 grid-value'>" + item.Name + "</div>";
+            return $("<li class='row'></li>").append(html).appendTo(ul);
+        };
+    });
+</script>
+<script>
+    function Save() {
+        var object = {
+            DepartmentName: $('#txtDepartmentName').val(),
+            MainMenuName: $('#txtMainMenuName').val(),
+            SubMenuName: $('#txtSubMenuName').val(),
+            ControllerName: $('#txtControllerName').val(),
+            ViewName: $('#txtViewName').val(),
+            SubMenuSlNo: $('#txtMenuSlNo').val(),
+        };
+        //  alert(JSON.stringify(object));
+        $.ajax({
+            url: '@Url.Action("Save", "AddMenu")',
+            data: JSON.stringify(object),
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            datatype: JSON,
+            success: function (result) {
+                alert(result);
+                if (result != 404) {
+                    location.reload(true);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+</script>
+
+<script>
+    $("#treeview").kendoTreeView({
+        checkboxes: { checkChildren: true, },
+        check: onCheck,
+        dataBound: function () {
+            $("#treeview > ul > li > div span.k-checkbox-wrapper").hide();
+        },
+        dataSource: [
+            {
+                id: 0,
+                text: "Administrator",
+                expanded: true,
+                controllerName: "subfolder",
+                actioName: "subsubfolder",
+                items: [
+                    {
+                        id: 2, text: "Used Items", expanded: true, controllerName: "OldItem", actioName: "Index",
+                        items: [
+                            {
+                                id: 2, text: "Used Item", controllerName: "OldItem", actioName: "Index",
+                                items: [
+                                        { id: 2, text: "Item Receive", controllerName: "OldItemReceive", actioName: "Index" },
+                                        { id: 2, text: "Item Sales", controllerName: "OldItemSales", actioName: "Index" },
+                                        { id: 2, text: "Item Return", controllerName: "OldItemReceive", actioName: "Return" }
+                                ]
+                            },
+                            {
+                                id: 2, text: "MIS Report", controllerName: "OldMisReport", actioName: "Index",
+                                items: [
+                                        { id: 2, text: "Report", controllerName: "OldMisReport", actioName: "Index" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: 5, text: "Administrator",
+                    }
+                ]
+            }
+        ]
+    });
+
+    var Voucher = [];
+    function checkedNodeIds(nodes, checkedNodes) {
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].checked) {
+                getParentIds(nodes[i], checkedNodes);
+                var vc = { DeptName: nodes[i].id, ControllerName: nodes[i].controllerName, ActionName: nodes[i].actioName, ChildNode: nodes[i].text, ParentNode: nodes[i].parent().parent().text, UserName: $('#txtUserName').val(), Password: $('#txtPassword').val(), CanGiveAitsoDiscount: document.getElementById('chkCanGiveAitsoDiscount').checked, Address: $('#txtAddress').val(), MobileNo: $('#txtMobile').val() };
+                Voucher.push(vc);
+            }
+            if (nodes[i].hasChildren) {
+                checkedNodeIds(nodes[i].children.view(), checkedNodes);
+            }
+        }
+    }
+    function getParentIds(node, checkedNodes) {
+        if (node.parent() && node.parent().parent() && checkedNodes.indexOf(node.parent().parent().id) == -1) {
+            getParentIds(node.parent().parent(), checkedNodes);
+            checkedNodes.push(node.parent().parent().id);
+        }
+    }
+    // show checked node IDs on datasource change
+    function onCheck() {
+        var checkedNodes = [];
+        var treeView = $("#treeview").data("kendoTreeView");
+        Voucher = [];
+        checkedNodeIds(treeView.dataSource.view(), checkedNodes);
+    }
+</script>

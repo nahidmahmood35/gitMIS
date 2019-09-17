@@ -1,0 +1,126 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title">Diagnosis Report</h3>
+            </div>
+            <div class="box-body">
+                <form class="item-reg">
+                    <div class="form-group">
+                        <label class="col-sm-offset-2 col-sm-2 control-label" for="txtCustomerId">Date From</label>
+                        <div class="col-sm-2"><input type="text" class="form-control datepicker" id="txtDateFrom" /></div>
+                        <label class="col-sm-2 control-label" for="txtCustomerId">Date To</label>
+                        <div class="col-sm-2"><input type="text" class="form-control datepicker" id="txtDateTo" /></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-offset-2 col-sm-2 control-label" for="txtCustomerId">Customer Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtCustomer" />
+                            <input type="text" class="form-control none" id="txtCustomerId" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-offset-2 col-sm-2 control-label" for="txtCustomerId">Item Name</label>
+                        <div class="col-sm-6">
+                            @*<select class="form-control select2" id="txtItemId" name="txtItemId">
+                            @{
+                                <option value="0">---Select---</option>
+                                foreach (var alist in @ViewBag.ProductList)
+                                {
+                                    <option value=@alist.Id> @alist.Name</option>
+                                }
+                            }
+                        </select>*@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-offset-2 col-sm-2 control-label" for="txtCategory">Category Name</label>
+                        <div class="col-sm-6">
+                            @*<select class="form-control" id="txtCategory" name="txtCategory" onchange="GetBrandNameByCatId()">
+                            @{
+                                <option value="0">---Select---</option>
+                                foreach (var alist in @ViewBag.CategoryName)
+                                {
+                                    <option value=@alist.Id> @alist.Name</option>
+                                }
+                            }
+                        </select>*@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-offset-2 col-sm-2 control-label" for="txtBrandId">Brand Name</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="txtBrandId" name="txtBrandId"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-body mis-report">
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-2"><button type="button" class="btn btn-danger" onclick="GetReport('DiagnosisInvoiceLedger');">DiagnosisInvoiceLedger</button></div>
+                    <div class="col-sm-2"><button type="button" class="btn btn-danger" onclick="GetReport('DiagnosisDueInvoice');">DiagnosisDueInvoice</button></div>
+                    <div class="col-sm-2"><button type="button" class="btn btn-danger" onclick="GetReport('DatewiseCollectionReport');">Datewise Collection </button></div>
+                    <div class="col-sm-2"><button type="button" class="btn btn-danger" onclick="GetReport('DetailsReport');">DetailsReport</button></div>
+                    <div class="col-sm-2"><button type="button" class="btn btn-danger" onclick="GetReport('SalesLedgerSummarized');">Sales Ledger Summarized</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+   
+
+    function GetReport(reportNameSales) {
+        var custId = "", itemId, suppId, catId;
+        if ($("#txtCustomerId").val() != 0) { custId = $("#txtCustomerId").val(); } else { custId = 0; }
+        
+        var vc = {
+            DateTo: $("#txtDateTo").val(),
+            DateFrom: $("#txtDateFrom").val(),
+            ReportFileName: reportNameSales,
+        };       
+        //var json = { aPrint: vc };
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Index", "DiagnosisReport")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(vc),
+            success: function(data) {
+                //alert("Save Success");
+                var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+
+                $(document).ready(function (e) {
+                    detectPopup();
+                    function detectPopup() {
+                        if (!popupWindow) {
+                            alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                            return false;
+                        } else {
+                            window.open('', '_self');
+                            window.close();
+                            //   location.reload(true);
+                        }
+                    }
+                });
+                //window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");                
+            }
+        });
+    }
+
+</script>

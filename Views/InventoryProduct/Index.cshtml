@@ -1,0 +1,291 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="box box-info">
+            <div class="box-header with-border"><span>Inventory Product Registration</span></div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Product Category</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero none" id="txtProductId">
+                        <select class="form-control select2 selectNoAdd" id="txtProductCategory"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newCategory" class="btn btn-sm btn-primary">Add</a></div>
+                    <label class="col-sm-2">Asset Type</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtAssetType">
+                            <option value="1">Current Assets</option>
+                            <option value="2">Fixed Assets</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Product Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtProductName">
+                    </div>
+                    <label class="col-sm-2">Depreciation Method</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtDepreciationMethod"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                   
+                    <label class="col-sm-2">Depreciation Amount</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtDepreciationAmount">
+                    </div>
+                    <label class="col-sm-2">Amount By</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtAmountBy">
+                            <option value="1">Percentage</option>
+                            <option value="2">Taka</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Unit</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtUnit">
+                    </div>
+                    <label class="col-sm-2">Reorder quantity</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtStoreMinimumQuantity">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2">Rack No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtRackNo" value="0">
+                    </div>
+                    <label class="col-sm-2">Cell No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtCellNo" value="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                   
+                    <label class="col-sm-2">Economic Quantity</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtEconomicQuantity">
+                    </div>
+                </div>
+                    <div class="button-group text-center">
+                        <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save()" value="Save">
+                        <input type="submit" class="btn btn-sm btn-info" id="btnList" onclick="getAll()" value="View All">
+                    </div>
+                </div>
+        </div>
+
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newCategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Product Category</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtCategory">
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary btn-sm" onclick="SaveCategory()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetProductCategory();
+        GetDepreciationMethod();
+
+    });
+    
+
+    function GetUpdateProductList(Id) {
+        $.ajax({
+            url: apiUrl + "InvStokeProductRegistrationApi/GetProductById",
+            type: 'GET',
+            datatype: JSON,
+            data: {"Id": Id},
+            success: function (data) {
+                $('#txtProductId').val(data[0].id);
+                $('#txtProductName').val(data[0].productName);
+                $('#txtProductCategory ').val(data[0].productCategory).trigger('change');
+                //$('#txtUnitPrice').val(data[0].unitPrice);txtEconomicQuantity
+                $('#txtUnit').val(data[0].unit);
+                $('#txtAssetType').val(data[0].assetType).trigger('change');
+                $('#txtDepreciationMethod').val(data[0].depreciationMethodId).trigger('change');
+                $('#txtDepreciationAmount').val(data[0].depreciationAmount);
+                $('#txtAmountBy').val(data[0].depreciationAmountType).trigger('change');
+                $('#txtStoreMinimumQuantity').val(data[0].minimumQuantity);
+                $('#txtRackNo').val(data[0].rackNumber);
+                $('#txtCellNo').val(data[0].cellNumber);
+                $('#txtEconomicQuantity').val(data[0].economicQuantity);
+
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+        //empid = $("." + param).parent().closest("tr").find(".employeeId").text();
+        //loanNo = $("." + param).parent().closest("tr").find(".loanNo").text();
+        //amount = $("." + param).parent().closest("tr").find(".installmentAmound").text();
+        //$("#txtEmpId").val(empid);
+        //$("#txtloanNo").val(loanNo);
+        //$("#txtinstallmentAmound").val(amount);
+
+    }
+    function getAll() {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    }
+    
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                url: apiUrl + "InvStokeProductRegistrationApi/GetProductList",
+                dataSrc: ""
+            },
+            "columns": [
+                { "data": "id", "title": "id", className: "id none" },
+                { "data": "productName", "title": "product Name"},
+                { "data": "productCategory", "title": "product Category", className: "productCategory none" },
+                { "data": "unitPrice", "title": "unit Price" },
+                { "data": "unit", "title": "unit" },
+                { "data": "productCategoryName", "title": "Category Name" },
+                {
+                    "data": "id", width: "50px", "title": "Action",
+                    "render": function (data) {
+                        return "<a data-toggle='modal' data-target='#edit' href='javascript:;' onclick='return GetUpdateProductList(" + data + ")'><span class='glyphicon glyphicon-edit'></span></a>";
+                    }
+                }
+            ]
+        });
+    }
+
+
+    function SaveCategory() {
+        $.ajax({
+            url: apiUrl + "InvStokeProductRegistrationApi/GetSaveProductCategory",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtCategory").val() },
+            success: function (data) {
+                alert(JSON.stringify(data));
+                $('#txtProductCategory').append($('<option></option>').val(data.result).html($("#txtCategory").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function GetDepreciationMethod() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "InvStokeProductRegistrationApi/GetDepreciationMethod",
+            dataType: "Json",
+            success: function (data) {
+                //$('#txtProductCategory').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtDepreciationMethod').append(rows);
+                });
+            },
+
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetProductCategory() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "InvStokeProductRegistrationApi/GetProductCategoryList",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtProductCategory').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtProductCategory').append(rows);
+                });
+            },
+
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    
+    function Save() {
+
+        var res = validation();
+        if (res == true) {
+            var object = {
+                Id: $('#txtProductId').val(),
+                ProductName: $('#txtProductName').val(),
+                ProductCategory: $('#txtProductCategory').val(),
+                Unit: $('#txtUnit').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                AssetType: $('#txtAssetType').val(),
+                DepreciationMethodId: $('#txtDepreciationMethod').val(),
+                DepreciationAmount: $('#txtDepreciationAmount').val(),
+                DepreciationAmountType: $('#txtAmountBy').val(),
+                MinimumQuantity: $('#txtStoreMinimumQuantity').val(),
+                rackNumber: $('#txtRackNo').val(),
+                cellNumber: $('#txtCellNo').val(),
+                EconomicQuantity: $('#txtEconomicQuantity').val(),
+
+            };
+            //alert(JSON.stringify(object));
+            //return false;
+            $.ajax({
+               url: apiUrl + "InvStokeProductRegistrationApi/Post",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+</script>

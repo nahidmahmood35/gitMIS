@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">SPD  </h3>
+    </div>
+    <div class="box-body ">
+        <div class="form-group">
+            <label class="col-sm-2">Company Name</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control required" id="txtCompanyName">
+                <input type="text" class="none" id="txtCompanyId" >
+            </div>
+
+            <label class="col-sm-2" for="txtSlipDate">From Date</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control datepicker required" id="txtSlipDate" />
+            </div>
+            <label class="col-sm-2" for="txtSlipDate">To Date</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control datepicker required" id="txtSlipDate" />
+            </div>
+            
+            <label class="col-sm-2"> Due Amount</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control required" id="txtSlipNo">
+            </div>
+            <label class="col-sm-2"> Received Amount</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control required" id="txtSlipNo">
+
+            </div>
+            <label class="col-sm-10"> Remaining Due Amount</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control required" id="txtSlipNo">
+
+            </div>
+            <div class="button-group text-center">
+                <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+               
+            </div>
+        </div>
+</div></div>
+
+<script>
+    $(document).ready(function() {
+        $('#txtCompanyName').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetCompanyListByName", "PharPurchasePaymentApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtCompanyName").val() },
+                    success: function(data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $("#txtCompanyName").val(ui.item.name);
+                $("#txtCompanyId").val(ui.item.id);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function(ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Id</th><th>Name</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.id + "</td>";
+            html += "<td>" + item.name + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+    });
+
+
+
+</script>

@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .note-editor.note-frame .note-editing-area .note-editable{height: 350px !important;}
+</style>
+
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Test Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtParameterName">
+                        <input type="text" class="none" id="txtId" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Specimen</label>
+                    <div class="col-sm-10">
+                        <select class="form-control required" id="txtSpecimen"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Result</label>
+                    <div class="col-sm-10 result">
+                        <textarea class="summernote form-control" id="txtResult"></textarea>
+                    </div>
+                </div>
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-info btn-sm" id="save" onclick="Save();" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        GetSpecimenName();
+        $('#txtParameterName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "ClinicalChartApi/GetClinicalChartList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtParameterName").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtId').val(ui.item.itemId);
+                $('#txtParameterName').val(ui.item.description);
+                GetParameterByItemId(ui.item.itemId);
+                return false;
+            },
+        minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>PCode</th><th>Description</th><th>Charge</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.pCode + "</td>";
+            html += "<td>" + item.description + "</td>";
+            html += "<td>" + item.charge + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+
+    function GetParameterByItemId(param) {
+        $.ajax({
+            url: apiUrl + "LabParameterEntryOthersApi/GetParameterByItemId?itemId="+param+"",
+            type: 'GET',
+            datatype: JSON,
+            success: function (data) {
+                $('#txtSpecimen').val(data.specimen);
+                $('.result .note-editable').html(data.result);
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function GetSpecimenName() {
+        $.ajax({
+            url: apiUrl + "LabParameterEntryApi/GetSpecimenName",
+            type: 'GET',
+            datatype: JSON,
+            success: function (data) {
+                $('#txtSpecimen').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.name + "'>" + item.name + "</option>";
+                    $('#txtSpecimen').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                ItemId: $('#txtId').val(),
+                Result: $('.result .note-editable.panel-body').html(),
+                Specimen: $("#txtSpecimen").val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            };
+            //alert(JSON.stringify(object));
+            //return false;
+            $.ajax({
+                url: apiUrl + "LabParameterEntryOthersApi/Post",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }else {alert("Please fill required field");}
+        return false;
+    }
+</script>

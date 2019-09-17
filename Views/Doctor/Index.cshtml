@@ -1,0 +1,646 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtCategory">Category</label>
+                    <div class="col-sm-2">
+                        <select class="form-control required" id="txtCategory"></select>
+                    </div>
+                    <label class="col-sm-2" for="txtOutDoorDepartment">Department</label>
+                    <div class="col-sm-5">
+                        <select class="form-control required" id="txtOutDoorDepartment"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newDepartment" class="btn btn-sm btn-primary">Add</a></div>
+                    <div class="modal fade" id="newDepartment">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <p class="modal-title">Add New Department</p>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Department</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtNewDepartment">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="SaveDepartment()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtDrCode">Doctor Code</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control required" id="txtDrCode" />
+                        <input type="text" class="none" id="txtId" />
+                    </div>
+                    <label class="col-sm-2" for="txtDrName">Doctor Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control required" id="txtDrName" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtGender">Gender</label>
+                    <div class="col-sm-2">
+                        <select class="form-control required" id="txtGender"></select>
+                    </div>
+                    <label class="col-sm-2" for="txtSpeciality required">Speciality</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control required" id="txtSpeciality" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtTel">Mobile</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control isnumber required" id="txtTel" maxlength="11" />
+                    </div>
+                    <label class="col-sm-2" for="txtDegree">Degree</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control required" id="txtDegree" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtBirthDate">Date Of Birth</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepicker required" id="txtBirthDate" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtMarriageDate">Marriage Date</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepicker" id="txtMarriageDate" />
+                    </div>
+                    <label class="col-sm-2" for="txtSpouseName">Spouse Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control defaultNA" id="txtSpouseName" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtSpouseDob">Spouse DOB</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepicker" id="txtSpouseDob" value=" " />
+                    </div>
+                    <label class="col-sm-2" for="txtPresentAddress">Present Address</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control required" id="txtPresentAddress" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtArea">Area Name</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA" id="txtArea" />
+                    </div>
+                    <label class="col-sm-2" for="txtThana">Thana</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA" id="txtThana" />
+                    </div>
+                    <label class="col-sm-2" for="txtDistrict">District</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA" id="txtDistrict" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtEmail">Email</label>
+                    <div class="col-sm-2">
+                        <input type="email" class="form-control defaultNA" id="txtEmail" />
+                    </div>
+                    <label class="col-sm-2" for="txtTakeCom">Take Commission</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtTakeCom">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2" for="txtAvailability">Availability</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtAvailability">
+                            <option value="Available">Available</option>
+                            <option value="Unavailable">Unavailable</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtVisitNew">Dr. Visit (New)</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control isnumber required" id="txtVisitNew" />
+                    </div>
+                    <label class="col-sm-2" for="txtVisitOld">Dr. Visit (Old)</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control isnumber defaultZero" id="txtVisitOld" />
+                    </div>
+                    <label class="col-sm-2" for="txtDrType">Dr Type</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtDrType">
+                            <option value="Outdoor Dr">Outdoor</option>
+                            <option value="Indoor Dr">Indoor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtRefType">Ref. Type</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtRefType">
+                            <option value="Individuals">Individuals</option>
+                            <option value="Corporates">Corporates</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2" for="txtmpo">M.R. Name</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="txtmpo"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newMRName" class="btn btn-sm btn-primary">Add</a></div>
+                    <div class="modal fade" id="newMRName">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <p class="modal-title">Add New M.R.</p>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">M.R. Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtNewMRName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="SaveMR()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtPtnPerDay">Patients Per Day</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control isnumber defaultZero" id="txtPtnPerDay" />
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="checkbox" id="txtPrescriptionDr" /> Prescription Dr.
+                    </div>
+                    <div class="col-sm-4">
+                        <a data-toggle="modal" data-target="#GroupwiseRefFee" class="btn btn-sm btn-default">Group wise Refferal Fee</a>
+                    </div>
+                </div>
+                <div class="modal fade" id="GroupwiseRefFee">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <p class="modal-title">Add Group wise Refferal Fee</p>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label class="col-sm-3">Sub Sub PNO</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" id="txtSubSubPno" name="txtSubSubPno"></select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="txtSubSubPnoCharge" placeholder="Charge">
+                                    </div>
+                                 
+                                    <div class="col-sm-2">
+                                        <select class="form-control" id="txtRefFeePcOrTk" name="txtRefFeePcOrTk">
+                                            <option value="%">%</option>
+                                            <option value="Tk.">Tk.</option>
+                                        </select>
+                                       
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a href="javascript:;" class="btn btn-sm btn-success" id="SubSubPnoAdd">Add</a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <table class="table table-striped table-hover table-bordered">
+                                            <thead class="thead-blue text-center">
+                                                <tr>
+                                                    <th class="col-sm-6">Name</th>
+                                                    <th class="col-sm-4">Charge</th>
+                                                    <th class="col-sm-4">Type</th>
+                                                    <th class="col-sm-1">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-center table-scrollable" id="SubSubPnoTbody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="div-display">
+                    <div class="form-group">
+                        <label class="col-sm-2">Dr Name (Bangla)</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control defaultNA" id="txtDrNameInBangla">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">Dr Details (Bangla)</label>
+                        <div class="col-sm-4">
+                            <textarea class="form-control defaultNA" id="txtDrDesignationInBangla"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-sm btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-sm btn-info" id="btnList" value="View All">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetCategoryList();
+        getSubSubPno();
+
+        $("#SubSubPnoAdd").click(function () { SubSubPnoAdd(); });
+
+        $('#txtPrescriptionDr').change(function () {
+            if (this.checked) { $('.div-display').css('display', 'block'); }
+            else { $('.div-display').css('display', 'none'); }
+        });
+        
+        $('#txtDrCode').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "DoctorApi/GetDoctorList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtDrCode").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {                
+                $('#txtId').val(ui.item.drId);
+                $('#txtDrCode').val(ui.item.code);
+                $('#txtDrName').val(ui.item.name);
+                $('#txtCategory').val(ui.item.category);
+                $('#txtGender').val(ui.item.gender);
+                $('#txtDegree').val(ui.item.degree);
+                $('#txtDrType').val(ui.item.type);
+                $('#txtSpeciality').val(ui.item.speciality);
+                $('#txtOutDoorDepartment').val(ui.item.departmentId);
+                $('#txtPresentAddress').val(ui.item.presentAddress);
+                $('#txtArea').val(ui.item.area);
+                $('#txtThana').val(ui.item.thana);
+                $('#txtDistrict').val(ui.item.zilla);
+                $('#txtTel').val(ui.item.mobileNo);
+                $('#txtEmail').val(ui.item.email);
+                $('#txtBirthDate').val(ToJsonDate(ui.item.dateOfBirth));
+                $('#txtSpouseName').val(ui.item.spouseName);
+                $('#txtSpouseDob').val(ToJsonDate(ui.item.spouseDob));
+                $('#txtMarriageDate').val(ToJsonDate((ui.item.marriageDate)));
+                $('#txtTakeCom').val(ui.item.takeComisionId);
+                $('#txtRefType').val(ui.item.refType);
+                $('#txtAvailability').val(ui.item.availability);
+                $('#txtmpo').val(ui.item.mioId);
+                if (ui.item.prescriptionStatus == 1) {
+                    $("#txtPrescriptionDr").prop("checked", true).trigger("change");
+                    $("div-display").css("display","block")
+                } else {
+                    $("#txtPrescriptionDr").prop("checked", false);
+                }
+                $('#txtDrNameInBangla').val(ui.item.nameBangla);
+                $('#txtDrDesignationInBangla').val(ui.item.details);
+                $('#txtVisitNew').val(ui.item.visitNewPatient);
+                $('#txtVisitOld').val(ui.item.visitOldPatient);
+                $('#txtPtnPerDay').val(ui.item.noOfPatientPerDay);
+                $("#btnSave").val("Update");
+                $("#btnDelete").css("display", "unset");
+            return false;
+        },
+        minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.code + "</td>";
+            html += "<td>" + item.name + "</td>";
+            html += "<td>" + item.mobileNo + "</td>";
+            html += "<td>" + item.speciality + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+    $('#btnList').on('click', function () {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    });
+
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                url: apiUrl + "DoctorApi/GetDoctorList?searchString=0",
+                dataSrc: "",
+            },
+            "columns": [
+                    { "data": "drId", "title": "drId", visible: false },
+                    { "data": "code", "title": "code" },
+                    { "data": "name", "title": "name" },
+                    { "data": "speciality", "title": "speciality" },
+                    { "data": "degree", "title": "degree" },
+                    {
+                        "data": "itemId", width: "50px", "title": "Action",
+                        "render": function (data) {
+                            return "<a href='javascript:;' class='md-trigger' onclick='return deleteDoctor(" + data + ")'><span class='glyphicon glyphicon-trash'></span></a>";
+                        }
+                    }
+            ]
+
+        });
+    }
+
+    $("input:checkbox").click(function () {
+        if (!$(this).is(":checked")) {
+            $('#SubSubPnoTbody').empty();
+            $('#txtDrNameInBangla').val('');
+            $('#txtDrDesignationInBangla').val('');
+        }            
+    });
+    function getSubSubPno() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetSubSubPnoList", "ClinicalChartApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtSubSubPno').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtSubSubPno').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    
+    
+    
+    function GetCategoryList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetCategoryList", "DoctorApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtCategory').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.name + "'>" + item.name + "</option>";
+                    $('#txtCategory').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    
+    function SaveDepartment() {
+        if ($('#txtNewDepartment').val() == '') { $('#txtNewDepartment').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveDepartment", "DoctorApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtNewDepartment").val() },
+            success: function (data) {
+                $('#txtOutDoorDepartment').append($('<option></option>').val(data.result).html($("#txtNewDepartment").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+    function SaveMR() {
+        if ($('#txtNewMRName').val() == '') { $('#txtNewMRName').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveMRName", "DoctorApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtNewMRName").val() },
+            success: function (data) {
+                $('#txtmpo').append($('<option></option>').val(data.result).html($("#txtNewMRName").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+    function SubSubPnoAdd() {
+        var res = validate();
+        if (res == false) {
+            return false;
+        }
+        var SubSubPno = $("#txtSubSubPno option:selected").text();
+        var SubSubPnoId = $("#txtSubSubPno option:selected").val();
+        var Charge = $("#txtSubSubPnoCharge").val();
+        var Type = $("#txtRefFeePcOrTk").val();
+        var html = '';
+        if ($('#tbody').html != '') {
+            html = $('#tbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr>';
+        html += '<td class="none">' + SubSubPnoId + '</td>';
+        html += '<td>' + SubSubPno + '</td>';
+        html += '<td>' + Charge + '</td>';
+        html += '<td>' + Type + '</td>';
+        html += '<td><a href="#" class="deleteRow"><span class="glyphicon glyphicon-trash"></span</a></td>';
+        html += '</tr>';
+        $('#SubSubPnoTbody').append(html);
+        $('#txtSubSubPno').val(0).trigger('change');
+        $('#txtSubSubPnoCharge').val('');
+        return false;
+    }
+    function validate() {
+        var isValid = true;
+        if ($('#txtSubSubPno').val() == 0) { alert("Please Select Item."); isValid = false; }
+        var table = $("table #SubSubPnoTbody");
+        var itemId = $("#txtSubSubPno option:selected").val();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+    $("table").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        return false;
+    });
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var vouchers = [];
+            var table = $('table #SubSubPnoTbody');
+            if (table.is(':empty')) {                
+                var voucher = {                        
+                    DrId: $('#txtId').val(),
+                    Code: $('#txtDrCode').val(),
+                    Name: $('#txtDrName').val(),
+                    Category: $('#txtCategory').val(),
+                    Gender: $('#txtGender').val(),
+                    Degree: $('#txtDegree').val(),
+                    Type: $('#txtDrType').val(),
+                    Speciality: $('#txtSpeciality').val(),
+                    DepartmentId: $('#txtOutDoorDepartment').val(),
+                    PresentAddress: $('#txtPresentAddress').val(),
+                    Area: $('#txtArea').val(),
+                    Thana: $('#txtThana').val(),
+                    Zilla: $('#txtDistrict').val(),
+                    MobileNo: $('#txtTel').val(),
+                    Email: $('#txtEmail').val(),
+                    DateOfBirth: $('#txtBirthDate').val(),
+                    SpouseName: $('#txtSpouseName').val(),
+                    SpouseDob: $('#txtSpouseDob').val(),
+                    MarriageDate: $('#txtMarriageDate').val(),
+                    TakeComisionId: $('#txtTakeCom').val(),
+                    RefType: $('#txtRefType').val(),
+                    Availability: $('#txtAvailability').val(),
+                    MioId: $('#txtmpo').val(),
+                    PrescriptionStatus: $('#txtPrescriptionDr').is(':checked') ? 1 : 0,
+                    NameBangla: $('#txtDrNameInBangla').val(),
+                    Details: $('#txtDrDesignationInBangla').val(),
+                    VisitNewPatient: $('#txtVisitNew').val(),
+                    VisitOldPatient: $('#txtVisitOld').val(),
+                    NoOfPatientPerDay: $('#txtPtnPerDay').val(),
+                    UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                };
+                vouchers.push(voucher);
+            }
+            table.find('tr').each(function () {
+                tid = $(this).find('td').text();
+                if (tid != '') {
+                    var $tds = $(this).find('td'),
+                        tPnoId = $tds.eq(0).text(),
+                        tPnoName = $tds.eq(1).text(),
+                        tPnoCharge = $tds.eq(2).text(),
+                        tRefFeePcOrTk = $tds.eq(3).text();
+                    var voucher2 = {                        
+                        DrId: $('#txtId').val(),
+                        Code: $('#txtDrCode').val(),
+                        Name: $('#txtDrName').val(),
+                        Category: $('#txtCategory').val(),
+                        Gender: $('#txtGender').val(),
+                        Degree: $('#txtDegree').val(),
+                        Type: $('#txtDrType').val(),
+                        Speciality: $('#txtSpeciality').val(),
+                        DepartmentId: $('#txtOutDoorDepartment').val(),
+                        PresentAddress: $('#txtPresentAddress').val(),
+                        Area: $('#txtArea').val(),
+                        Thana: $('#txtThana').val(),
+                        Zilla: $('#txtDistrict').val(),
+                        MobileNo: $('#txtTel').val(),
+                        Email: $('#txtEmail').val(),
+                        DateOfBirth: $('#txtBirthDate').val(),
+                        SpouseName: $('#txtSpouseName').val(),
+                        SpouseDob: $('#txtSpouseDob').val(),
+                        MarriageDate: $('#txtMarriageDate').val(),
+                        TakeComisionId: $('#txtTakeCom').val(),
+                        RefType: $('#txtRefType').val(),
+                        Availability: $('#txtAvailability').val(),
+                        MioId: $('#txtMRName').val(),
+                        PrescriptionStatus: $('#txtPrescriptionDr').is(':checked') ? 1 : 0,
+                        NameBangla: $('#txtDrNameInBangla').val(),
+                        Details: $('#txtDrDesignationInBangla').val(),
+                        VisitNewPatient: $('#txtVisitNew').val(),
+                        VisitOldPatient: $('#txtVisitOld').val(),
+                        NoOfPatientPerDay: $('#txtPtnPerDay').val(),
+                        PnoId : tPnoId,
+                        PnoName : tPnoName,
+                        PnoCharge: tPnoCharge,
+                        RefFeePcOrTk: tRefFeePcOrTk,
+                        UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                    };
+                    vouchers.push(voucher2);
+                }
+            });
+            
+            var object = { mDoctor: vouchers };
+            alert(JSON.stringify(vouchers));
+          //  return false;
+            $.ajax({
+                url: "@UrlConfig.Action("Post", "DoctorApi")",
+                data: JSON.stringify(vouchers),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }else {alert("Please fill required field");}
+        return false;
+    }
+
+    function deleteDoctor(param) {
+        $.confirm('Are You Sure?', 'Confirmation', function() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetDeleteById", "DoctorApi")",
+                dataType: "Json",
+                data: { 'id': param },
+                success: function(data) {
+                    location.reload();
+                }
+            });
+        });
+    };
+
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+</script>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            GetGenderList();
+            GeDepartmentList();
+            GetMPOList();
+        })
+    </script>
+}
+

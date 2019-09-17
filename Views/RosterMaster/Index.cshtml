@@ -1,0 +1,340 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Employee Roster Master</h3>
+    </div>
+    <div class="box-body">
+        <div class="form-group">
+            <label class="col-sm-1">Employee Code</label>
+            <div class="col-sm-3">
+                <select class="form-control required selectNoAdd" id="txtCode" onchange="getEmployeeDetailById();"> </select>
+            </div>
+
+            <label class="col-sm-2">Name </label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="txtEmployeeName" disabled>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1"> Department</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtDepartment" disabled>
+            </div>
+
+            <label class="col-sm-1">Designation</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtDesignation" disabled>
+            </div>
+            
+            <label class="col-sm-1">Shift Staus</label>
+            <div class="col-sm-3">
+                <select class="form-control required" id="txtShiftStaus">
+                    <option value="0">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="table-scrollable">
+                <table class="table table-striped table-hover table-bordered">
+                    <tbody class="entry-form">
+                    <tr>
+                        <td><select class="form-control" id="txtDayName"> </select></td>
+                        <td><select class="form-control" id="txtGeneralShift"> </select></td>
+                        <td><button type="button" class="btn btn-block btn-blue" id="btnAdd" onclick="add();">Add</button></td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                    <tr>
+                        <th class="col-sm-5">Day Name</th>
+                        <th class="col-sm-5">General Shift</th>
+                        <th class="col-sm-2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center" id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="button-group text-center">
+            <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function() {
+        EmployeeCode();
+        DayName();
+        GeneralShift();
+    });
+
+    function EmployeeCode() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterApi/GetEmployeeList",
+            dataType: "Json",
+            success: function(data) {
+                $('#txtCode').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data,
+                    function(key, item) {
+                        var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                        $('#txtCode').append(rows);
+                    });
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function DayName() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterApi/GetDayName",
+            dataType: "Json",
+            success: function(data) {
+                $('#txtDayName').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data,
+                    function(key, item) {
+                        var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                        $('#txtDayName').append(rows);
+                    });
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function GeneralShift() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterApi/GetGeneralShift",
+            dataType: "Json",
+            success: function(data) {
+                $('#txtGeneralShift').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data,
+                    function(key, item) {
+                        var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                        $('#txtGeneralShift').append(rows);
+                    });
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function add() {
+        var res = validate();
+        if (res == false) {
+            return false;
+        }
+        var DayNameId = $("#txtDayName").val();
+        var DayName = $("#txtDayName option:selected").text();
+        var ShiftNameId = $("#txtGeneralShift").val();
+        var ShiftName = $("#txtGeneralShift option:selected").text();
+
+        var html = '';
+        if ($('#tbody').html != '') {
+            html = $('#tbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr>';
+        html += '<td class="none">' + DayNameId + '</td>';
+        html += '<td class="col-sm-5">' + DayName + '</td>';
+        html += '<td class="none">' + ShiftNameId + '</td>';
+        html += '<td class="col-sm-5">' + ShiftName + '</td>';
+        html +=
+            '<td class="col-sm-2"><a href="javascript:;" class="deleteRow"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        html += '</tr>';
+        $('#tbody').html(html);
+
+
+        $("#txtDayName").val(0).trigger('change');
+        $("#txtGeneralShift").val(0).trigger('change');
+
+        return false;
+    }
+
+    function validate() {
+        var isValid = true;
+        var table = $("table #tbody");
+        var dayId = $("#txtDayName").val();
+        var ShiftId = $("#txtGeneralShift").val();
+
+        table.find('tr').each(function(i) {
+            var $tds = $(this).find('td'),
+                day = $tds.eq(0).text(), shif = $tds.eq(2).text();
+            if ((day == dayId) && (shif == 1)) {
+                alert("You Already selected no working day!");
+                isValid = false;
+            }
+            if ((day == dayId) && (ShiftId == shif)) {
+                alert("This day all shifs are Already Exist!");
+                isValid = false;
+            }
+            if ((day == dayId) && (shif > 1) && (ShiftId == 1)) {
+                alert("You Already Add shifs!");
+                isValid = false;
+            }
+        });
+
+        if ($("#txtDayName").val() == 0) { isValid = false; }
+        if ($("#txtGeneralShift").val() == 0) { isValid = false; }
+        return isValid;
+    };
+
+    $("table #tbody").on("click","a.deleteRow",function(event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        return false;
+    });
+
+
+    function getEmployeeDetailById() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeDetalsList", "RosterMasterApi")",
+            dataType: "Json",
+            data: { 'searchString': $('#txtCode').val() },
+            success: function (data) {
+                $('#tbody').empty();
+                $('#txtEmployeeName').val(data[0].emName);
+                $('#txtDepartment').val(data[0].departmentName);
+                $("#txtDesignation").val(data[0].emDesignationName);
+                $('#txtShiftStaus').val(data[0].emShiftStatus).trigger('change');
+
+                if (data[0].dayNameId!==0) {
+                    $.each(data, function (key, item) {
+                        var rows = "<tr>"
+                            + '<td class="none">' + item.dayNameId + '</td>'
+                            + '<td class="col-sm-5">' + item.dayName + '</td>'
+                            + '<td class="none">' + item.shiftNameId + '</td>'
+                            + '<td class="col-sm-5">' + item.shiftName + '</td>'
+                            + "<td><a href='javascript:;' class='deleteRow'><span class='glyphicon glyphicon-trash'></span></a></td>"
+                            + "</tr>";
+                        $('#tbody').append(rows);
+
+                    });
+                }
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function Save() {
+        var res = validationPsr();
+        if (res == true) {
+            var vouchers = [];
+            var table = $('table #tbody');
+            table.find('tr').each(function () {
+                var $tds = $(this).find('td'),
+                    DayNameId = $tds.eq(0).text(),
+                    ShiftNameId = $tds.eq(2).text();
+                var voucher = {
+                    EmId: $("#txtCode option:selected").val(),
+                    EmShiftStatus: $("#txtShiftStaus").val(),
+                    DayNameId: DayNameId,
+                    ShiftNameId: ShiftNameId,
+                    EmUserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                };
+                vouchers.push(voucher);
+            });
+            //alert(JSON.stringify(vouchers));
+            //return false;
+            $.ajax({
+                type: "POST",
+                url: '@UrlConfig.Action("Save", "RosterMasterApi")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            });
+            return false;
+        }
+        else {alert("Please fill required field");}
+        return false;
+    }
+    function validationPsr() {
+        var isValid = false;
+        var table = $("table #tbody");
+        var days = [];
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'), day = $tds.eq(0).text();
+            days.push(parseInt(day));
+        });
+        
+        //console.log(days[0]);
+
+        var k = 0;
+
+        var f1 = 0, f2 = 0, f3 = 0, f4 = 0, f5 = 0, f6 = 0, f7 = 0;
+
+        for (i = 0; i <= parseInt($('#tbody tr').length) ; i++) {
+      
+
+            if ((days[i]==1)) {
+                f1 = 1;
+            }  if ((days[i] == 2)) {
+                f2 = 1;
+            }  if ((days[i] == 3)) {
+                f3 = 1;
+            }  if ((days[i] == 4)) {
+                f4 = 1;
+            }  if ((days[i] == 5)) {
+                f5 = 1;
+            }  if ((days[i] == 6)) {
+                f6 = 1;
+            }  if ((days[i] == 7)) {
+                f7 = 1;
+            } 
+        }
+
+
+        k = f1 + f2 + f3 + f4 + f5 + f6 + f7;
+
+        if (k == 7) {
+            isValid = true;
+        }
+
+        else {
+            alert("Please All date in grid.");
+            isValid = false;
+        }
+
+
+
+
+        //var isValid = true;
+        //var rowCount = $('#tbody tr').length;
+        //if (rowCount !== 7) { alert("Please All date in grid."); isValid = false; }
+
+        if ($("#txtCode").val() == 0) { $('#txtCode').closest("div").find(".select2-selection").css({ "border": "1px solid #ff0000" }); isValid = false; }
+        else { $('#txtCode').closest("div").find(".select2-selection").css({ "border": "" }); }
+        //if ($("#txtCompany").val() == '') { $('#txtCompany').css('border-color', 'red'); isValid = false; }
+        //else { $('#txtCompany').css('border-color', 'lightgrey'); }
+        //if ($('#txtRemarks').val() == '') { $('#txtRemarks').val('N/A'); }
+        return isValid;
+    }
+    
+</script>
+
+

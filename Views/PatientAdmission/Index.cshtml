@@ -1,0 +1,349 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Patient Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientName">
+                        <input type="text" class="none" id="txtId">
+                    </div>
+                    <label class="col-sm-2">Mobile No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtMobile" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Address</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtAddress" disabled>
+                    </div>
+                    <label class="col-sm-2">Age</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtAge" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Occupation</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtOccupation" disabled>
+                    </div>
+                    <label class="col-sm-2">Gender</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtGender" disabled></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Guardian</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtGuardian" disabled>
+                    </div>
+                    <label class="col-sm-2">Package</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtPackage"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Relation with Patient </h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Name</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA " id="txtRelativeNameone">
+                    </div>
+                    <label class="col-sm-2">Relation</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA " id="txtRelativeRelationone">
+                    </div>
+                    <label class="col-sm-2">Mobile</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA " id="txtRelativeMobileone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Name</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA " id="txtRelativeNametwo">
+                    </div>
+                    <label class="col-sm-2">Relation</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA " id="txtRelativeRelationtwo">
+                    </div>
+                    <label class="col-sm-2">Mobile</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultNA " id="txtRelativeMobiletwo">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Bed No</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txtBedNo">
+                        <input type="text" class="none" id="txtBedId">
+                    </div>
+                    <label class="col-sm-2">Floor No</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txtFloorNo" disabled>
+                    </div>
+                    <label class="col-sm-2">Bed Charge</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txtBedCharge" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Admission Charge</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txtAdmissionCharge" disabled>
+                    </div>
+                    <label class="col-sm-2">Contract Amount</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control defaultZero" id="txtContractAmmount">
+                    </div>
+                    <label class="col-sm-2">Department</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtIndoorDepartment" disabled></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Reff. Doctor</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control required" id="txtReffDoctor">
+                        <input type="text" class="none" id="txtReffDoctorId">
+                    </div>
+                    <label class="col-sm-2">M.P.O</label>
+                    <div class="col-sm-2">
+                        <select class="form-control required" id="txtmpo"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Under Doctor</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtUnderDoctor">
+                        <input type="text" class="none" id="txtUnderDoctorId">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Admit Doctor</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtAdmitDoctor">
+                        <input type="text" class="none" id="txtAdmitDoctorId">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group text-center">
+                    <input type="submit" class="btn btn-sm btn-info" id="Save" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-sm btn-primary" id="Save" onclick="List();" value="List">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#txtPatientName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetPatientRegistrationList", "PatientRegistrationApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtPatientName").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtId").val(ui.item.ptRegId);
+                $("#txtPatientName").val(ui.item.ptName);
+                $("#txtMobile").val(ui.item.ptMobileNo);
+                $('#txtGender').val(ui.item.ptGendeId);
+                $('#txtGuardian').val(ui.item.ptFatherName);
+                $('#txtAddress').val(ui.item.ptAddress);
+                $('#txtOccupation').val(ui.item.ptOccupation);
+                $('#txtAge').val(ui.item.ptAgeDetail);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Name</th><th>Mobile</th><th>FatherName</th><th>Address</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.ptFatherName + "</td>";
+            html += "<td>" + item.ptAddress + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+        $('#txtReffDoctor').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "Doctorapi/GetDoctorList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtReffDoctor").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtReffDoctorId').val(ui.item.drId);
+                $('#txtReffDoctor').val(ui.item.name);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.code + "</td>";
+            html += "<td>" + item.name + "</td>";
+            html += "<td>" + item.mobileNo + "</td>";
+            html += "<td>" + item.speciality + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+
+        $('#txtUnderDoctor').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "Doctorapi/GetDoctorList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtUnderDoctor").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtUnderDoctorId').val(ui.item.drId);
+                $('#txtUnderDoctor').val(ui.item.name);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.code + "</td>";
+            html += "<td>" + item.name + "</td>";
+            html += "<td>" + item.mobileNo + "</td>";
+            html += "<td>" + item.speciality + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+
+        $('#txtAdmitDoctor').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "Doctorapi/GetDoctorList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtAdmitDoctor").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtAdmitDoctorId').val(ui.item.drId);
+                $('#txtAdmitDoctor').val(ui.item.name);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.code + "</td>";
+            html += "<td>" + item.name + "</td>";
+            html += "<td>" + item.mobileNo + "</td>";
+            html += "<td>" + item.speciality + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+
+    });
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                PtRegId: $('#txtId').val(),
+                DeptId: $('#txtMainDepartment').val(),
+                BedId: $('#txtBedId').val(),
+                BedCharge: $('#txtBedCharge').val(),
+                SubSubPnoId: $('#txtIndoorDepartment').val(),
+                AdmissionCharge: $('#txtAdmissionCharge').val(),
+                ContractAmount: $('#txtContractAmmount').val(),
+                RName1: $('#txtRelativeNameone').val(),
+                Relation1: $('#txtRelativeRelationone').val(),
+                RPhone1: $('#txtRelativeMobileone').val(),
+                RName2: $('#txtRelativeNametwo').val(),
+                Relation2: $('#txtRelativeRelationtwo').val(),
+                RPhone2: $('#txtRelativeMobiletwo').val(),
+                RefDrId: $('#txtReffDoctorId').val(),
+                AdmitDrId: $('#txtAdmitDoctorId').val(),
+                UnderDrId: $('#txtUnderDoctorId').val(),
+                MioId: $('#txtmpo').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                PtAgeDetail: $('#txtAge').val(),
+            };
+            $.ajax({
+                url: apiUrl + "AdmissionApi/Post",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }else {alert("Please fill required field");}
+        return false;
+    }
+
+</script>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            GetGenderList();
+            GetPackageList();
+            GetMainDepartmentList();
+            GetMPOList();
+        })
+    </script>
+}

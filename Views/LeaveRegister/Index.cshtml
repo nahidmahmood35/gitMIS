@@ -1,0 +1,362 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+<div class="col-md-12">
+    <div class="box box-info">
+        <div class="box-header with-border">Leave Register</div>
+        <div class="box-body">
+
+            <div class="form-group">
+                <label class="col-sm-2">Employee Code</label>
+                <div class="col-sm-4">
+                    <select class="form-control select2 selectNoAdd" id="txtEmployeeCode" onchange=GetEmployeeDetailById()></select>
+                </div>
+                <div class="col-sm-4" style="display: none">
+                    <input type="text" class="form-control" id="txtEmployeeId" readonly>
+                </div>
+                <label class="col-sm-2">Employee Name</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="txtEmployeeName" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2">Department</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="txtDepartment" readonly>
+                </div>
+                <label class="col-sm-2">Designation</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="txtDesignation" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2">Purpose</label>
+                <div class="col-sm-3">
+                    <select class="form-control select2 selectNoAdd" id="txtPurpose"></select>
+                </div>
+                <div class="col-sm-1"><a data-toggle="modal" data-target="#newPurpose" class="btn btn-sm btn-success">Add</a></div>
+                <label class="col-sm-2">Leave Type</label>
+                <div class="col-sm-3">
+                    <select class="form-control select2 selectNoAdd" id="txtLeaveType" onchange=CalculationLeaveDays()></select>
+                </div>
+                <div class="col-sm-1"><a data-toggle="modal" data-target="#newLeaveType" class="btn btn-sm btn-success">Add</a></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2">Leave From</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control date" id="txtLeaveFrom">
+                </div>
+                <label class="col-sm-2">Leave To</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control date" id="txtLeaveTo" onchange=GetLeaveDays()>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2">Days</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="txtDays" readonly>
+                </div>
+                <label class="col-sm-2">Rest Leave</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="RestLeave" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2">Apply Date</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control date" id="txtApplyDate">
+                </div>
+                <label class="col-sm-2">Remark</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control " id="txtRemark">
+                </div>
+
+            </div>
+            <div class="modal fade" id="newPurpose" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                            <p class="modal-title">Purpose Type</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-4">Purpose Type Entry</label>
+                                <div class="col-sm-8">
+
+
+                                    <input type="text" class="form-control defaultNA select2" id="txtPurposeTypeEntry" placeholder="Purpose Type Entry">
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewPurposeType()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="newLeaveType" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                            <p class="modal-title">Leave type Entry</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-2">Name</label>
+                                <div class="col-sm-4">
+
+
+                                    <input type="text" class="form-control defaultNA " id="txtLeaveTypeEntry" placeholder="New Leave Type Entry">
+                                </div>
+                                <label class="col-sm-2">Days</label>
+                                <div class="col-sm-4">
+
+
+                                    <input type="text" class="form-control isnumber" id="txtLeaveTypeDayEntry" placeholder="How Many Days Entry">
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewleaveType()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-group text-center">
+                <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        GetEmployeeID();
+        GetPurposeId();
+        GetLeaveTypeId();
+    
+    });
+
+
+    function GetEmployeeID() {
+        //alert('test');
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeList", "LeaveRegisterApi")",
+            dataType: "Json",
+            success: function(data) {
+                //alert(data);
+                $('#txtEmployeeCode').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function(key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtEmployeeCode').append(rows);
+                });
+            },
+
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetEmployeeDetailById() {
+        //calculation();
+        //alert($('#txtEmployeeCode').val());
+        //return false;
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetEmployeeDetailById", "PayRegisterApi")',
+            dataType: "Json",
+
+            data: { 'param': $('#txtEmployeeCode').val() },
+            success: function(data) {
+                //alert(JSON.stringify(data));
+                //alert(data[0].name);
+                //return false;
+                $.each(data, function(key, item) {
+               
+                    $("#txtEmployeeName").val(item.name);
+                    $("#txtDesignation").val(item.designationName);
+                    $("#txtDepartment").val(item.departmentName);
+               
+                });
+                //return false;
+
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+
+
+    }
+    function GetPurposeId() {
+        //alert('test');
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetPurposeId", "LeaveRegisterApi")",
+            dataType: "Json",
+        success: function(data) {
+            //alert(data);
+            $('#txtPurpose').html($("<option></option>").attr("value", 0).text("-- Select --"));
+            $.each(data, function(key, item) {
+                var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                $('#txtPurpose').append(rows);
+            });
+        },
+
+        error: function(errormessage) { alert(errormessage.responseText); }
+    });
+    }
+
+    function GetLeaveTypeId() {
+        //alert('test');
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetLeaveTypeId", "LeaveRegisterApi")",
+            dataType: "Json",
+        success: function(data) {
+            //alert(data);
+            $('#txtLeaveType').html($("<option></option>").attr("value", 0).text("-- Select --"));
+            $.each(data, function(key, item) {
+                var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                $('#txtLeaveType').append(rows);
+            });
+        },
+
+        error: function(errormessage) { alert(errormessage.responseText); }
+    });
+    }
+
+
+    function GetLeaveDays() {
+
+
+        var oneDay = 24 * 60 * 60 * 1000;
+        var ToDate = new Date($('#txtLeaveTo').val());
+        var FromDate = new Date($('#txtLeaveFrom').val());
+        if (FromDate < ToDate) {
+            var diffDays = Math.round(Math.abs((FromDate.getTime() - ToDate.getTime()) / (oneDay)))+1;
+            $('#txtDays').val(diffDays);
+        } else {
+            alert("Please Set date in after from date.");
+            return false;
+        }
+    
+    }
+
+    function SaveNewPurposeType() {
+        
+        if ($('#txtPurposeTypeEntry').val() == '') { $('#txtPurposeTypeEntry').css('border-color', 'Red'); return false; }
+       $.ajax({
+            url: "@UrlConfig.Action("GetSaveNewPurposeType", "LeaveRegisterApi")",
+            type: 'GET',
+        datatype: JSON,
+        data: { 'name': $("#txtPurposeTypeEntry").val() },
+        success: function (data) {
+            //alert(jQuery.type(JSON.stringify(data)));
+            //alert(data);
+            if (data == 'This Name Already Exist') {
+                //$('#newDesignation').modal('hide');
+                alert(data);
+            } else{
+                $('#txtPurpose').append($('<option></option>').val(data.result).html($("#txtPurposeTypeEntry").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            }
+        },
+        error: function (errormessage) { alert(errormessage.responseText); }
+    });
+    return false;
+    }
+    
+    function SaveNewleaveType() {
+        
+        if ($('#txtLeaveTypeEntry').val() == '') { $('#txtLeaveTypeEntry').css('border-color', 'Red'); return false; }
+        if ($('#txtLeaveTypeDayEntry').val() == '') { $('#txtLeaveTypeDayEntry').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveNewleaveType", "LeaveRegisterApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtLeaveTypeEntry").val(), 'day': $("#txtLeaveTypeDayEntry").val() },
+            success: function(data) {
+                //alert(jQuery.type(JSON.stringify(data)));
+                //alert(data);
+                if (data == 'This Name Already Exist') {
+                    //$('#newDesignation').modal('hide');
+                    alert(data);
+                } else {
+
+                    $('#txtLeaveType').append($('<option></option>').val(data.result).html($("#txtLeaveTypeEntry").val()).prop('selected', true));
+                    $('.modal').modal('hide');
+                }
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function CalculationLeaveDays() {
+        if ($('#txtEmployeeCode').val() == '0') {
+            alert('Please at first select employee code then select leave type.');
+        } else {
+            $.ajax({
+                url: "@UrlConfig.Action("GetLeaveCulculation", "LeaveRegisterApi")",
+                type: 'GET',
+            datatype: JSON,
+            data: { 'code': $('#txtEmployeeCode option:selected').text(), 'leaveType': $("#txtLeaveType").val() },
+            success: function (data) {
+                //alert(data);
+                $("#RestLeave").val(data);
+
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+        }
+ 
+    }
+
+    function Save() {
+      
+        if ($('#txtEmployeeCode').val() == 0 || $('#txtPurpose').val() == 0 || $('#txtLeaveType').val() == 0 || $('#txtLeaveFrom').val() == '' || $('#txtLeaveTo').val() == '' || $('#txtApplyDate').val() == '') {
+            alert('please fill up the all fields');
+           return false;
+        } else {
+            var object = {
+                PurposeId: $('#txtPurpose').val(),
+                EmCode: $('#txtEmployeeCode option:selected').text(),
+                LeaveTypeId: $('#txtLeaveType').val(),
+                LeaveFrom: $('#txtLeaveFrom').val(),
+                Remark: $('#txtRemark').val(),
+                Day: $('#txtDays').val(),
+                EntryDay: $('#txtApplyDate').val(),
+            };
+            $.ajax({
+                url: "@UrlConfig.Action("Post", "LeaveRegisterApi")",
+                data: JSON.stringify(object),
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            datatype: JSON,
+            success: function (data) {
+                if (data.output != "error") {
+                    alert(data.msg);
+                    location.reload(true);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+
+
+        }
+    } 
+</script>

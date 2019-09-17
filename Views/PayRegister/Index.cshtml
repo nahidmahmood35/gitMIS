@@ -1,0 +1,529 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel with-nav-tabs panel-info">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a class="grid-btn" href="#tab1default" data-toggle="tab">Pay Register</a></li>
+                    @*<li><a href="#tab2default" data-toggle="tab">Employee List</a></li>*@
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1default">
+                        
+                        <h4 style="text-align: center; text-decoration-line: underline; text-decoration-style: solid; ">Employee General Information</h4>
+                       
+                        <div class="form-group">
+                            <label class="col-sm-1">EmpId</label>
+                            <div class="col-sm-2">
+                                <select class="form-control select2 selectNoAdd" id="txtEmployeeId" name="txtEmployeeId" onchange=GetEmployeeDetailById()></select>
+                            </div>
+                            <div class="col-sm-4" style="display: none">
+                                <input type="text" class="form-control" id="txtEmployeeId" readonly>
+                            </div>
+                            <label class="col-sm-1">Name</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtEmployeeName" readonly>
+                            </div>
+                            <label class="col-sm-1">Disingation</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="txtDisingation" readonly>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1">Department</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="txtDepartment" readonly>
+                            </div>
+                            <label class="col-sm-2">Absent Days</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtAbsentDays" readonly>
+                            </div>
+                            <label class="col-sm-2">Date of Join</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtDOJ" readonly>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Bank Account No</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtBankAccountNo" readonly>
+                            </div>
+                            <label class="col-sm-2">Name Of Month</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtNameOfMonth" readonly>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Project Name</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtProjectName" readonly>
+                            </div>
+                            <label class="col-sm-2">Payable Days</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtPayableDays" readonly>
+                            </div>
+
+                        </div>
+                        <h4 style="text-align: center; text-decoration-line: underline; text-decoration-style: solid; margin-top: 25px; ">Basic Allowances</h4>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2">Basic</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtBasicAl" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">House Rent</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtHouseRentAi" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Conveyance</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtConveyanceAi" onkeyup="sumAI();">
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Project</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtProjectAi" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Mobile</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtMobileAi" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Night</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtNightAi" onkeyup="sumAI();">
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Medical</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtMedicalAi" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Technical</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtTechnicalAi" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Meal</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtMealAi" onkeyup="sumAI();">
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Transport</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtTransportAi" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Other</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtOtherAi" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Total Allowances</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtTotalAi" readonly>
+                            </div>
+
+
+                        </div>
+                        <h4 style="text-align: center; text-decoration-line: underline; text-decoration-style: solid; margin-top: 25px; ">Basic Deduction</h4>
+                        <div class="form-group">
+                            <label class="col-sm-2">ProvidentFund</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtProvidentFundDeduct" onkeyup="sumDeduct();">
+                            </div>
+                            <label class="col-sm-2">TDS</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtTDSDeduct" onkeyup="sumDeduct();">
+                            </div>
+                            <label class="col-sm-2">Security</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtSecurityDeduct" onkeyup="sumDeduct();">
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Others</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtOthersDeduct" onkeyup="sumDeduct();">
+                            </div>
+                            <label class="col-sm-2">Basic</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtBasicDeduction" onkeyup="sumDeduct();">
+                            </div>
+                            <label class="col-sm-2">Total Basic Deduction</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control " id="txtTotalDeduction" readonly>
+                            </div>
+
+
+                        </div>
+                        <h4 style="text-align: center; text-decoration-line: underline; text-decoration-style: solid; margin-top: 25px; ">Arrear</h4>
+                        <div class="form-group">
+                            <label class="col-sm-2">Salary</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearSalary" onkeyup="sumArrear();">
+                            </div>
+                            <label class="col-sm-2">Bonus</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearBonus" onkeyup="sumArrear();">
+                            </div>
+                            <label class="col-sm-2">Conveyance</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearConveyance" onkeyup="sumArrear();">
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Mobile</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearMobile" onkeyup="sumArrear();">
+                            </div>
+                            <label class="col-sm-2">Medical</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearMedical" onkeyup="sumArrear();">
+                            </div>
+                            <label class="col-sm-2">Washing</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearWashing" onkeyup="sumArrear();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">OverTime</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearOverTime" onkeyup="sumArrear();">
+                            </div>
+                            <label class="col-sm-2">Transport</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearTransport" onkeyup="sumArrear();">
+                            </div>
+                            <label class="col-sm-2">DayAllowances</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearDayAllowances" onkeyup="sumArrear();">
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Others</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtArrearOthers" onkeyup="sumArrear();">
+                            </div>
+                            <label class="col-sm-2">Total Arrear</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtTotalArrear" readonly>
+                            </div>
+                            
+                        </div>
+                        <h4 style="text-align: center; text-decoration-line: underline; text-decoration-style: solid; margin-top: 25px; ">Other Detuction</h4>
+                        <div class="form-group">
+                            <label class="col-sm-2">Loan</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtLoan" onkeyup="sumOtherDeduction();">
+                            </div>
+                            <label class="col-sm-2">Advance</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control " id="txtAdvance" onkeyup="sumOtherDeduction();">
+                            </div>
+                            <label class="col-sm-2">Late Absence</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtLateAbsence" onkeyup="sumOtherDeduction();">
+                            </div>
+                           
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Other</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtOther" onkeyup="sumOtherDeduction();">
+                            </div>
+                            <label class="col-sm-3">Total Other Deduction</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtTotalOtherDeduction">
+                            </div>
+                        </div>
+                        
+                        <h4 style="text-align: center; text-decoration-line: underline; text-decoration-style: solid; margin-top: 25px; ">Summary Of Salary</h4>
+                        <div class="form-group">
+                            <label class="col-sm-2">Gross Salary</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtGrossSalary" readonly>
+                            </div>
+                            <label class="col-sm-2">Total Paybel Salary</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtTotalPaybelSalary" readonly>
+                            </div>
+                            <label class="col-sm-2">Net Payment</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="txtNetPayment" readonly>
+                            </div>
+                
+
+                        </div>
+                     
+                        <div class="button-group text-center">
+                            <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save()" value="Save">
+                        </div>
+                        
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    $(document).ready(function () {
+        GetEmployeeID();
+        
+    });
+
+    function GetEmployeeID() {
+        //alert('test');
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeId", "PayRegisterApi")",
+            dataType: "Json",
+            success: function(data) {
+                //alert(data);
+                $('#txtEmployeeId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function(key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtEmployeeId').append(rows);
+                });
+            },
+
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetEmployeeDetailById() {
+        //alert($('#txtEmployeeId').val());
+        //return false;
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetEmployeeDetailById", "PayRegisterApi")',
+            dataType: "Json",
+
+            data: { 'param': $('#txtEmployeeId').val() },
+            success: function(data) {
+                //alert(JSON.stringify(data));
+                //alert(data[0].name);
+                //return false;
+                $.each(data, function(key, item) {
+                    //alert(item.projectId);
+                    $("#txtEmployeeId").val(item.empId);
+                    $("#txtEmployeeName").val(item.name);
+                    $("#txtDisingation").val(item.designationName);
+                    $("#txtDepartment").val(item.departmentName);
+                    $("#txtAbsentDays").val(item.absentDays);
+                    $("#txtDOJ").val(ToJsonDate(item.emDoj));
+                    $("#txtBankAccountNo").val(item.employeeBankAccountNo);
+                    $("#txtNameOfMonth").val(item.monthName);
+                    $("#txtProjectName").val(item.projectName);
+
+                    $("#txtBasicAl").val(item.basic_Al);
+                    $("#txtHouseRentAi").val(item.houseRent_Al);
+                    $("#txtConveyanceAi").val(item.conveyance_Al);
+                    $("#txtProjectAi").val(item.project_Al);
+                    $("#txtMobileAi").val(item.mobile_Al);
+                    $("#txtNightAi").val(item.night_Al);
+                    $("#txtMedicalAi").val(item.medical_Al);
+                    $("#txtTechnicalAi").val(item.technical_Al);
+                    $("#txtMealAi").val(item.meal_Al);
+                    $("#txtTransportAi").val(item.transport_Al);
+                    $("#txtOtherAi").val(item.other_Al);
+                    $("#txtTotalAi").val(item.basicEarning);
+
+                    $("#txtProvidentFundDeduct").val(item.providentFund_Deduct);
+                    $("#txtTDSDeduct").val(item.tdS_Deduct);
+                    $("#txtSecurityDeduct").val(item.security_Deduct);
+                    $("#txtOthersDeduct").val(item.others_Deduct);
+                    $("#txtBasicDeduction").val(item.basicDeduction);
+
+                    $("#txtGrossSalary").val(item.emGrossSalary);
+
+                    $("#txtArrearSalary").val(item.arrear_Salary);
+                    $("#txtArrearBonus").val(item.arrear_Bonus);
+                    $("#txtArrearConveyance").val(item.arrear_Conveyance);
+                    $("#txtArrearMobile").val(item.arrear_Mobile);
+                    $("#txtArrearMedical").val(item.arrear_Medical);
+                    $("#txtArrearWashing").val(item.arrear_Washing);
+                    $("#txtArrearOverTime").val(item.arrear_OverTime);
+                    $("#txtArrearTransport").val(item.arrear_Transport);
+                    $("#txtArrearDayAllowances").val(item.arrear_DayAllowances);
+                    $("#txtArrearOthers").val(item.arrear_Others);
+                    $("#txtTotalArrear").val(item.totalArrear);
+
+                    $("#txtTotalPaybelSalary").val(item.totalPayableSalary);
+
+                    $("#txtLoan").val(item.deduct_Loan);
+                    $("#txtAdvance").val(item.deduct_Advance);
+                    $("#txtLateAbsence").val(item.deduct_Late_Absence);
+                    $("#txtOther").val(item.deduct_Others);
+                    $("#txtTotalOtherDeduction").val(item.total_Other_Deduction);
+
+                    $("#txtNetPayment").val(item.netPayment);
+
+                });
+                //return false;
+
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+
+
+    }
+
+
+    function sumAI() {
+        var sum = parseFloat($("#txtBasicAl").val()) + parseFloat($("#txtHouseRentAi").val()) + parseFloat($("#txtConveyanceAi").val())
+            + parseFloat($("#txtProjectAi").val()) + parseFloat($("#txtMobileAi").val()) + parseFloat($("#txtNightAi").val())
+            + parseFloat($("#txtMedicalAi").val()) + parseFloat($("#txtTechnicalAi").val()) + parseFloat($("#txtMealAi").val())
+            + parseFloat($("#txtTransportAi").val()) + parseFloat($("#txtOtherAi").val());
+        $("#txtTotalAi").val(sum);
+        return sum;
+    }
+
+    function sumDeduct() {
+        var sum = parseFloat($("#txtProvidentFundDeduct").val()) + parseFloat($("#txtTDSDeduct").val()) + parseFloat($("#txtSecurityDeduct").val())
+            + parseFloat($("#txtOthersDeduct").val()) + parseFloat($("#txtBasicDeduction").val());
+        $("#txtTotalDeduction").val(sum);
+        var grossSalary = sumAI() - sum;
+
+        $("#txtGrossSalary").val(grossSalary);
+        return sum;
+    }
+
+    function sumArrear() {
+        var sum = parseFloat($("#txtArrearSalary").val()) + parseFloat($("#txtArrearBonus").val()) + parseFloat($("#txtArrearConveyance").val())
+            + parseFloat($("#txtArrearMobile").val()) + parseFloat($("#txtArrearMedical").val()) + parseFloat($("#txtArrearWashing").val()) + parseFloat($("#txtArrearOverTime").val()) + parseFloat($("#txtArrearTransport").val())
+            + parseFloat($("#txtArrearDayAllowances").val()) + parseFloat($("#txtArrearOthers").val());
+
+        $("#txtTotalArrear").val(sum);
+        var totalPaybalSalary = sumAI() + sum;
+        $("#txtTotalPaybelSalary").val(totalPaybalSalary);
+        return totalPaybalSalary;
+
+        //var total = parseFloat($("#txtTotalAi").val()) + sum;
+        //$("#txtTotalPayable").val(total);
+
+        //var netPaybul = total - parseFloat($("#txtTotalDeduction").val());
+        //$("#txtNetPAyable").val(netPaybul);
+
+    }
+
+    function sumOtherDeduction() {
+        var sum = parseFloat($("#txtLoan").val()) + parseFloat($("#txtAdvance").val()) + parseFloat($("#txtLateAbsence").val())
+            + parseFloat($("#txtOther").val());
+        $("#txtTotalOtherDeduction").val(sum);
+        var netPayment = sumArrear() - (sumDeduct() + sum);
+        $("#txtNetPayment").val(netPayment);
+
+    }
+
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                EmpId: $("#txtEmployeeId").val(),
+
+                Basic_Al: $("#txtBasicAl").val(),
+                HouseRent_Al: $("#txtHouseRentAi").val(),
+                Conveyance_Al: $("#txtConveyanceAi").val(),
+                Project_Al: $("#txtProjectAi").val(),
+                Mobile_Al: $("#txtMobileAi").val(),
+                Night_Al: $("#txtNightAi").val(),
+                Medical_Al: $("#txtMedicalAi").val(),
+                Technical_Al: $("#txtTechnicalAi").val(),
+                Meal_Al: $("#txtMealAi").val(),
+                Transport_Al: $("#txtTransportAi").val(),
+                Other_Al: $("#txtOtherAi").val(),
+                BasicEarning: $("#txtTotalAi").val(),
+
+                ProvidentFund_Deduct: $("#txtProvidentFundDeduct").val(),
+                TDS_Deduct: $("#txtTDSDeduct").val(),
+                Security_Deduct: $("#txtSecurityDeduct").val(),
+                Others_Deduct: $("#txtOthersDeduct").val(),
+                BasicDeduction: $("#txtBasicDeduction").val(),
+
+                EmGrossSalary : $("#txtGrossSalary").val(),
+                
+                Arrear_Salary: $("#txtArrearSalary").val(),
+                Arrear_Bonus: $("#txtArrearBonus").val(),
+                Arrear_Conveyance: $("#txtArrearConveyance").val(),
+                Arrear_Mobile: $("#txtArrearMobile").val(),
+                Arrear_Medical: $("#txtArrearMedical").val(),
+                Arrear_Washing: $("#txtArrearWashing").val(),
+                Arrear_OverTime: $("#txtArrearOverTime").val(),
+                Arrear_Transport: $("#txtArrearTransport").val(),
+                Arrear_DayAllowances: $("#txtArrearDayAllowances").val(),
+                Arrear_Others: $("#txtArrearOthers").val(),
+                TotalArrear: $("#txtTotalArrear").val(),
+
+                TotalPayableSalary: $("#txtTotalPaybelSalary").val(),
+
+                Deduct_Loan : $("#txtLoan").val(),
+                Deduct_Advance : $("#txtAdvance").val(),
+                Deduct_Late_Absence : $("#txtLateAbsence").val(),
+                Deduct_Others :$("#txtOther").val(),
+                Dotal_Other_Deduction : $("#txtTotalOtherDeduction").val(),
+
+                NetPayment : $("#txtNetPayment").val(),
+
+                
+
+            };
+            //alert(JSON.stringify(object));
+            //return false;
+            $.ajax({
+                url: "@UrlConfig.Action("Post", "PayRegisterApi")",
+                data: JSON.stringify(object),
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            datatype: JSON,
+            success: function (data) {
+                if (data.output != "error") {
+                    alert(data.msg);
+                    location.reload(true);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+    else {
+            alert("Please fill required field");
+    }
+    return false;
+    }
+
+
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+</script>
+

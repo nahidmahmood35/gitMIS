@@ -1,0 +1,230 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border"><span>Purchase Payment</span></div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Company Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtCompanyNameId" maxlength="11" onchange="GetPurchaseInvNo()">
+                        <input type="text" class="none" id="txtCompanyId">
+                    </div>
+                    <label class="col-sm-2">Purchase Invoice</label>
+                    <div class="col-sm-4">
+                        <select class="form-control required" id="txtPurchaseInvNo" onchange="GetInvDetail()"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Due Amount </label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtDueAmount">
+                    </div>
+                    <label class="col-sm-2">Purchase Date</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPurchaseInvDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Less Amount</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultNA" id="txtLessAmount">
+                    </div>
+                    <label class="col-sm-2">Paid Amount </label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultNA" id="txtPaidAmount">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="table-scrollable">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <th class="col-sm-2">Invoice No</th>
+                                <th class="col-sm-2">Invoice Date</th>
+                                <th class="col-sm-2">Due Amount</th>
+                                <th class="col-sm-2">Paid Amount</th>
+                                <th class="col-sm-2">Less Amount</th>
+                            </thead>
+                            <tbody class="text-center" id="tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Total Paid</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultNA" id="txtTotalPaid">
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="submit" class="btn btn-sm btn-info" onclick="AdjustPaid();" value="Adjust">
+                    </div>
+                    <label class="col-sm-2">Remarks</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultNA" id="txtRemarks">
+                    </div>
+                </div>
+
+                <div class="button-group text-center">
+                            <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+                            <input type="submit" class="btn btn-sm btn-danger none" id="btnDelete" value="Delete">
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#txtCompanyNameId').autocomplete({
+            source: function (request, response) {
+                $.ajax({                                            
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetCompanyListByName", "PharPurchasePaymentApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtCompanyNameId").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtCompanyNameId").val(ui.item.name);
+                $("#txtCompanyId").val(ui.item.id);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Id</th><th>Name</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.id + "</td>";
+            html += "<td>" + item.name + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                InvoiceNo: $('#txtPurchaseInvNo').val(),
+                InvoiceDate: $('#txtPurchaseInvDate').val(),
+                CompanyId: $('#txtCompanyId').val(),
+                LessAmount: $('#txtLessAmount').val(),
+                PaymentAmount: $('#txtPaidAmount').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            };
+
+            alert(JSON.stringify(object));
+          //  return false;
+
+            $.ajax({
+                url: "@UrlConfig.Action("Save", "PharPurchasePaymentApi")",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+
+                success: function(data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function(errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        } else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+
+
+    function validation() {
+        var isValid = true;
+        return isValid;
+    }
+
+
+    function GetPurchaseInvNo() {
+        $('#tbody').empty();
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetPurchaseInvNo", "PharPurchasePaymentApi")',
+            dataType: "Json",
+            data: { searchString: $("#txtCompanyId").val() },
+            success: function (data) {
+                $('#txtPurchaseInvNo').html('').select2({ data: [{ id: 0, text: "---Select---" }] });
+                $.each(data, function(key, item) {
+                    var rows = "<option value=" + item.invoiceNo + ">" + item.invoiceNo + "-" + ToJsonDate(item.invoiceDate) + "</option>";
+                    $('#txtPurchaseInvNo').append(rows);
+                });
+                
+                $.each(data, function (key, item) {
+                    var rows = "<tr id=" + item.invoiceNo + ">"
+                        + "<td>" + item.invoiceNo + "</td>"
+                        + "<td>" + ToJsonDate(item.invoiceDate) + "</td>"
+                        + "<td>" + item.dueAmount + "</td>"
+                        + "<td id='txtAdjustAmt'></td>"
+                        + "<td><input type='text' class='form-control defaultNA' id='txtLessAmount'></td>"
+                        + "</tr>";
+                    $('#tbody').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function AdjustPaid() {
+        var deuList = [];
+        var table = $('table #tbody');
+        table.find('tr').each(function() {
+            var $tds = $(this).find('td'),
+                dueAmount = parseFloat($tds.eq(2).text()),
+                paidAmount = parseFloat($("#txtTotalPaid").val());
+            deuList.push(dueAmount);
+        });
+        alert(JSON.stringify(deuList));
+    }
+
+    function GetInvDetail() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetInvDetail", "PharPurchasePaymentApi")',
+            dataType: "Json",
+            data: { searchString: $("#txtPurchaseInvNo").val() },
+            success: function (data) {
+                $("#txtDueAmount").val(data[0].dueAmount);
+                $("#txtPurchaseInvDate").val(ToJsonDate(data[0].invoiceDate));
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+ 
+
+    $("#txtPaidAmount, #txtDueAmount, #txtLessAmount").on('keyup', function () {
+        var paidAmount = parseFloat($("#txtPaidAmount").val());
+        var lessAmount = parseFloat($("#txtLessAmount").val());
+        var dueAmount = parseFloat($("#txtDueAmount").val());
+        var totalPaid = paidAmount + lessAmount;
+
+        if (dueAmount < totalPaid) {
+            alert("Less and Paid Amount Cannot be More Than Due");
+            $("#txtLessAmount").val(0);
+            $("#txtPaidAmount").val(0);
+            return false;
+        }
+    });
+
+
+</script>

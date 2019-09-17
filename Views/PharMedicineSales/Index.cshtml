@@ -1,0 +1,726 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="box box-info">
+            <div class="box-header with-border">Patient Info</div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Reg No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtRegistrationNo" />
+                        <input type="text" class="none" id="txtId" />
+                    </div>
+                    <label class="col-sm-2">Indoor ID</label>
+                    <div class="col-sm-4">
+                        <select class="form-control select2" id="txtIndoorPatientID">
+                            <option value="0">--Select--</option>
+                            <option value="1">Patient Id</option>
+                            <option value="2">Patient Id 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientName" disabled>
+                    </div>
+                    <label class="col-sm-2">Mobile</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtMobileNo" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Age</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientAge" disabled>
+                    </div>
+                    <label class="col-sm-2">Gender</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientGender" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtPatientAddress" disabled>
+                    </div>
+                </div>
+
+                <div class="div-display">
+                    <div class="form-group">
+                        <label class="col-sm-2">Patient</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="none" id="txtId">
+                            <input type="text" class="form-control" id="txtNameOfPatient">
+                        </div>
+                        <label class="col-sm-2">Addmission</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="txtAddmissionDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">Address </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="txtAddress">
+                        </div>
+                        <label class="col-sm-2">Bed No</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="txtBedNo">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="table-scrollable">
+                        <table class="grid-table table table-striped table-hover table-bordered">
+                            <tbody class="text-center" id="tbody"></tbody>
+                        </table>
+                    </div>
+                    <table class="entry-form table table-bordered">
+                        <tr>
+                            <td class="none"><input type="text" class="none" id="txtMedicineId"></td>
+                            <td class="col-sm-5"><input type="text" class="form-control" id="txtNameOfMedicine" onkeypress="GetMedicineInfoById(event)"></td>
+                            <td class="none"><input type="text" id="txtCompanyId"></td>
+                            <td class="col-sm-1"><input type="text" class="form-control" id="txtTStock" disabled></td>
+                            <td class="col-sm-1"><input type="text" class="form-control" id="txtMrp" disabled></td>
+                            <td class="col-sm-2"><input type="text" class="form-control isnumber" id="txtQty"></td>
+                            <td class="col-sm-2"><input type="text" class="form-control" id="txtAmount" disabled></td>
+                            <td class="col-sm-1"><button type="button" class="btn btn-sm btn-blue" id="btnAdd" onclick="add();">Add</button></td>
+                        </tr>
+                        <tfoot>
+                            <tr>
+                                <th class="text-center">Medicine Name</th>
+                                <th class="text-center">Stock</th>
+                                <th class="text-center">MRP</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-center">Total Amt</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="box box-info">
+            <div class="box-header with-border">Payment Info</div>
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label class="col-sm-6">Total Amount</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtTotalAmount" disabled />
+                        </div>
+                    </div>
+                    <label class="col-sm-6">Less Amount</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control isnumber" id="txtLessAmount" />
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="txtLessTkOrPc">
+                            <option value="">--</option>
+                            <option value="Tk.">Tk</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Total Less</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtTotalLessAmount" disabled />
+                        <input type="text" class="form-control" id="txtTotalLessTk" value="0"/>
+                        <input type="text" class="form-control" id="txtTotalLessPc" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6">Net Payable</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtNetPayable" disabled />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6">Receive Amount</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control defaultZero" id="txtReceiveAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Due Amount</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtDueAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="payment-method">
+                        <ul class="navigation">
+                            <li class="active"><a data-toggle="tab" href="#cash">Cash</a></li>
+                            <li><a data-toggle="tab" href="#card">Card</a></li>
+                            <li><a data-toggle="tab" href="#Cheque">Cheque</a></li>
+                        </ul>
+                        <div class="user-body">
+                            <div class="tab-content">
+                                <div id="cash" class="tab-pane active">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cash Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtCashAmount" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="card" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Card Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtCardAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Card Number</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtCardNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Bank Name</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="txtCardBankId">
+                                                <option value="0">-- Select --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Cheque" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cheque Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtChequeAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cheque Number</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtChequeNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Bank Name</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="txtChequeBankId">
+                                                <option value="0">-- Select --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Remarks</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control defaultNA" id="txtRemarks" />
+                    </div>
+                </div>
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-sm btn-primary" id="btnList" value="View All">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+     //   GetRegId();
+        GetBankListCard();
+        GetBankListCheque();
+        $("#txtLess").val(0);
+        $("#txtCardAmount").val(0);
+        $("#txtCashAmount").val(0);
+        $("#txtChequeAmount").val(0);
+        $("#txtLessAmount").val(0);
+        $('#txtNameOfMedicine').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetMedicineName", "PharMedicineSalesApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtNameOfMedicine").val() },
+                    success: function(data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            position: { collision: "flip" },
+            select: function (event, ui) {
+                $("#txtMedicineId").val(ui.item.id);
+                GetPharStock();
+                $("#txtNameOfMedicine").val(ui.item.name);
+                $("#txtTp").val(ui.item.tp);
+                $("#txtMrp").val(ui.item.salesPrice);
+                $("#txtCompanyId").val(ui.item.companyId);
+                $("#txtQty").val(1);
+                CalcPrice();
+                $("#txtQty").focus();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function(ul, item) {
+            if (ul.children().length === 0) {$("<thead><tr><th>Id</th><th>Name</th><th> MRP</th><th>Code</th><th>Company</th><</tr></thead>").appendTo(ul);}
+            var html = "<td>" + item.id + "</td>";
+            html += "<td>" + item.name + "</td>";
+            html += "<td>" + item.salesPrice + "</td>";
+            html += "<td>" + item.code + "</td>";
+            html += "<td>" + item.companyName + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+        $('#txtRegistrationNo').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetPatientRegistrationList", "PatientRegistrationApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtRegistrationNo").val() },
+                    success: function(data) {
+                        //  alert();
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $("#txtId").val(ui.item.ptId);
+                $("#txtRegistrationNo").val(ui.item.ptRegNo);
+                $("#txtPatientName").val(ui.item.ptName);
+                $("#txtMobileNo").val(ui.item.ptMobileNo);
+                $('#txtPatientGender').val(ui.item.ptGenderName);
+                $('#txtPatientAddress').val(ui.item.ptAddress);
+                $('#txtPatientAge').val(ui.item.ptAgeDetail);
+                // $('#txtRefDoctorName').focus();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function(ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead id='asd'><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.ptFatherName + "</td>";
+            html += "<td>" + item.ptAddress + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });                 // end doc ready
+
+
+
+
+    $('#btnList').on('click', function () {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    });
+    
+
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "order": [[1, "desc"]], 
+            "ajax": {
+                url: apiUrl + "PharMedicineSalesApi/GetInvoiceList?userName=" +@System.Web.HttpContext.Current.Session["UserName"] +"",
+                dataSrc: ""
+            },
+            "columns": [
+                { "data": "invoiceNo", "title": "InvoiceNo" },
+                { "data": "invoiceDate", "name": "InvoiceDate", "render": function (data) { return (window.ToJsonDate(data)); } },
+                { "data": "customerName", "title": "Name " },
+                { "data": "totalPrice", "title": "Total Price " },
+                {"data": "invoiceNo", width: "80px", "title": "Action",
+                    "render": function (data) {
+                        return "<a href='javascript:;' class='md-trigger' onclick='return GetReprintByInvoice(\"" + data + "\")'><span class='glyphicon glyphicon-edit'></span></a>";
+                    }
+                }
+            ]
+        });
+    }
+
+    function GetReprintByInvoice(param) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "PharMedicineSalesApi/GetReprintInvoice",
+            dataType: "Json",
+            data: { 'refNo': param },
+            success: function (data) {
+                var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                $(document).ready(function (e) {
+                    detectPopup();
+                    function detectPopup() {
+                        if (!popupWindow) {
+                            alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                            return false;
+                        } else {
+                            window.open('', '_self');
+                            window.close();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+
+    function GetMedicineInfoById(event) {
+        if (event.keyCode == 13 && $("#txtNameOfMedicine").val()!=null) {
+            $.ajax({
+                type: "GET",
+                url: '@UrlConfig.Action("GetMedicineInfoById", "PharMedicineSalesApi")',
+                dataType: "Json",
+                data: { 'param': $("#txtNameOfMedicine").val() },
+                success: function (data) {
+                    //alert(JSON.stringify(data));
+                    $("#txtMedicineId").val(data[0].id);
+                    GetPharStock();
+                    $("#txtNameOfMedicine").val(data[0].name);
+                    $("#txtTp").val(data[0].tp);
+                    $("#txtMrp").val(data[0].salesPrice);
+                    $("#txtCompanyId").val(data[0].companyId);
+                    $("#txtQty").val(1);
+                    CalcPrice();
+                    $("#txtQty").focus();
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+
+
+        }
+    }
+
+
+    function GetBankListCard() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetBankList", "PharMedicineSalesApi")',
+            dataType: "Json",
+            success: function (data) {
+                $('#txtCardBankId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtCardBankId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetBankListCheque() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetBankList", "PharMedicineSalesApi")',
+            dataType: "Json",
+            success: function (data) {
+                $('#txtChequeBankId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtChequeBankId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetPharStock() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetPharStock", "PharMedicineSalesApi")',
+            dataType: "Json",
+            data: { 'searchString': $("#txtMedicineId").val(),'userName': "@System.Web.HttpContext.Current.Session["UserName"]",},
+            success: function (data) {
+                $("#txtTStock").val(data);
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function Save() {
+        var res = validation();
+        var custom = customvalid();
+        var regId = 0;
+        regId = $("#txtId").val();
+        if (regId == NaN || regId == 0) {
+            regId = 1;
+        }
+        if (res & custom == true) {
+            var vouchers = [];
+            var table = $('table #tbody');
+            table.find('tr').each(function () {
+                var $tds = $(this).find('td'),
+                    tProductId = $tds.eq(0).text(),
+                    tCompanyId = $tds.eq(2).text(),
+                    tmedicineName = $tds.eq(1).text(),
+                    tSalesPrice = $tds.eq(4).text(),
+                    tTp = $tds.eq(5).text(),
+                    tNewTp = $tds.eq(5).text(),
+                    tProductQty = $tds.eq(6).text(),
+                    tItemLessTk = $tds.eq(8).text(),
+                    tTotalPrice = $tds.eq(7).text();
+
+                var voucher = {
+                    ItemId: tProductId,
+                    CompanyId: tCompanyId,
+                    SalesPrice: tSalesPrice,
+                    Quantity: tProductQty,
+                    TotalPrice: tTotalPrice,
+                    AvgPurchasePrice: tTp,
+                    NewTp: tNewTp,
+                    Name: tmedicineName,
+                    ItemLessTk: tItemLessTk,
+                    Status: $('input[name=ptType]:checked').val(),
+                    RegNo: regId,
+                    AddmissionDate: $("#txtAddmissionDate").val(),
+                    BedNo: $("#txtBedNo").val(),
+                    TotalAmt: $("#txtTotalAmount").val(),
+                    PaymentAmt: $("#txtNetPayable").val(),
+                    LessAmt: $("#txtLessAmount").val(),
+                    LessPcOrTk: $("#txtLessTkOrPc").val(),
+                    TotalLess: $("#txtTotalLessAmount").val(),
+                    CashAmt: $("#txtCashAmount").val(),
+                    CardAmt: $("#txtCardAmount").val(),
+                    CardNumber: $("#txtCardNumber").val(),
+                    CardBankId: $("#txtCardBankId").val(),
+                    ChequeAmt: $("#txtChequeAmount").val(),
+                    CheaqueNumber: $("#txtChequeNumber").val(),
+                    ChequeBankId: $("#txtChequeBankId").val(),
+                    AdvanceAmt: $("#txtReceiveAmount").val(),
+                    DueAmt: $("#txtDueAmount").val(),
+                    Remarks:$("#txtRemarks").val(),
+                    UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                };
+                vouchers.push(voucher);
+            });
+          //  alert(JSON.stringify(vouchers));
+            //return false;
+            var json = { aModels: vouchers };
+            $.ajax({
+                type: "POST",
+                url: '@UrlConfig.Action("Save", "PharMedicineSalesApi")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    if (data.Output != "error") {
+                        alert(data.Msg);
+                        window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                        location.reload(true);
+                                 }
+                    else {
+                        alert(data.Msg);
+                    }
+                }
+            });
+            return false;
+        }
+        else {alert("Please fill required field");}
+        return false;
+    }
+    function add() {
+        var res = validate();
+        if (res == false) {
+            return false;
+        }
+        var medicineId = $("#txtMedicineId").val();
+        var medicineName = $("#txtNameOfMedicine").val();
+        var companyId = $("#txtCompanyId").val();
+        var productQty = $("#txtQty").val();
+        var salesprice = $("#txtMrp").val();
+        var totalAmount = $("#txtAmount").val();
+        var stockAmount = $("#txtTStock").val();
+        var tp = $("#txtTp").val();
+        var html = '';
+        if ($('#tbody').html != '') {
+            html = $('#tbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr>';
+        html += '<td class="none">' + medicineId + '</td>';
+        html += '<td>' + medicineName + '</td>';
+        html += '<td class="none">' + companyId + '</td>';
+        html += '<td class="none">' + stockAmount + '</td>';
+        html += '<td>' + salesprice + '</td>';
+        html += '<td>' + tp + '</td>';
+        html += '<td class="qty">' + productQty + '</td>';
+        html += '<td class="ItemTotal">' + totalAmount + '</td>';
+        html += '<td class="" id="txtItemLessTk"></td>';
+        html += '<td class="col-sm-1"><a href="javascript:;" class="deleteRow"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        html += '</tr>';
+        $('#tbody').html(html);
+        $("#txtTotalAmount").val(parseFloat(sumColumn(8)));
+        $("#txtNetPayable").val(parseFloat(sumColumn(8)));
+        $("#txtDueAmount").val(parseFloat(sumColumn(8)));
+        $('.entry-form input').val("");
+        return false;
+    }
+
+    function CalcPrice() {
+        var totalPrice = parseFloat($("#txtMrp").val()) * parseFloat($("#txtQty").val());
+        $("#txtAmount").val(totalPrice);
+    }
+
+    $("#txtQty").on('keyup', function () {
+        var totalPrice = parseFloat($("#txtMrp").val()) * parseFloat($("#txtQty").val());
+        $("#txtAmount").val(totalPrice);
+    });
+
+    $("#txtLessAmount").on('keyup', function () {
+        if ($("#txtLessTkOrPc").val() != '') {
+            var amount = lessTkOrPc('#txtTotalAmount', '#txtLessAmount', '#txtLessTkOrPc');
+            $("#txtTotalLessAmount").val(amount[0]);
+            $("#txtNetPayable").val(amount[1]);
+            $("#txtReceiveAmount").val(amount[1]);
+            $("#txtDueAmount").val(0);
+        }
+
+        updateGridLess();
+    });
+
+    $("#txtLessTkOrPc").on('change', function () {
+        if ($("#txtLessTkOrPc").val() != '') {
+            var amount = lessTkOrPc('#txtTotalAmount', '#txtLessAmount', '#txtLessTkOrPc');
+            $("#txtTotalLessAmount").val(amount[0]);
+            $("#txtNetPayable").val(amount[1]);
+            $("#txtReceiveAmount").val(amount[1]);
+            $("#txtDueAmount").val(0);
+        }
+        updateGridLess();
+    });
+    function calculateGrid() {
+        $("#tbody #txtItemLessTk").each(function () {
+            var less = parseFloat($("#txtTotalLessTk").val()).toFixed(6);
+            var totalprice = parseFloat($("#txtTotalAmount").val()).toFixed(6);
+            var itemTotal = parseFloat($(this).closest("tr").find('.ItemTotal').text()).toFixed(6);
+            var itemQty = parseFloat($(this).closest("tr").find('.qty').text()).toFixed(6);
+            var itemLessTk = (less * itemTotal) / (totalprice * itemQty);
+            $(this).text(parseFloat(itemLessTk).toFixed(6));
+        });
+    }
+
+    function updateGridLess (){
+
+        var less = parseFloat($("#txtLessAmount").val()).toFixed(6);
+        var totalprice = parseFloat($("#txtTotalAmount").val()).toFixed(6);
+
+        if ($("#txtLessTkOrPc").val() == "%") {
+            $("#txtTotalLessPc").val(less);
+            $("#txtTotalLessTk").val(parseFloat(less) * parseFloat(totalprice) * 0.01);
+        }
+        if ($("#txtLessTkOrPc").val() == "Tk.") {
+            $("#txtTotalLessPc").val((parseFloat(less) * 100) / parseFloat(totalprice));
+            $("#txtTotalLessTk").val(less);
+        }
+
+        calculateGrid();
+    }
+    $("#txtCashAmount, #txtCardAmount, #txtChequeAmount").keyup(function () {
+        var cash = parseFloat($("#txtCashAmount").val());
+        var card = parseFloat($("#txtCardAmount").val());
+        var cheque = parseFloat($("#txtChequeAmount").val());
+        var totalPay = parseFloat($("#txtNetPayable").val());
+
+        $("#txtDueAmount").val(totalPay - parseFloat(cash + card + cheque));
+        $("#txtReceiveAmount").val(parseFloat(cash + card + cheque));
+        if ($("#txtDueAmount").val() < 0) {
+            $("#txtReceiveAmount").val(0);
+            $("#txtCashAmount").val(0);
+            $("#txtCardAmount").val(0);
+            $("#txtChequeAmount").val(0);
+            $("#txtDueAmount").val($("#txtNetPayable").val());
+        }
+    });
+
+    $("table #tbody").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        $(function () {
+            $("#txtAmountReceived").val(parseFloat(sumColumn(5)));
+            $("#txtNetPayable").val(parseFloat(sumColumn(5)));
+            $("#txtTotalAmount").val(parseFloat(sumColumn(5)));
+            var amount = lessTkOrPc('#txtTotalAmount', '#txtLessAmount', '#txtLessTkOrPc');
+            $("#txtTotalLessAmount").val(amount[0]);
+            $("#txtNetPayable").val(amount[1]);
+            $("#txtReceiveAmount").val(amount[1]);
+            $("#txtDueAmount").val(0);
+            $("#txtCashAmount").val(0);
+            $("#txtCardAmount").val(0);
+            $("#txtChequeAmount").val(0);
+        });
+        return false;
+    });
+
+    function validate() {      
+        var isValid = true;
+        var table = $("table #tbody");
+        var itemId = $("#txtMedicineId").val();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                $("#txtNameOfMedicine").focus();
+                isValid = false;
+            }
+        });  
+        if (parseFloat($('#txtTStock').val()) < parseFloat($('#txtQty').val())) { alert("Not Enough Stock"); isValid = false; }
+        if ($('#txtMedicineId').val() == '') { alert("Please Select Item."); isValid = false; }
+        if ($('#txtQty').val() == '') { alert("Add quantity."); isValid = false; }
+        return isValid;
+    }
+
+    function customvalid() {
+        var isValid = true; 
+        if ($("#txtRegistrationNo").val() =='') {
+            $("#txtRegistrationNo").val(0);
+            $("#txtId").val(0);
+        }
+
+        if ($("#txtCardAmount").val() > 0) {
+            if ($("#txtCardNumber").val() && $("#txtCardBankId").val() == 0) {
+                alert("Please add Card Number or Bank Name");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").removeClass("active");
+                isValid = false;
+            }
+        }
+
+        if ($("#txtChequeAmount").val() > 0) {
+            if ($("#txtChequeNumber").val() && $("#txtChequeBankId").val() == 0) {
+                alert("Please add Cheaque Number or Bank Name");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").removeClass("active");
+                isValid = false;
+            }
+        }
+
+        if ($('.grid-table #tbody').html() == '') { alert('Please add an item to table grid.'); isValid = false; }
+        return isValid;
+    }
+</script>

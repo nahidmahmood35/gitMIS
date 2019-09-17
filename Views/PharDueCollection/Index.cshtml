@@ -1,0 +1,155 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+        <div class="box box-info">
+            <div class="box-body ">
+                <div class="form-group">
+                    <label class="col-sm-2">Patient Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtPatientName" />
+                        <input type="text" class="form-control none" id="txtRegId" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body ">
+                <div class="form-group">
+                    <label class="col-sm-2">Total Due</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtDueAmount" disabled />
+                    </div>
+                    <label class="col-sm-2">Less Amount</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control isnumber" id="txtLessAmount" />
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtLessTkOrPc">
+                            <option value="">--</option>
+                            <option value="Tk.">Tk</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Total Adjust</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtTotalAdjust" disabled />
+                    </div>
+                    <label class="col-sm-2">Total Lass</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtTotalLessAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Invoice No</th>
+                                <th class="text-center">Invoice Date</th>
+                                <th class="text-center">Due Amt</th>
+                                <th class="text-center">Adjust Amt</th>
+                                <th class="text-center">Less Amt</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center" id="tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info payment-area">
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="payment-method">
+                        <ul class="navigation">
+                            <li class="active"><a data-toggle="tab" href="#cash">Cash</a></li>
+                            <li><a data-toggle="tab" href="#card">Card</a></li>
+                            <li><a data-toggle="tab" href="#Cheque">Cheque</a></li>
+                        </ul>
+                        <div class="user-body">
+                            <div class="tab-content">
+                                <div id="cash" class="tab-pane active">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Cash Amount</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control isnumber" id="txtCashAmount" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="card" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Card Amount</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCardAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Card Number</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero" id="txtCardNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Bank Name</label>
+                                        <div class="col-sm-10
+                                             ">
+                                            <select class="form-control" id="txtCardBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Cheque" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Cheaque Amount</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCheaqueAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Cheaque Number</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero" id="txtCheaqueNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Bank Name</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="txtCheaqueBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Remarks</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control defaultNA" id="txtRemarks" placeholder="Remarks" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="GetReprintInvoiceNo();" value="Reprint">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

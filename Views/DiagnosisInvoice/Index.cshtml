@@ -1,0 +1,896 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-8">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Reg No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtRegistrationNo" />
+                        <input type="text" class="none" id="txtId" />
+                    </div>
+                    <label class="col-sm-2">Indoor ID</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtPatientID" />
+                        <input type="text" class="none" id="txtIndoorPatientID" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientName" disabled>
+                    </div>
+                    <label class="col-sm-2">Mobile</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtMobileNo" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Age</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientAge" disabled>
+                    </div>
+                    <label class="col-sm-2">Gender</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientGender" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtPatientAddress" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Consultant</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtConsDoctorName">
+                        <input type="text" class="none" id="txtConsDoctorId" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Ref. Dr</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtRefDoctorName">
+                        <input type="text" class="none" id="txtRefDoctorId" />
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <label class="col-sm-2">Package</label>
+                    <div class="col-sm-4">
+                        <select class="form-control select2" id="txtPackageId" name="txtPackageId" onchange="GetPackageItemDetails()"></select>
+                    </div>
+                    <label class="col-sm-2">Corporate</label>
+                    <div class="col-sm-4">
+                        <select class="form-control select2" id="txtCorporateID">
+                            <option value="0">--Select--</option>
+                            <option value="1">Corporate Id</option>
+                            <option value="2">Corporate Id 2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group grid-input">
+                    <input type="text" class="none" id="txtInvestigationId" />
+                    <input type="text" class="form-control text-center" id="txtInvestigationName" placeholder="Enter Investigation Name Or Code"  />
+                    <input type="text" class="none" id="txtunit" value="1" />
+                    <input type="text" class="none" id="txtCharge" disabled />
+                    <input type="text" class="none" id="txtDeliveryDuration" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group table-scrollable">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Investigation Name</th>
+                                <th class="text-center">Charge</th>
+                                <th class="text-center">Delivery Date</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center" id="tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="box box-info payment-area">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-6">Total Amount</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtTotalAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Less Amount</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control isnumber" id="txtLessAmount" />
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="txtLessTkOrPc">
+                            <option value="">--</option>
+                            <option value="Tk.">Tk</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Less From</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" id="txtDiscountFrom">
+                            <option value="0">--Select--</option>
+                            <option value="1">Dr</option>
+                            <option value="2">Hospital</option>
+                            <option value="3">Both</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Total Lass</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtTotalLessAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Net Payable</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtNetPayable" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Receive Amount</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtReceiveAmount" disabled />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6">Due Amount</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtDueAmount" disabled />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="payment-method">
+                        <ul class="navigation">
+                            <li class="active"><a data-toggle="tab" href="#cash">Cash</a></li>
+                            <li><a data-toggle="tab" href="#card">Card</a></li>
+                            <li><a data-toggle="tab" href="#Cheque">Cheque</a></li>
+                        </ul>
+                        <div class="user-body">
+                            <div class="tab-content">
+                                <div id="cash" class="tab-pane active">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cash Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control isnumber" id="txtCashAmount" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="card" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Card Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCardAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Card Number</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtCardNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Bank Name</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="txtCardBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Cheque" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cheaque Amount</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCheaqueAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Cheaque Number</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control defaultZero" id="txtCheaqueNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6">Bank Name</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" id="txtCheaqueBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control defaultNA" id="txtRemarks" placeholder="Remarks" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-6" style="color:red;">Is Urgent</label>
+                    <div class="col-sm-6">
+                        <input type="checkbox" id="txtIsUrgent" class="regular-checkbox" />
+                    </div>
+                </div>
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="GetReprintInvoiceNo();" value="Reprint">
+                    <a href="DiagnosisInvoice/InvoiceList" class="btn btn-info">InvoiceList</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#txtCashAmount").val(0);
+        $("#txtCardAmount").val(0);
+        $("#txtCheaqueAmount").val(0);
+        getSubSubPno();
+        $('#txtInvestigationName').keydown(function (e) { if (e.which === 13) { GetItemDetailAndAdd(); } });
+        $('#txtRegistrationNo').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "PatientRegistrationApi/GetPatientRegistrationList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtRegistrationNo").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtId").val(ui.item.ptRegId);
+                $("#txtRegistrationNo").val(ui.item.ptRegNo);
+                $("#txtPatientName").val(ui.item.ptName);
+                $("#txtMobileNo").val(ui.item.ptMobileNo);
+                $('#txtPatientGender').val(ui.item.ptGenderName);
+                $('#txtPatientAddress').val(ui.item.ptAddress);
+                $('#txtPatientAge').val(ui.item.ptAgeDetail);
+                $('#txtConsDoctorName').focus();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead id='asd'><tr><th>Name</th><th>MobileNo</th><th>Father Name</th><th>Address</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.ptFatherName + "</td>";
+            html += "<td>" + item.ptAddress + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+        $('#txtPatientID').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "AdmissionApi/GetAdmittedPatientList",
+                    dataType: "Json",
+                    data: { 'id': 0, 'searchString': $("#txtPatientID").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtId").val(ui.item.ptRegId);
+                $("#txtIndoorPatientID").val(ui.item.ptIndoorId); 
+                $("#txtPatientID").val(ui.item.patientId);
+                $("#txtRegistrationNo").val(ui.item.ptRegNo).attr('disabled', true);
+                $("#txtPatientName").val(ui.item.ptName);
+                $("#txtMobileNo").val(ui.item.ptMobileNo);
+                $('#txtPatientGender').val(ui.item.ptGenderName);
+                $('#txtPatientAddress').val(ui.item.ptAddress);
+                $('#txtPatientAge').val(ui.item.ptAgeDetail);
+
+                $('#txtConsDoctorId').val(ui.item.underDrId);
+                $('#txtConsDoctorName').val(ui.item.underDrName);
+
+                $('#txtRefDoctorId').val(ui.item.refDrId);
+                $('#txtRefDoctorName').val(ui.item.refDrName);
+
+
+
+                $('#txtInvestigationName').focus();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Name</th><th>Mobile</th><th>FatherName</th><th>Address</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.ptFatherName + "</td>";
+            html += "<td>" + item.ptAddress + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+        $('#txtRefDoctorName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "DoctorApi/GetDoctorList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtRefDoctorName").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtRefDoctorId').val(ui.item.drId);
+                $('#txtRefDoctorName').val(ui.item.name);
+                $('#txtRefDoctorName').focus();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.code + "</td>";
+            html += "<td>" + item.name + "</td>";
+            html += "<td>" + item.mobileNo + "</td>";
+            html += "<td>" + item.speciality + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+        $('#txtConsDoctorName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "DoctorApi/GetDoctorList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtConsDoctorName").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtConsDoctorId').val(ui.item.drId);
+                $('#txtConsDoctorName').val(ui.item.name);
+                //$('#txtConsDoctorName').focus();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th><th>Speciality</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.code + "</td>";
+            html += "<td>" + item.name + "</td>";
+            html += "<td>" + item.mobileNo + "</td>";
+            html += "<td>" + item.speciality + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+        $('#txtInvestigationName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "ClinicalChartApi/GetClinicalChartList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtInvestigationName").val(),'isShowAll':0 },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            position: { collision: "flip" },
+            select: function (event, ui) {
+                $('#txtInvestigationId').val(ui.item.itemId);
+                $('#txtInvestigationName').val(ui.item.description);
+                $('#txtCharge').val(ui.item.charge); 
+                $('#txtMaxRefFee').val(ui.item.maxRefFee);
+                $('#txtDeliveryDuration').val(ui.item.deliveryDuration);
+                add();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {$("<thead><tr><th>PCode</th><th>Description</th><th>Charge</th></tr></thead>").appendTo(ul);}
+            var html = "<td>" + item.pCode + "</td>";
+            html += "<td>" + item.description + "</td>";
+            html += "<td>" + item.charge + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+
+        };
+    });
+    function GetCurrentAge() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "PatientRegistration/GetCurrentAge",
+            dataType: "Json",
+            data: { 'dateOfBirth': $('#txtPatientAge').val() },
+            success: function (data) {
+                $('#txtAgeYear').val(data.Year);
+                $('#txtAgeMonth').val(data.Month);
+                $('#txtAgeDay').val(data.Day);
+            }
+        });
+    }
+
+    function getSubSubPno() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "InvoiceApi/GetPackageCodeMain",
+            dataType: "Json",
+            success: function(data) {
+                $('#txtPackageId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function(key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtPackageId').append(rows);
+                });
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetPackageItemDetails() {
+        if ($('#txtPackageId option:selected').val()>0) {
+            $('#txtInvestigationName').attr('disabled', true);
+
+        } else {
+            $('#txtInvestigationName').attr('disabled', false);
+        }
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "InvoiceApi/GetPackageItemDetail",
+            dataType: "Json",
+            data: { 'mainpackId': $('#txtPackageId option:selected').val() },
+            success: function(data) {
+                $('#tbody').html('');
+                $.each(data, function(key, item) {
+                    var html = '';
+                    if ($('#tbody').html != '') {
+                        html = $('#tbody').html();
+                    } else {
+                        html = '';
+                    }
+                    html += '<tr>';
+                    html += '<td class="none">' + item.itemId + '</td>';
+                    html += '<td class="col-sm-6">' + item.description + '</td>';
+                    html += '<td class="none">' + item.itemId + '</td>';
+                    html += '<td class="col-sm-2">' + item.charge + '</td>';
+                    html += '<td class="none" id="txtTotal">' + item.charge + '</td>';
+                    html += '<td class="col-sm-3">date</td>';
+                    html += '<td class="col-sm-1"><a href="javascript:;"><span class="glyphicon glyphicon-trash"></span></a></td>';
+                    html += '</tr>';
+                    $('#tbody').html(html);
+                    UpdateTotalAmount();
+                });
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function add() {
+        var res = validate();
+        if (res == false) {
+            return false;
+        }
+        var investigationId = $('#txtInvestigationId').val();
+        var investigationName = $("#txtInvestigationName").val();
+        var unit = $('#txtunit').val();
+        var charge = $('#txtCharge').val();
+        var deliveryDuration = $('#txtDeliveryDuration').val();
+        var totalCharge = ($('#txtunit').val() * $('#txtCharge').val());
+        var html = '';
+        if ($('#tbody').html != '') {
+            html = $('#tbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr  style="background-color:#77e4ff">';
+        html += '<td class="none">' + investigationId + '</td>';
+        html += '<td class="col-sm-6">' + investigationName + '</td>';
+        html += '<td class="none">' + unit + '</td>';
+        html += '<td class="col-sm-2">' + charge + '</td>';
+        html += '<td class="none" id="txtTotal">' + totalCharge + '</td>';
+        html += '<td class="none">n/a</td>';
+        html += '<td class="col-sm-3">' + dayAdd(parseInt(deliveryDuration)) + '</td>';
+        html += '<td class="none">' + investigationId + '</td>';
+        html += '<td class="col-sm-1"><a href="javascript:;" class="deleteRow"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        html += '</tr>';
+        $('#tbody').html(html);
+        UpdateVaqList(investigationId);
+        UpdateTotalAmount();
+        return false;
+    }
+
+    function UpdateVaqList(parameters) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "VaqApi/GetVaqList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'itemId': parameters },
+            success: function (data) {
+              var table;
+              for (var i = 0; i < data.length; i++) {
+                    var rows = "<tr>"
+                            + "<td style=display:none>" + data[i].vaqId + "</td>"
+                            + "<td>" + data[i].vaqName + "</td>"
+                            + "<td class='none'>1</td>"
+                            + "<td>" + data[i].vaqCharge + "</td>"
+                            + "<td class='none' id='txtTotal'>" + data[i].vaqCharge + "</td>"
+                            + "<td class='none'>" + data[i].vaqGroup + "</td>"
+                            + "<td class='col-sm-3'>,</td>"
+                            + "<td class='none'>" + parameters + "</td>"
+                            + "<td><a href='javascript:;' class='deleteRow'><span class='glyphicon glyphicon-trash'></span></a></td>"
+                            + "</tr>";
+                    table = $("table #tbody");
+                var isValid = true;
+                var dbItem = data[i].vaqName;
+                  table.find('tr').each(function (g) {
+                        var $grdTd = $(this).find('td'),tableValue = $grdTd.eq(1).text();
+                        if (tableValue == dbItem) {isValid = false;}
+                    });
+                  if (isValid == true) {
+                      $('#tbody').append(rows);
+                      UpdateTotalAmount();
+                  }
+
+                }
+               
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+    $("table #tbody").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        $(function () {
+            UpdateTotalAmount();
+            $("#txtReceiveAmount").val(0);
+            $("#txtLessAmount").val(0);
+            $("#txtTotalLessAmount").val(0);
+            $("#txtCashAmount").val(0);
+            $("#txtCardAmount").val(0);
+            $("#txtCheaqueAmount").val(0);
+        });
+        return false;
+    });
+
+    function validate() {
+        var isValid = true;
+        var table = $("table #tbody");
+        var itemId = $("#txtInvestigationId").val();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                $("#txtInvestigationName").select().focus();
+                isValid = false;
+            }
+        });
+        if ($('#txtItemId').val() == '') { alert("Please Select Item."); isValid = false; }
+        if ($('#txtunit').val() == '') { isValid = false; }
+        if ($('#txtCharge').val() == '') { isValid = false; }
+        if ($('#txtDeliveryDate').val() == 0) { isValid = false; }
+        return isValid;
+    }
+
+    $("#txtLessTkOrPc").on('change', function() {
+        if ($("#txtLessTkOrPc").val() != '') {
+            var amount = lessTkOrPc('#txtTotalAmount', '#txtLessAmount', '#txtLessTkOrPc');
+            $("#txtTotalLessAmount").val(amount[0]);
+            $("#txtNetPayable").val(amount[1]);
+            $("#txtReceiveAmount").val(amount[1]);
+            $("#txtDueAmount").val(0);
+        }
+    });
+
+    $("#txtDiscountFrom").on('change', function() {
+        var table;
+        var vouchers;
+        var voucher;
+        if ($("#txtDiscountFrom").val() == 1) {
+            vouchers = [];
+            table = $('table #tbody');
+            table.find('tr').each(function() {
+                var $tds = $(this).find('td'),
+                    titemId = $tds.eq(0).text(),
+                    tCharge = $tds.eq(3).text(),
+                    tReportGroupName = $tds.eq(5).text();
+                voucher = {
+                    DrId: $("#txtRefDoctorId").val(),
+                    ItemId: titemId,
+                    Charge: tCharge,
+                    ReportGroupName: tReportGroupName,
+                };
+                vouchers.push(voucher);
+            });
+            $.ajax({
+                type: "Post",
+                url: apiUrl + "InvoiceApi/Get",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    if ($("#txtTotalLessAmount").val() > data) {
+                        alert("You Can Not Less More Than " + data + "Tk. On This Invoice.");
+                        $("#txtTotalLessAmount").val(0);
+                        $("#txtDiscountFrom").val(0);
+                        $("#txtLessAmount").val(0).focus().select();
+                    }
+                }
+            });
+            return false;
+        }
+
+        if ($("#txtDiscountFrom").val() == 3) {
+            vouchers = [];
+            table = $('table #tbody');
+            table.find('tr').each(function() {
+                var $tds = $(this).find('td'),
+                    titemId = $tds.eq(0).text(),
+                    tCharge = $tds.eq(3).text();
+                voucher = {
+                    RefDoctorId: $("#txtRefDoctorId").val(),
+                    ItemId: titemId,
+                    Charge: tCharge,
+                };
+                vouchers.push(voucher);
+            });
+
+            $.ajax({
+                type: "Post",
+                url: apiUrl + "InvoiceApi/Get",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    if ($("#txtTotalLessAmount").val() > (data / 2)) {
+                        alert("You Can Not Less More Than " + data/2 + "Tk. On This Invoice.");
+                        $("#txtTotalLessAmount").val(0);
+                        $("#txtDiscountFrom").val(0);
+                        $("#txtLessAmount").val(0).focus().select();
+                    }
+                }
+            });
+            return false;
+        }
+    });
+
+    $("#txtLessAmount").on('keyup', function () {
+        $("#txtDiscountFrom").val(0);
+        if ($("#txtLessTkOrPc").val() != '') {
+            var amount = lessTkOrPc('#txtTotalAmount', '#txtLessAmount', '#txtLessTkOrPc');
+            $("#txtTotalLessAmount").val(amount[0]);
+            $("#txtNetPayable").val(amount[1]);
+            $("#txtReceiveAmount").val(amount[1]);
+            $("#txtDueAmount").val(0);
+        }
+    });
+
+
+    $("#txtCashAmount, #txtCardAmount, #txtCheaqueAmount").keyup(function() {
+        var cash = parseFloat($("#txtCashAmount").val());
+        var card = parseFloat($("#txtCardAmount").val());
+        var cheque = parseFloat($("#txtCheaqueAmount").val());
+        var totalPay = parseFloat($("#txtNetPayable").val());
+
+        $("#txtDueAmount").val(totalPay - parseFloat(cash + card + cheque));
+        $("#txtReceiveAmount").val(parseFloat(cash + card + cheque));
+        if ($("#txtDueAmount").val() < 0) {
+            $("#txtReceiveAmount").val(0);
+            $("#txtCashAmount").val(0);
+            $("#txtCardAmount").val(0);
+            $("#txtCheaqueAmount").val(0);
+            $("#txtDueAmount").val($("#txtNetPayable").val());
+        }
+    });
+
+    function Save() {
+        var res = validation();
+        var custom = customvalid();
+
+        if (res & custom == true) {
+            var vouchers = [];
+            var table = $('table #tbody');
+            table.find('tr').each(function () {
+                var $tds = $(this).find('td'),
+                    tItemId = $tds.eq(0).text(),
+                    tItemCharge = $tds.eq(3).text(),
+                    tGroupName = $tds.eq(5).text(),
+                    tVaqId = $tds.eq(7).text();
+
+                var voucher = {
+                    PtRegId: $("#txtId").val(),
+                    PatientStatus:1,
+                    PtAgeDetail: $("#txtPatientAge").val(),
+                    PatientID: $("#txtPatientID").val(),
+                    PtIndoorId: $("#txtIndoorPatientID").val(),
+                    DrId: $("#txtRefDoctorId").val(),
+                    ConsultantId: $("#txtConsDoctorId").val(),
+                    LessPc: $("#txtLessAmount").val(),
+                    LessPcOrTk: $("#txtLessTkOrPc").val(),
+                    LessFrom: $("#txtDiscountFrom").val(),
+                    LessAmount: $("#txtTotalLessAmount").val(),
+                    TotalAmount: $("#txtTotalAmount").val(),
+                    ReceiveAmount: $("#txtReceiveAmount").val(),
+                    CorporateId: $("#txtCorporateID").val(),
+                    PackageId: $("#txtPackageID").val(),
+                    CashAmount: $("#txtCashAmount").val(),
+                    CardAmount: $("#txtCardAmount").val(),
+                    CheaqueAmount: $("#txtCheaqueAmount").val(),
+                    CardNumber: $("#txtCardNumber").val(),
+                    CardBankId: $("#txtCardBankId").val(),
+                    CheaqueNumber: $("#txtCheaqueNumber").val(),
+                    CheaqueBankId: $("#txtCheaqueBankId").val(),
+                    IsUrgent: $("#txtIsCheckbox").checked,
+                    Remarks: $("#txtRemarks").val(),
+                    ItemId: tItemId,
+                    Charge: tItemCharge,
+                    ReportGroupName:tGroupName,
+                    UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                    ItemIdForVaq: tVaqId,
+                };
+                vouchers.push(voucher);
+            });
+            //alert(JSON.stringify(vouchers));
+            //return false;
+            $.ajax({
+                type: "Post",
+                url: apiUrl + "InvoiceApi/Post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    alert(JSON.stringify(data));
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+
+    function customvalid() {
+        var isValid = true;
+
+        if ($("#txtCashAmount").val() != 0 || $("#txtCardAmount").val() != 0 || $("#txtCheaqueAmount").val() != 0) {isValid = true;}
+        if ($("#txtPatientID").val() != 0 || $("#txtRegistrationNo").val() != 0) {isValid = true;}
+        if ($("#txtCardAmount").val() > 0) {
+            if ($("#txtCardNumber").val() && $("#txtCardBankId").val() == 0) {
+                alert("Please add Card Number or Bank Name");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").removeClass("active");
+                isValid = false;
+            }
+        }
+
+        if ($("#txtCheaqueAmount").val() > 0) {
+            if ($("#txtCheaqueNumber").val() && $("#txtCheaqueBankId").val() == 0) {
+                alert("Please add Cheaque Number or Bank Name");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").removeClass("active");
+                isValid = false;
+            }
+        }
+
+        if ($('.grid-table #tbody').html() == '') { alert('Please add an item to table grid.'); isValid = false; }
+
+        return isValid;
+    }
+
+    function GetReprintInvoiceNo(parameters) {
+        $.ajax({
+            type: "Get",
+            url: apiUrl + "InvoiceApi/GetInvoicePrint",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'id': 19 },
+            success: function (data) {
+                var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                $(document).ready(function (e) {
+                    detectPopup();
+                    function detectPopup() {
+                        if (!popupWindow) {
+                            alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                            return false;
+                        } else {
+                            window.open('', '_self');
+                            window.close();
+                        }
+                    }
+                });
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+    function GetItemDetailAndAdd() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "ClinicalChartApi/GetClinicalChartList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'searchString': $("#txtInvestigationName").val() },
+
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $('#txtInvestigationId').val(data[0].itemId);
+                $("#txtInvestigationName").val(data[0].description);
+                $('#txtunit').val(1);
+                $('#txtCharge').val(data[0].charge);
+                $('#txtDeliveryDuration').val(data[0].deliveryDuration);
+                add();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>
+
+
+

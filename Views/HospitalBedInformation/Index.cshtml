@@ -1,0 +1,283 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Bed Description</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtDescription">
+                        <input type="text" class="none" id="txtId" />
+                    </div>
+                    <label class="col-sm-2">Room No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtRoomNo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Floor No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtFloorNo">
+                    </div>
+                    <label class="col-sm-2">Types Of Bed</label>
+                    <div class="col-sm-3">
+                        <select id="txtTypesOfBed" class="form-control"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newBed" class="btn btn-sm btn-primary">Add</a></div>
+                </div>
+
+                <div class="modal fade" id="newBed">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label class="col-sm-2">Bed Type</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="txtBedCategory">
+                                    </div>
+                                </div>
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-primary btn-sm" onclick="SaveBedType()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Department</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtIndoorDepartment"></select>
+                    </div>
+                    <label class="col-sm-2">Service Charge</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control isnumber" id="txtServiceCharge">
+                    </div>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="txtPercentOrTaka">
+                            <option value="Tk.">Tk</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1">/ Day</label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2">Charge/Day (TK)</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtChargePerDay">
+                    </div>
+                    <label class="col-sm-2">Status</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="txtStatus">
+                            <option value="1">Running</option>
+                            <option value="0">Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Admission Charge</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtAdmissionCharge">
+                    </div>
+                </div>
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-info btn-sm" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-sm btn-primary" id="btnList" value="Bed List">
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        GetBedTypeList();
+
+        $('#txtDescription').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "BedApi/GetAllBedList",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtDescription").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtId').val(ui.item.bedId);
+                $('#txtRoomNo').val(ui.item.roomNo);
+                $('#txtFloorNo').val(ui.item.floorNo);
+                $('#txtTypesOfBed').val(ui.item.typeOfBedId);
+                $('#txtDescription').val(ui.item.description);
+                $('#txtIndoorDepartment').val(ui.item.deptId);
+                $('#txtChargePerDay').val(ui.item.charge);
+                $('#txtServiceCharge').val(ui.item.serviceCharge);
+                $('#txtPercentOrTaka').val(ui.item.serviceChargePcOrTk);
+                $('#txtStatus').val(ui.item.bedStatus);
+                $('#txtAdmissionCharge').val(ui.item.admissionCharge);
+                $("#btnSave").val("Update");
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Bed Info</th><th>Room No</th><th>Charge</th><th>Status</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.description + "</td>";
+            html += "<td>" + item.roomNo + "</td>";
+            html += "<td>" + item.charge + "</td>";
+            html += "<td>" + item.bedStatus + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+
+    $('#btnList').on('click', function () {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    });
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                url: "@UrlConfig.Action("GetAllBedList", "BedApi")",
+                dataSrc: "",
+            },
+            "columns": [
+                { "data": "bedId", "title": "bedId", visible: false },
+                { "data": "description", "title": "Description" },
+                { "data": "roomNo", "title": "Room No" },
+                { "data": "floorNo", "title": "Floor No" },
+                { "data": "charge", "title": "Chatge" },
+                { "data": "serviceCharge", "title": "Service Charge" },
+                {
+                    "data": "bedId", width: "80px", "title": "Action",
+                    "render": function (data) {
+                        return "<a href='javascript:;' class='md-trigger' onclick='return GetBedDetailsById(" + data + ")'><span class='glyphicon glyphicon-edit'></span></a>";
+                    }
+                }
+            ]
+
+        });
+    }
+
+    function GetBedDetailsById(param) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "BedApi/Post",
+            dataType: "Json",
+            data: { 'BedId': param },
+            success: function (data) {
+                $('#txtRoomNo').val(data.RoomNo);
+                $('#txtFloorNo').val(data.FloorNo);
+                $('#txtTypesOfBed').val(data.TypeOfBedId);
+                $('#txtDescription').val(data.Description);
+                $('#txtIndoorDepartment').val(data.DeptId);
+                $('#txtChargePerDay').val(data.Charge);
+                $('#txtServiceCharge').val(data.ServiceCharge);
+                $('#txtPercentOrTaka').val(data.ServiceChargePCOrTk);
+                $('#txtStatus').val(data.BedStatus);
+                $('#txtAdmissionCharge').val(data.AdmissionCharge);
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function SaveBedType() {
+        $.ajax({
+            url: apiUrl + "BedApi/GetSaveBedType",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtBedCategory").val() },
+            success: function (data) {
+                alert(JSON.stringify(data));
+                $('#txtTypesOfBed').append($('<option></option>').val(data.result).html($("#txtBedCategory").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function GetBedTypeList() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "BedApi/GetBedTypeList",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtTypesOfBed').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtTypesOfBed').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                RoomNo: $('#txtRoomNo').val(),
+                FloorNo: $('#txtFloorNo').val(),
+                TypeOfBedId: $('#txtTypesOfBed').val(),
+                Description: $('#txtDescription').val(),
+                DeptId: $('#txtIndoorDepartment').val(),
+                Charge: $('#txtChargePerDay').val(),
+                ServiceCharge: $('#txtServiceCharge').val(),
+                ServiceChargePCOrTk: $('#txtPercentOrTaka').val(),
+                BedStatus: $('#txtStatus').val(),
+                AdmissionCharge: $('#txtAdmissionCharge').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            };
+        }
+        //alert(JSON.stringify(object)); return false;
+        $.ajax({
+            url: apiUrl + "BedApi/Post",
+            data: object,
+            type: 'POST',
+            ContentType: "Application/json;charset=utf-8",
+            datatype: JSON,
+            success: function (data) {
+                if (data.output != "error") {
+                    alert(data.msg);
+                    location.reload(true);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+</script>
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            GetMainDepartmentList();
+        })
+    </script>
+}

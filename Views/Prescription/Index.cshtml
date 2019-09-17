@@ -1,0 +1,405 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-sm-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Prescription</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-2">Doctor</label>
+                <div class="col-sm-6">
+                    <select class="form-control select2" id="txtDoctorName">
+                        <option value="0">--Select--</option>
+                        <option value="1">Dr. Md. Kamrul Islam MBBS, FCPS, FRCS, M.Phil</option>
+                        <option value="2">Dr. Md. Jakirul Islam MBBS, FCPS, FRCS, M.Phil</option>
+                    </select>
+                </div>
+                <label class="col-sm-2">Visit Date</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control datepicker" id="txtVisitDate">
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <table class="table table-bordered table-Striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>SL No</th>
+                            <th>Token No</th>
+                            <th>Ticket No</th>
+                            <th>Patient Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Registration No</th>
+                            <th>Mobile No</th>
+                            <th>Ref. Dr. Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>101254</td>
+                            <td>10544</td>
+                            <td>MD Ariful Islam</td>
+                            <td>28</td>
+                            <td>Male</td>
+                            <td>10656</td>
+                            <td>017654654</td>
+                            <td>A002 - Dr. Zahir Al Amin</td>
+                            <td><a data-toggle="modal" data-target="#NewPrescription"><span class="glyphicon glyphicon-edit"></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="NewPrescription" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content panel-info">
+            <div class="modal-header panel-heading">
+                <h3 class="panel-title">Precription</h3>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body ">
+                    <div class="col-sm-6">
+                        <div class="panel panel-body">
+                            <div class="form-group">
+                                <label class="col-sm-3">Dr. Name</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control select2" id="txtDoctorName">
+                                        <option value="0">--Select--</option>
+                                        <option value="1">Dr. Name</option>
+                                        <option value="2">Abul Kalam</option>
+                                        <option value="3">Dr. Kamal</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3">Token No</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtTokenNo" placeholder="Token No">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3">Weight</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtWeight" placeholder="Weight">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3">temperature</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txttemperature" placeholder="temperature">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3">Complain</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtChiefComplain" placeholder="Chief Complain">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3">Diagnosis</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtDiagnosis" placeholder="Diagnosis">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3">Test</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control select2" id="txtDiagnosisTest">
+                                        <option value="0">--Select--</option>
+                                        <option value="1">CBC</option>
+                                        <option value="2">RBS</option>
+                                        <option value="3">USG of W/A</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <a href="javascript:;" class="btn btn-sm btn-success" id="testAdd">Add</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3">Medicine</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control select2" id="txtMedecine">
+                                        <option value="0">--Select--</option>
+                                        <option value="1">Napa Extra</option>
+                                        <option value="2">Ace Plus</option>
+                                        <option value="3">Ranidine tab</option>
+                                        <option value="4">Seclo 20MG tab</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <a href="javascript:;" class="btn btn-sm btn-success" id="medicineAdd">Add</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-body">
+                            <div class="col-sm-6">
+                                <table class="table table-striped table-hover table-bordered">
+                                    <thead class="thead-blue text-center">
+                                        <tr><th colspan="2">Test List</th></tr>
+                                        <tr>
+                                            <th class="col-sm-6">Name</th>
+                                            <th class="col-sm-1">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center" id="testTbody"></tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6">
+                                <table class="table table-striped table-hover table-bordered">
+                                    <thead class="thead-blue text-center">
+                                        <tr><th colspan="2">Medicine List</th></tr>
+                                        <tr>
+                                            <th class="col-sm-6">Name</th>
+                                            <th class="col-sm-1">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center" id="medicineTbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel panel-body">
+                            <div class="form-group">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead class="thead-blue text-center">
+                                            <tr>
+                                                <th class="col-sm-6">Name Of Medicine</th>
+                                                <th class="col-sm-3">Description</th>
+                                                <th class="col-sm-2">Days</th>
+                                                <th class="col-sm-1">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center" id="tbody"></tbody>
+                                    </table>
+                                </div>
+                                <table class="table entry-form text-center">
+                                    <tr>
+                                        <td class="col-sm-6">
+                                            <select class="form-control select2" id="txtMedicineName">
+                                                <option value="0">--Select--</option>
+                                                <option value="1">Napa Extra</option>
+                                                <option value="2">Ace Plus 500 mg tab</option>
+                                                <option value="3">Napa 50ml syp</option>
+                                                <option value="4">Napa 100 ML SYP</option>
+                                            </select>
+                                        </td>
+                                        <td class="col-sm-3">
+                                            <select class="form-control select2" id="txtDescription">
+                                                <option value="0">1+1+1</option>
+                                                <option value="1">1+0+1</option>
+                                                <option value="2">0+1+0</option>
+                                            </select>
+                                        </td>
+                                        <td class="col-sm-2">
+                                            <select class="form-control select2" id="txtDays">
+                                                <option value="0">5 Days</option>
+                                                <option value="1">10 Days</option>
+                                                <option value="2">15 Days</option>
+                                                <option value="3">30 Days</option>
+                                            </select>
+                                        </td>
+                                        <td class="col-sm-1">
+                                            <a href="javascript:;" class="btn btn-sm btn-success" id="btnAdd">Add</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2">Advice</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="txtAdvice" placeholder="Advice" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-right">
+                    <input type="button" class="btn btn-sm btn-success" id="btnSave" value="Save" onclick="Save()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnAdd").click(function () { add(); });
+        $("#testAdd").click(function () { testadd(); });
+        $("#medicineAdd").click(function () { medicineadd(); });
+    });
+    function testadd() {
+        var res = testvalidate();
+        if (res == false) {
+            return false;
+        }
+        var Diagnosis = $("#txtDiagnosisTest option:selected").text();
+        var html = '';
+        if ($('#testTbody').html != '') {
+            html = $('#testTbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr>';
+        html += '<td>' + Diagnosis + '</td>';
+        html += '<td><a href="#" class="deleteRow"><span class="glyphicon glyphicon-trash"></span</a></td>';
+        html += '</tr>';
+        $('#testTbody').html(html);
+        $('#txtDiagnosisTest').val(0).trigger('change');
+        return false;
+    }
+    function medicineadd() {
+        var res = medicinevalidate();
+        if (res == false) {
+            return false;
+        }
+        var Medicine = $("#txtMedecine option:selected").text();
+        var html = '';
+        if ($('#medicineTbody').html != '') {
+            html = $('#medicineTbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr>';
+        html += '<td>' + Medicine + '</td>';
+        html += '<td><a href="#" class="deleteRow"><span class="glyphicon glyphicon-trash"></span</a></td>';
+        html += '</tr>';
+        $('#medicineTbody').html(html);
+        $('#txtMedecine').val(0).trigger('change');
+        return false;
+    }
+    function add() {
+        var res = validate();
+        if (res == false) {
+            return false;
+        }
+        var MedicineName = $("#txtMedicineName option:selected").text();
+        var Description = $("#txtDescription option:selected").text();
+        var Days = $("#txtDays option:selected").text();
+        var html = '';
+        if ($('#tbody').html != '') {
+            html = $('#tbody').html();
+        } else {
+            html = '';
+        }
+        html += '<tr>';
+        html += '<td>' + MedicineName + '</td>';
+        html += '<td>' + Description + '</td>';
+        html += '<td>' + Days + '</td>';
+        html += '<td><a href="#" class="deleteRow"><span class="glyphicon glyphicon-trash"></span</a></td>';
+        html += '</tr>';
+        $('#tbody').html(html);
+        $('#txtMedicineName').val(0).trigger('change');
+        return false;
+    }
+    $("table").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        return false;
+    });
+    function validate() {
+        var isValid = true;
+        if ($('#txtMedicineName').val() == 0) { alert("Please Select Item."); isValid = false; }
+        var table = $("table #tbody");
+        var itemId = $("#txtMedicineName option:selected").text();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+    function testvalidate() {
+        var isValid = true;
+        if ($('#txtDiagnosisTest').val() == 0) { alert("Please Select Item."); isValid = false; }
+        var table = $("table #testTbody");
+        var itemId = $("#txtDiagnosisTest option:selected").text();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+    function medicinevalidate() {
+        var isValid = true;
+        if ($('#txtMedecine').val() == 0) { alert("Please Select Item."); isValid = false; }
+        var table = $("table #medicineTbody");
+        var itemId = $("#txtMedecine option:selected").text();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var vouchers = [];
+            var table = $('table #tbody');
+            table.find('tr').each(function () {
+                var $tds = $(this).find('td'),
+                    tMedicineId = $tds.eq(0).text(),
+                    tDescription = $tds.eq(1).text(),
+                    tDays = $tds.eq(2).text();
+                var voucher = {
+                    DoctorName: $("#txtDoctorName").val(),
+                    TokenNo: $("#txtTokenNo").val(),
+                    temperature: $("#txttemperature").val(),
+                    ChiefComplain: $("#txtChiefComplain").val(),
+                    Diagnosis: $("#txtDiagnosis").val(),
+                    Advice: $("#txtAdvice").val(),
+                    MedicineId: tMedicineId,
+                    Description: tDescription,
+                    Days: tDays,
+                };
+                vouchers.push(voucher);
+            });
+
+            var json = { aPrescriptionModel: vouchers };
+            alert(JSON.stringify(json));
+            return false;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Save", "Prescription")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    alert(data);
+                    if ((data == "Saved Success") || (data == "Update Success")) {
+                        location.reload(true);
+                    }
+                }
+            });
+
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+</script>

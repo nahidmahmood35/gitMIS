@@ -1,0 +1,611 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">PCode</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required " id="txtPCode">
+                        <input type="text" class="form-control none" id="txtId">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Description</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtDescription">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Charge</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required isnumber" id="txtCharge">
+                    </div>
+                    <label class="col-sm-2">Less Fixed Amount</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtLessFixedAmount">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Service Charge</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtServiceCharge">
+                    </div>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="txtServiceChargePcOrTk" name="txtServiceChargePcOrTk">
+                            <option value="Tk.">TK</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2">Vat</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtVat">
+                    </div>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="txtVatPcOrTk" name="txtVatPcOrTk">
+                            <option value="Tk.">TK</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Referral fee</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtRefferelFee">
+                    </div>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="txtRefferelFeePcOrTk" name="txtRefferelFeePcOrTk">
+                            <option value="Tk.">TK</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2">Report Fee</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtReportFee">
+                    </div>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="txtReportFeePcOrTk" name="txtReportFeePcorTk">
+                            <option value="Tk.">TK</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Collection Fee</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtCollectionFee">
+                    </div>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="txtCollectionFeePcOrTk" name="txtCollectionFeePcOrTk">
+                            <option value="Tk.">TK</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2">Others Fee</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtOthersFee">
+                    </div>
+                    <div class="col-sm-1">
+                        <select class="form-control" id="txtOthersFeePcOrTk" name="txtOthersFeePcOrTk">
+                            <option value="Tk.">TK</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Delivery Duration</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control defaultZero isnumber" id="txtReportDeliveryDurationDay">
+                    </div>
+                    <div class="col-sm-1">
+                        <label class="col-sm-2">Day</label>
+                    </div>
+                    <label class="col-sm-2">Show Doctor Code</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtShowDrCode" name="txtShowDrCode">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">ReportFile Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control defaultNA" id="txtReportFileName">
+                    </div>
+                    <label class="col-sm-2">Out Test</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtOutTest" name="txtOutTest">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Sub Sub Group</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtSubSubPno" name="txtSubSubPno"></select>
+                    </div>
+                    <label class="col-sm-2">Can Change Price</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtCanChangePrice" name="txtCanChangePrice">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Indoor Bill Head</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="txtIndoorBillGroupId" name="txtIndoorBillGroupId"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newIndoorBillGroup" class="btn btn-sm btn-primary">Add</a></div>
+                    <div class="modal fade" id="newIndoorBillGroup">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <p class="modal-title">Indoor Bill Head</p>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtIndoorBillGroupNew">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="SaveIndoorBillGroup()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-2">Can Give Less</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtCanGiveLess" name="txtCanGiveLess">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Report group</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="txtReportGroupId" name="txtReportGroupId"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newReportGroup" class="btn btn-sm btn-primary">Add</a></div>
+                    <div class="modal fade" id="newReportGroup">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <p class="modal-title">ReportGroup</p>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtReportGroupNew">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="SaveReportGroup()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-2">Discount Group</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtDiscountGroupId" name="txtDiscountGroupId"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newDiscountGroup" class="btn btn-sm btn-primary">Add</a></div>
+                    <div class="modal fade" id="newDiscountGroup">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <p class="modal-title">Discount Group</p>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtDiscountGroupNew">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="SaveDiscountGroup()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">A/C Report Name</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="txtAccountReportGroupId" name="txtAccountReportGroupId"></select>
+                    </div>
+                    <div class="col-sm-1"><a data-toggle="modal" data-target="#newAccountReportGroup" class="btn btn-sm btn-primary">Add</a></div>
+                    <div class="modal fade" id="newAccountReportGroup">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <p class="modal-title">Account Report Group</p>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="txtAccountReportGroupNew">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="SaveAccountReportGroup()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-2">Active</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtActiveId" name="txtActiveId">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">IsAdjust Amount </label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtAdjustAmtId" name="txtAdjustAmtId">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-sm btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-sm btn-info" id="btnList" value="View All">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetIndoorBillGroupList();
+        GetReportGroupInfoList();
+        GetDiscountGroupInfoList();
+        GetAccountReportGroupNameList();
+        getSubSubPno();
+        $('#txtPCode').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetClinicalChartList", "ClinicalChartApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtPCode").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtId').val(ui.item.itemId);
+                $('#txtPCode').val(ui.item.pCode);
+                $('#txtDescription').val(ui.item.description);
+                $('#txtCharge').val(ui.item.charge);
+                $('#txtLessFixedAmount').val(ui.item.lessFixedAmount);
+                $('#txtServiceCharge').val(ui.item.serviceCharge);
+                $('#txtServiceChargePcOrTk').val(ui.item.serviceChargePcOrTkId);
+                $('#txtVat').val(ui.item.vat);
+                $('#txtVatPcOrTk').val(ui.item.vatPcOrTkId);
+                $('#txtRefferelFee').val(ui.item.referelFee);
+                $('#txtRefferelFeePcOrTk').val(ui.item.referelFeePcOrTkId);
+                $('#txtReportFee').val(ui.item.reportFee);
+                $('#txtReportFeePcOrTk').val(ui.item.reportFeePcOrTkId);
+                $('#txtCollectionFee').val(ui.item.collectionFee);
+                $('#txtCollectionFeePcOrTk').val(ui.item.collectionFeePcOrTkId);
+                $('#txtOthersFee').val(ui.item.othersFee);
+                $('#txtOthersFeePcOrTk').val(ui.item.othersFeePcOrTkId);
+                $('#txtReportDeliveryDurationDay').val(ui.item.deliveryDuration);
+                $('#txtOutTest').val(ui.item.outTest);
+                $('#txtShowDrCode').val(ui.item.showDoctorCode);
+                $('#txtCanChangePrice').val(ui.item.canChangePrice);
+                $('#txtCanGiveLess').val(ui.item.canGiveLess);
+                $('#txtReportFileName').val(ui.item.reportFileName);
+                $('#txtSubSubPno').val(ui.item.subSubPnoId);
+                $('#txtIndoorBillGroupId').val(ui.item.inDoorBillGroupId);
+                $('#txtReportGroupId').val(ui.item.reportGroupId);
+                $('#txtActiveId').val(ui.item.isShowId);
+                $('#txtDiscountGroupId').val(ui.item.discountGroupId);
+                $('#txtAccountReportGroupId').val(ui.item.accountReportGroupId);
+                $('#txtAdjustAmtId').val(ui.item.isAdjustAmtId);
+                
+                $("#btnSave").val("Update");
+                $("#btnDelete").css("display", "unset");
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>PCode</th><th>Description</th><th>Charge</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.pCode + "</td>";
+            html += "<td>" + item.description + "</td>";
+            html += "<td>" + item.charge + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+
+    $('#btnList').on('click', function () {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    });
+
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                url: apiUrl + "ClinicalChartApi/GetClinicalChartList?searchString=0&isShowAll=1",
+                dataSrc: "",
+            },
+            "columns": [
+                    { "data": "itemId", "title": "itemId", visible: false },
+                    { "data": "pCode", "title": "pCode" },
+                    { "data": "description", "title": "description" },
+                    { "data": "charge", "title": "charge"},
+                    {
+                        "data": "itemId", width: "50px", "title": "Action",
+                        "render": function (data) {
+                            return "<a href='javascript:;' class='md-trigger' onclick='return deleteClinicalChart(" + data + ")'><span class='glyphicon glyphicon-trash'></span></a>";
+                        }
+                    }
+            ]
+
+        });
+    }
+    function GetIndoorBillGroupList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetIndoorBillGroupList", "ClinicalChartApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtIndoorBillGroupId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtIndoorBillGroupId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function GetReportGroupInfoList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetReportGroupInfoList", "ClinicalChartApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtReportGroupId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtReportGroupId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function GetDiscountGroupInfoList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetDiscountGroupInfoList", "ClinicalChartApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtDiscountGroupId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtDiscountGroupId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function GetAccountReportGroupNameList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAccountReportGroupNameList", "ClinicalChartApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtAccountReportGroupId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtAccountReportGroupId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function getSubSubPno() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetSubSubPnoList", "ClinicalChartApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtSubSubPno').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                    $('#txtSubSubPno').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    
+
+    function SaveIndoorBillGroup() {
+        if ($('#txtIndoorBillGroupNew').val() == '') { $('#txtIndoorBillGroupNew').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveIndoorBillGroup", "ClinicalChartApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtIndoorBillGroupNew").val() },
+            success: function (data) {
+                $('#txtIndoorBillGroupId').append($('<option></option>').val(data.result).html($("#txtIndoorBillGroupNew").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+    function SaveReportGroup() {
+        if ($('#txtReportGroupNew').val() == '') { $('#txtReportGroupNew').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveReportGroup", "ClinicalChartApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtReportGroupNew").val() },
+            success: function (data) {
+                $('#txtReportGroupId').append($('<option></option>').val(data.result).html($("#txtReportGroupNew").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+    function SaveDiscountGroup() {
+        if ($('#txtDiscountGroupNew').val() == '') { $('#txtDiscountGroupNew').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveDiscountGroup", "ClinicalChartApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtDiscountGroupNew").val() },
+            success: function (data) {
+                $('#txtDiscountGroupId').append($('<option></option>').val(data.result).html($("#txtDiscountGroupNew").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+    function SaveAccountReportGroup() {
+        if ($('#txtAccountReportGroupNew').val() == '') { $('#txtAccountReportGroupNew').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveAccountReportGroup", "ClinicalChartApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtAccountReportGroupNew").val() },
+            success: function (data) {
+                $('#txtAccountReportGroupId').append($('<option></option>').val(data.result).html($("#txtAccountReportGroupNew").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                ItemId: $('#txtId').val(),
+                PCode: $('#txtPCode').val(),
+                Description: $('#txtDescription').val(),
+                Charge: $('#txtCharge').val(),
+                LessFixedAmount: $('#txtLessFixedAmount').val(),
+                ServiceCharge: $('#txtServiceCharge').val(),
+                ServiceChargePcOrTkId: $('#txtServiceChargePcOrTk').val(),
+                Vat: $('#txtVat').val(),
+                VatPcOrTkId: $('#txtVatPcOrTk').val(),
+                ReferelFee: $('#txtRefferelFee').val(),
+                ReferelFeePcOrTkId: $('#txtRefferelFeePcOrTk').val(),
+                ReportFee: $('#txtReportFee').val(),
+                ReportFeePcOrTkId: $('#txtReportFeePcOrTk').val(),
+                CollectionFee: $('#txtCollectionFee').val(),
+                CollectionFeePcOrTkId: $('#txtCollectionFeePcOrTk').val(),
+                OthersFee: $('#txtOthersFee').val(),
+                OthersFeePcOrTkId: $('#txtOthersFeePcOrTk').val(),
+                DeliveryDuration: $('#txtReportDeliveryDurationDay').val(),
+                OutTest: $('#txtOutTest').val(),
+                ShowDoctorCode: $('#txtShowDrCode').val(),
+                CanChangePrice: $('#txtCanChangePrice').val(),
+                CanGiveLess: $('#txtCanGiveLess').val(),
+                ReportFileName: $('#txtReportFileName').val(),
+                SubSubPnoId: $('#txtSubSubPno').val(),
+                IndoorBillGroupId: $('#txtIndoorBillGroupId').val(),
+                ReportGroupId: $('#txtReportGroupId').val(),
+                IsShowId: $('#txtActiveId').val(),
+                DiscountGroupId: $('#txtDiscountGroupId').val(),
+                AccountReportGroupId: $('#txtAccountReportGroupId').val(),
+                IsAdjustAmtId: $('#txtAdjustAmtId').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            };
+            //alert(JSON.stringify(object)); return false;
+            $.ajax({
+                url: "@UrlConfig.Action("Post", "ClinicalChartApi")",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+
+    function deleteClinicalChart(param) {
+        $.confirm('Are You Sure?', 'Confirmation', function () {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetDeleteById", "ClinicalChartApi")",
+                dataType: "Json",
+                data: { 'id': param },
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
+    }
+
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+</script>
+

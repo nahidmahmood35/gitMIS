@@ -1,0 +1,416 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+        <div class="box box-info">
+            <div class="box-body ">
+                <div class="form-group">
+                    <label class="col-sm-2">Patient Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtPatientName" />
+                        <input type="text" class="form-control none" id="txtInvMasterId" />
+                        <input type="text" class="form-control none" id="txtRegId" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="txtInvoiceDate">Invoice date</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtInvoiceDate" />
+                    </div>
+                    <label class="col-sm-2 control-label" for="txtInvoiceNo">Invoice No.</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtInvoiceNo" placeholder="Invoice No" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info payment-area">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Due Amount</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtDueAmount" disabled />
+                    </div>
+                    <label class="col-sm-2">Less Amount</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control isnumber" id="txtLessAmount" />
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="txtLessTkOrPc">
+                            <option value="">--</option>
+                            <option value="Tk.">Tk</option>
+                            <option value="%">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Less From</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="txtDiscountFrom">
+                            <option value="0">--Select--</option>
+                            <option value="1">Dr</option>
+                            <option value="2">Hospital</option>
+                            <option value="3">Both</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2">Total Lass</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtTotalLessAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Net Payable</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtNetPayable" disabled />
+                    </div>
+                    <label class="col-sm-2">Total Receive</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtReceiveAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="payment-method">
+                        <ul class="navigation">
+                            <li class="active"><a data-toggle="tab" href="#cash">Cash</a></li>
+                            <li><a data-toggle="tab" href="#card">Card</a></li>
+                            <li><a data-toggle="tab" href="#Cheque">Cheque</a></li>
+                        </ul>
+                        <div class="user-body">
+                            <div class="tab-content">
+                                <div id="cash" class="tab-pane active">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Cash Amount</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control isnumber" id="txtCashAmount" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="card" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Card Amount</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCardAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Card Number</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero" id="txtCardNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Bank Name</label>
+                                        <div class="col-sm-10
+                                             ">
+                                            <select class="form-control" id="txtCardBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Cheque" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Cheaque Amount</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero isnumber" id="txtCheaqueAmount" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Cheaque Number</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control defaultZero" id="txtCheaqueNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Bank Name</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="txtCheaqueBankId">
+                                                <option value="0">-- Select --</option>
+                                                <option value="1">DBBL</option>
+                                                <option value="2">IBBL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Remarks</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control defaultNA" id="txtRemarks" placeholder="Remarks" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-primary" id="btnDueList" value="Deu List">
+                    <input type="submit" class="btn btn-info" id="btnList" value="Collection List">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row list-area">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-body">
+                    <table class="table table-bordered table-striped table-hover" id="table-example">
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#txtCashAmount").val(0);
+        $("#txtCardAmount").val(0);
+        $("#txtCheaqueAmount").val(0);
+        $('#txtPatientName').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetDueInvoiceList", "DueCollectionApi")",
+                    dataType: "Json",
+                    data: { 'param': $("#txtPatientName").val() },
+                    success: function(data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $('#txtRegId').val(ui.item.ptRegId);
+                $('#txtInvMasterId').val(ui.item.invMasterId); 
+                $('#txtPatientName').val(ui.item.ptName);
+                $('#txtDueAmount').val(ui.item.dueAmt);
+                $('#txtNetPayable').val(ui.item.dueAmt);
+                $('#txtInvoiceNo').val(ui.item.invoiceNo);
+                $('#txtInvoiceDate').val(ToJsonDate(ui.item.invoiceDate)).trigger("change");
+
+
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function(ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>RegNo</th><th>Name</th><th>MobileNo</th><th>InvoiceNo</th><th>Date</th><th>Amount</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.ptRegNo + "</td>";
+            html += "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.invoiceNo + "</td>";
+            html += "<td>" + ToJsonDate(item.invoiceDate) + "</td>";
+            html += "<td>" + item.dueAmt + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+    });
+
+    $("#txtLessTkOrPc").on('change', function() {
+        if ($("#txtLessTkOrPc").val() != '') {
+            var amount = lessTkOrPc('#txtDueAmount', '#txtLessAmount', '#txtLessTkOrPc');
+            $("#txtTotalLessAmount").val(amount[0]);
+            $("#txtNetPayable").val(amount[1]);
+        }
+    });
+
+    $("#txtLessAmount").on('keyup', function () {
+        $("#txtDiscountFrom").val(0);
+        if ($("#txtLessTkOrPc").val() != '') {
+            var amount = lessTkOrPc('#txtDueAmount', '#txtLessAmount', '#txtLessTkOrPc');
+            $("#txtTotalLessAmount").val(amount[0]);
+            $("#txtNetPayable").val(amount[1]);
+        }
+    });
+
+    $("#txtDiscountFrom").on('change', function() {
+        if ($("#txtDiscountFrom").val() == 1) {
+            $.ajax({
+                type: "Get",
+                url: "@UrlConfig.Action("GetMaxLessAmountInDueCollection", "DueCollectionApi")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: { 'invMasterId': $("#txtInvMasterId").val(), 'lessFrom': $("#txtDiscountFrom").val() },
+                success: function (data) {
+                    if ($("#txtTotalLessAmount").val() > data) {
+                        alert("You Can Not Less More Than " + data + "Tk. On This Invoice.");
+                        $("#txtTotalLessAmount").val(0);
+                        $("#txtNetPayable").val($("#txtDueAmount").val());
+                        $("#txtLessAmount").val(0).focus().select();
+                    }
+                }
+            });
+            return false;
+        }
+
+        if ($("#txtDiscountFrom").val() == 3) {
+            $.ajax({
+                type: "Get",
+                url: "@UrlConfig.Action("GetMaxLessAmountInDueCollection", "DueCollectionApi")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: { 'invMasterId': $("#txtInvMasterId").val(), 'lessFrom': $("#txtDiscountFrom").val() },
+                success: function(data) {
+                    if ($("#txtTotalLessAmount").val() > data / 2) {
+                        alert("You Can Not Less More Than " + data / 2 + "Tk. On This Invoice.");
+                        $("#txtTotalLessAmount").val(0);
+                        $("#txtNetPayable").val($("#txtDueAmount").val());
+                        $("#txtLessAmount").val(0).focus().select();
+                    }
+                }
+            });
+            return false;
+        }
+        return false;
+    });
+
+
+    $("#txtCashAmount, #txtCardAmount, #txtCheaqueAmount").keyup(function() {
+        var cash = parseFloat($("#txtCashAmount").val());
+        var card = parseFloat($("#txtCardAmount").val());
+        var cheque = parseFloat($("#txtCheaqueAmount").val());
+        var netPayable = parseFloat($("#txtNetPayable").val());
+
+        $("#txtReceiveAmount").val(parseFloat(cash + card + cheque));
+        if ($("#txtReceiveAmount").val() > netPayable) {
+            $("#txtReceiveAmount").val(0);
+            $("#txtCashAmount").val(0);
+            $("#txtCardAmount").val(0);
+            $("#txtCheaqueAmount").val(0);
+        }
+    });
+
+
+    function Save() {
+        var res = validation();
+        var custom = customvalid();
+
+        if (res & custom == true) {
+            var vouchers = {
+                PtRegId: $("#txtRegId").val(),
+                InvMasterId: $("#txtInvMasterId").val(),
+                LessPc: $("#txtLessAmount").val(),
+                LessPcOrTk: $("#txtLessTkOrPc").val(),
+                LessFrom: $("#txtDiscountFrom").val(),
+                LessAmount: $("#txtTotalLessAmount").val(),
+                ReceiveAmount: $("#txtReceiveAmount").val(),
+                CashAmount: $("#txtCashAmount").val(),
+                CardAmount: $("#txtCardAmount").val(),
+                CheaqueAmount: $("#txtCheaqueAmount").val(),
+                CardNumber: $("#txtCardNumber").val(),
+                CardBankId: $("#txtCardBankId").val(),
+                CheaqueNumber: $("#txtCheaqueNumber").val(),
+                CheaqueBankId: $("#txtCheaqueBankId").val(),
+                Remarks: $("#txtRemarks").val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            }
+            //alert(JSON.stringify(vouchers));
+            //return false;
+
+            $.ajax({
+                type: "Post",
+                url: "@UrlConfig.Action("Post", "DueCollectionApi")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    alert(JSON.stringify(data));
+                    var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                    $(document).ready(function (e) {
+                        detectPopup();
+                        function detectPopup() {
+                            if (!popupWindow) {
+                                alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                                return false;
+                            } else {
+                                window.open('', '_self');
+                                window.close();
+                            }
+                        }
+                    });
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }else {alert("Please fill required field");}
+        return false;
+    }
+
+    function customvalid() {
+        var isValid = true;
+        if ($("#txtCashAmount").val() != 0 || $("#txtCardAmount").val() != 0 || $("#txtCheaqueAmount").val() != 0) {
+            isValid = true;
+        }
+        if ($("#txtCardAmount").val() > 0) {
+            if ($("#txtCardNumber").val() && $("#txtCardBankId").val() == 0) {
+                alert("Please add Card Number or Bank Name");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").removeClass("active");
+                isValid = false;
+            }
+        }
+
+        if ($("#txtCheaqueAmount").val() > 0) {
+            if ($("#txtCheaqueNumber").val() && $("#txtCheaqueBankId").val() == 0) {
+                alert("Please add Cheaque Number or Bank Name");
+                $(".navigation li:last-child, .tab-content .tab-pane:last-child").addClass("active").trigger("change");
+                $(".navigation li:first-child, .tab-content .tab-pane:first-child").removeClass("active");
+                $(".navigation li:nth-child(2), .tab-content .tab-pane:nth-child(2)").removeClass("active");
+                isValid = false;
+            }
+        }
+        if ($("#txtNetPayable").val() != $("#txtReceiveAmount").val()) {
+            alert('Please Pay Full Due...');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+    
+
+    $('#btnDueList').on('click', function () {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    });
+    function LoadDataTable() {
+        $("#table-example").DataTable({
+            destroy: true,
+            "ajax": {
+                url: apiUrl + "DueCollectionApi/GetDueInvoiceList?param=0",
+                dataSrc: ""
+            },
+            "columns": [
+                { "data": "ptRegId", "title": "ptRegId", visible: false },
+                { "data": "invMasterId", "title": "invMasterId", visible: false },
+                { "data": "ptName", "title": "Patient Name" },
+                { "data": "ptMobileNo", "title": "Mobile No" },
+                { "data": "invoiceNo", "title": "Invoice No", width: "100px" },
+                { "data": "invoiceDate", "title": "Invoice Date", "render": function (data) { return (window.ToJsonDate(data)); } },
+                { "data": "dueAmt", "title": "Due Amt", width: "100px" }
+            ]
+        });
+    }
+    $('#txtRegId').val(ui.item.ptRegId);
+    $('#txtInvMasterId').val(ui.item.invMasterId);
+    $('#txtPatientName').val(ui.item.ptName);
+    $('#txtDueAmount').val(ui.item.dueAmt);
+    $('#txtNetPayable').val(ui.item.dueAmt);
+    $('#txtInvoiceNo').val(ui.item.invoiceNo);
+    $('#txtInvoiceDate').val(ToJsonDate(ui.item.invoiceDate)).trigger("change");
+</script>

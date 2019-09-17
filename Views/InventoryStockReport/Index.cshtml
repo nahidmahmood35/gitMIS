@@ -1,0 +1,237 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="box box-info">
+            <div class="box-header with-border"><span>Stock Report</span></div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Report Date From</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control datepicker required" id="txtReportDateFrom">
+                    </div>
+                    <label class="col-sm-2">Report Date To</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control datepicker required" id="txtReportDateTo">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Store Name</label>
+                    <div class="col-sm-10">
+                        @*<input type="text" class="form-control" id="txtSupplierName">
+                <input type="text" class="none" id="txtSupplierId" value="0">*@
+                        <select class="form-control select2" id="txtStoreName">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Supplier Name</label>
+                    <div class="col-sm-10">
+                        @*<input type="text" class="form-control" id="txtSupplierName">
+                        <input type="text" class="none" id="txtSupplierId" value="0">*@
+                        <select class="form-control select2" id="txtSupplierName">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2">Item Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtItemName">
+                        <input type="text" class="none" id="txtItemId" value="0">
+                        @*<select class="form-control select2" id="txtItemName">
+                            <option value="0">--Select--</option>
+                        </select>*@
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2">Catagory Name</label>
+                    <div class="col-sm-10">
+                        @*<input type="text" class="form-control" id="txtCatagoryName">
+                        <input type="text" class="none" id="txtCatagoryId" value="0">*@
+                        <select class="form-control select2" id="txtCatagoryName">
+                            <option value="0">--Select--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+
+                    @*<div class="form-group">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="GetReport('ExpiredItemList');">EXPIRED ITEM LIST</button>
+                    </div>
+                    @*<div class="form-group">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="GetReport('PurchaseLedgerSummary');"> PURCHASE LEDGER SUMMARY</button>
+                        </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success btn-lg btn-block" onclick="GetReport('ReminderStockByCompany');"> REMINDER STOCK BY COMPANY</button>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="GetReport('SalesCollectionByUser');">SALES COLLECTION</button>
+                    </div>*@
+                    <div class="form-group">
+                        <button type="button" class="btn btn-warning btn-lg btn-block" onclick="GetReport('StockIn');">Stock In</button>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success btn-lg btn-block" onclick="GetReport('StockLedger');"> Stock Ledger</button>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary  btn-lg btn-block" onclick="GetReport('StockSummary');"> Stock Summary</button>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success  btn-lg btn-block" onclick="GetReport('StockBalance');"> Stock Balance</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        GetSupplierList();
+        GetCatagoryList();
+        GetStoreNameList();
+        $('#txtItemName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetProductName", "InventoryStockRequsitionReqApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtItemName").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtItemId").val(ui.item.id);
+                $("#txtItemName").val(ui.item.productName);
+                //$("#txtPerUnit").val(ui.item.unit);
+                $("#txtCatagoryName").focus();
+                return false;
+            },
+            minLength: 1
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Id</th><th>Name</th>0<th>Unit</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.id + "</td>";
+            html += "<td>" + item.productName + "</td>";
+            html += "<td>" + item.unit + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+    });
+
+    function GetSupplierList() {
+        $.ajax({
+            type: "GET",
+            @*url: '@UrlConfig.Action("GetSupplierList", "InventoryStockReport")'txtStoreName,*@
+            url: '@Url.Action("GetSupplierList", "InventoryStockReport")',
+            dataType: "Json",
+            //  data: { searchString: 0 },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $('#txtSupplierName').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data.data, function (key, item) {
+                    var rows = "<option value=" + item.Id + ">" + item.Name + "</option>";
+                    $('#txtSupplierName').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetCatagoryList() {
+        $.ajax({
+            type: "GET",
+            @*url: '@UrlConfig.Action("GetSupplierList", "InventoryStockReport")',*@
+            url: '@Url.Action("GetCatagoryList", "InventoryStockReport")',
+            dataType: "Json",
+            //  data: { searchString: 0 },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $('#txtCatagoryName').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data.data, function (key, item) {
+                    var rows = "<option value=" + item.Id + ">" + item.Name + "</option>";
+                    $('#txtCatagoryName').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetStoreNameList() {
+        $.ajax({
+            type: "GET",
+            @*url: '@UrlConfig.Action("GetSupplierList", "InventoryStockReport")',*@
+            url: '@Url.Action("GetStoreNameList", "InventoryStockReport")',
+            dataType: "Json",
+            //  data: { searchString: 0 },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $('#txtStoreName').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data.data, function (key, item) {
+                    var rows = "<option value=" + item.Id + ">" + item.Name + "</option>";
+                    $('#txtStoreName').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function GetReport(reportId) {
+        var object = {
+            DateTo: $("#txtReportDateTo").val(),
+            DateFrom: $("#txtReportDateFrom").val(),
+            ReportId: reportId,
+            CompanyId: $("#txtSupplierName").val(),
+            ProductId: $("#txtItemId").val(),
+            CatagoryId: $("#txtCatagoryName").val(),
+            PnoId: $("#txtStoreName").val(),
+        };
+        //alert(JSON.stringify(object));
+        //return false;
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetReportView", "InventoryStockReport")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(object),
+            success: function (data) {
+                //alert("Save Success");
+                var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+
+                $(document).ready(function (e) {
+                    detectPopup();
+                    function detectPopup() {
+                        if (!popupWindow) {
+                            alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                            return false;
+                        } else {
+                            window.open('', '_self');
+                            window.close();
+                            //   location.reload(true);
+                        }
+                    }
+                });
+                //window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+            }
+        });
+
+    }
+
+
+</script>

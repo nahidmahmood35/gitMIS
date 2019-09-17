@@ -1,0 +1,455 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientName">
+                        <input type="text" class="none" id="txtId" />
+                    </div>
+                    <label class="col-sm-2">Mobile</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtMobileNo" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Age</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientAge" disabled>
+                    </div>
+                    <label class="col-sm-2">Gender</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtPatientGender" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Address</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtPatientAddress" disabled>
+                    </div>
+                </div>
+                
+                <div class="form-group grid-input">
+                    <input type="text" class="none" id="pCode" />
+                    <input type="text" class="none" id="txtInvestigationId" />
+                    <input type="text" class="form-control text-center" id="txtInvestigationName" placeholder="Enter Investigation Name Or Code" />
+                    <input type="text" class="none" id="txtCharge" disabled />
+                    <input type="text" class="none" id="txtSvrCharge" disabled />
+                    <input type="text" class="none" id="txtVat" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group table-scrollable">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Investigation Name</th>
+                                <th class="text-center">Dr Code</th>
+                                <th class="text-center">Charge</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">SC</th>
+                                <th class="text-center">Vat</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center" id="tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="box box-info payment-area">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-6">Net Total</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtTotalAmount" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Service Charge</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtTotalSC" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Vat</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtTotalVat" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6">Grand Total</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtGrandTotal" disabled />
+                    </div>
+                </div>
+                
+
+
+                <div class="form-group">
+                    <label class="col-sm-6">Remarks</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control defaultNA" id="txtRemarks" placeholder="Remarks" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-primary" id="btnList" value="View All">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on("keyup", "#tbody .qty, #tbody .drCharge", calculateGrid);
+        $(document).on("keyup", "#tbody .drcode", drcodeGrid);
+
+        $('#txtPatientName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "AdmissionApi/GetAdmittedPatientList",
+                    dataType: "Json",
+                    data: { 'id': 0, 'searchString': $("#txtPatientName").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtId").val(ui.item.ptIndoorId);
+                $("#txtPatientName").val(ui.item.ptName);
+                $("#txtMobileNo").val(ui.item.ptMobileNo);
+                $("#txtPatientAge").val(ui.item.ptAgeDetail);
+                $("#txtPatientGender").val(ui.item.ptGenderName);
+                $("#txtPatientAddress").val(ui.item.ptAddress);
+                $("#txtInvestigationName").focus();
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>Name</th><th>Mobile</th><th>FatherName</th><th>Address</th></tr></thead>").appendTo(ul)
+            }
+            var html = "<td>" + item.ptName + "</td>";
+            html += "<td>" + item.ptMobileNo + "</td>";
+            html += "<td>" + item.ptFatherName + "</td>";
+            html += "<td>" + item.ptAddress + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+
+        $('#txtInvestigationName').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetClinicalChartList", "ClinicalChartApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtInvestigationName").val(),'isShowAll':0 },
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            position: { collision: "flip" },
+            select: function (event, ui) {
+                add(ui);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {$("<thead><tr><th>PCode</th><th>Description</th><th>Charge</th></tr></thead>").appendTo(ul);}
+            var html = "<td>" + item.pCode + "</td>";
+            html += "<td>" + item.description + "</td>";
+            html += "<td>" + item.charge + "</td>";
+
+            return $("<tr></tr>").append(html).appendTo(ul);
+
+        };
+
+    });
+
+    function add(ui) {
+        var res = validate();
+        if (res == false) {
+            return false;
+        }
+        var isDr = ui.item.showDoctorCode;
+        var serviceChargePcOrTkId = ui.item.serviceChargePcOrTkId;
+        var vatPcOrTkId = ui.item.vatPcOrTkId;
+        (serviceChargePcOrTkId == "%") ? serviceCharge = ui.item.serviceCharge * ui.item.charge * 0.01 : serviceCharge = ui.item.serviceCharge;
+        (vatPcOrTkId == "%") ? vat = ui.item.vat * ui.item.charge * 0.01 : vat = ui.item.vat;
+        
+        var html = '';
+        html += '<tr id=' + ui.item.itemId + '>';
+        html += '<td class="none">' + ui.item.itemId + '</td>';
+        html += '<td class="col-sm-4">' + ui.item.description + '</td>';
+        if (isDr == 1) {
+            html += '<td class="none drid" ></td>';
+            html += '<td class="col-sm-3"><input type="text" class="drcode" value="0"/></td>';
+            html += '<td class="col-sm-2"><input type="text" class="drCharge" value="0"/></td>';
+        } else {
+            html += '<td class="none drid" >0</td>';
+            html += '<td class="col-sm-3">n/a</td>';
+            html += '<td class="col-sm-2" id="charge">' + ui.item.charge + '</td>';
+        }
+        html += '<td class="col-sm-1"><input type="text" class="isnumber qty" value="1"/></td>';
+        html += '<td class="col-sm-1 total">' + ui.item.charge + '</td>';
+        html += '<td class="col-sm-1 svrcharge">' + serviceCharge + '</td>';
+        html += '<td class="col-sm-1 vat">' + vat + '</td>';
+        html += '<td class="none serviceCharge">' + serviceCharge + '</td>';
+        html += '<td class="none vats">' + vat + '</td>';
+        html += '<td class="col-sm-1"><a href="javascript:;" class="deleteRow"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        html += '</tr>';
+        $('#tbody').append(html);
+        $('#txtInvestigationName').val('');
+        UpdateGrandAmount();
+        return false;
+
+    }
+
+    function drcodeGrid() {
+        $(".drcode").each(function () {
+            var $this = $(this);
+            $this.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        type: "GET",
+                        url: apiUrl + "Doctorapi/GetDoctorList?searchString=" + $this.val(),
+                        dataType: "Json",
+                        success: function (data) {
+                            response(data.slice(0, 10));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.name);
+                    $(this).closest("tr").find('.drid').text(ui.item.drId);
+                    return false;
+                },
+                minLength: 3
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                if (ul.children().length === 0) {
+                    $("<thead><tr><th>DrCode</th><th>Dr Name</th><th>Mobile</th></tr></thead>").appendTo(ul);
+                }
+                var html = "<td>" + item.code + "</td>";
+                html += "<td>" + item.name + "</td>";
+                html += "<td>" + item.mobileNo + "</td>";
+                return $("<tr></tr>").append(html).appendTo(ul);
+            };
+        });
+    }
+
+    function calculateGrid() {
+        var subtotal = 0, drtotal=0;
+        $(".qty").each(function () {
+            if (!isNaN(this.value) && this.value.length != 0) {
+                total = parseFloat(this.value) * parseFloat($(this).closest("tr").find('#charge').text());
+                totalSC = parseFloat(this.value) * parseFloat($(this).closest("tr").find('.serviceCharge').text());
+                totalVat = parseFloat(this.value) * parseFloat($(this).closest("tr").find('.vats').text());
+                $(this).closest("tr").find('.total').text(total);
+                $(this).closest("tr").find('.svrcharge').text(totalSC);
+                $(this).closest("tr").find('.vat').text(totalVat);
+                subtotal += parseFloat(total);
+            }
+        });
+        $(".drCharge").each(function () {
+            if (!isNaN(this.value) && this.value.length != 0) {
+                drCharge = parseFloat(this.value) * parseFloat($(this).closest("tr").find('.qty').val());
+                $(this).closest("tr").find('.total').text(drCharge);
+                drtotal += parseFloat(drCharge);
+            }
+        });
+        UpdateGrandAmount();
+
+       
+    }
+
+    $("table #tbody").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        $(function () {
+            UpdateGrandAmount();
+        });
+        return false;
+    });
+
+    function UpdateGrandAmount() {
+        $("#txtTotalAmount").val(sumColumn(7));
+        $("#txtTotalSC").val(sumColumn(8));
+        $("#txtTotalVat").val(sumColumn(9));
+        $("#txtGrandTotal").val(parseFloat($("#txtTotalAmount").val()) +parseFloat($("#txtTotalSC").val())+parseFloat($("#txtTotalVat").val()));
+    }
+
+
+    function validate() {
+        var isValid = true;
+        var table = $("table #tbody");
+        var itemId = $("#txtInvestigationId").val();
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(0).text();
+            if (tableValue == itemId) {
+                alert("Already Exist");
+                $("#txtInvestigationName").select().focus();
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+
+    function Save() {
+        var res = validation();
+        var custom = customvalid();
+        if (res & custom == true) {
+            var vouchers = [];
+            var table = $('table #tbody');
+            table.find('tr').each(function () {
+                var $tds = $(this).find('td'),
+                    tItemId = $tds.eq(0).text(),
+                    tDrId = $tds.eq(2).text(),
+                    tItemCharge = $tds.eq(4).find('input').val() | $tds.eq(4).text(),
+                    tQuantity = $tds.eq(5).find('input').val(),
+                    tServiceCharge = $tds.eq(7).text(),
+                    tVat = $tds.eq(8).text();
+
+                var voucher = {
+                    PtIndoorId: $("#txtId").val(),
+                    TotalAmount: $("#txtGrandTotal").val(),
+                    Remarks: $("#txtRemarks").val(),
+                    ItemId: tItemId,
+                    DrId: tDrId,
+                    Charge: tItemCharge,
+                    Quantity: tQuantity,
+                    Vat: tVat,
+                    ServiceCharge: tServiceCharge,
+                    UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                    };
+                vouchers.push(voucher);
+            });
+          //  return false;
+            $.ajax({
+                type: "Post",
+                url: apiUrl + "IndoorProcedureEntryApi/Post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+
+    function customvalid() {
+        var isValid = true;
+        if ($('#tbody').html() == '') { alert('Please add an item to table grid.'); isValid = false; }
+        
+        var table = $('table #tbody');
+        table.find('tr').each(function() {
+            var $tds = $(this).find('td'),
+                drCode = $tds.eq(3).find('input').val();
+                charge = $tds.eq(4).find('input').val();
+                if (drCode == 0 & charge == 0) {
+                alert("Please add grid input fields value");
+                isValid = false;
+            }
+        });
+        return isValid;
+    }
+
+
+    $('#btnList').on('click', function () {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    });
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+            url: "@UrlConfig.Action("GetProcedureEntryList", "IndoorProcedureEntryApi")",
+            dataSrc: ""
+            },
+                "columns": [
+                    { "data": "invoiceNo", "title": "InvoiceNo" },
+                    { "data": "invoiceDate", "name": "InvoiceDate", "render": function (data) { return (window.ToJsonDate(data)); } },
+                    { "data": "name", "title": "Name" },
+                    { "data": "ptMobileNo", "title": "Mobile No" },
+                    { "data": "ptAddress", "title": "Address" },
+                    {
+                        "data": "invoiceNo", width: "80px", "title": "Action",
+                        "render": function (data) {
+                            return "<a href='javascript:;' class='md-trigger' onclick='return GetReprintByInvoice(\"" + data + "\")'><span class='glyphicon glyphicon-edit'></span></a>";
+                        }
+                    }
+                ]
+
+        });
+    }
+
+    function GetReprintByInvoice(param) {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "IndoorProcedureEntryApi/GetReprintProcedureEntry",
+            dataType: "Json",
+            data: { 'refNo': param },
+            success: function (data) {
+                var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                $(document).ready(function (e) {
+                    detectPopup();
+                    function detectPopup() {
+                        if (!popupWindow) {
+                            alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                            return false;
+                        } else {
+                            window.open('', '_self');
+                            window.close();
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>

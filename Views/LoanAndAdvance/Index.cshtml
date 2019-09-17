@@ -1,0 +1,378 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border"><span>Loan And Advance</span></div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Employee Id</label>
+                    <div class="col-sm-4">
+                        <select class="form-control select2 selectNoAdd" id="txtEmployeeId" name="txtEmployeeId" onchange=GetEmployeeDetailById()></select>
+                    </div>
+                    <label class="col-sm-2">Employee Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtEmployeeName" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Status</label>
+                    <div class="col-sm-4">
+                        <select class="form-control required" id="txLoanAndAdvance" name="txLoanAndAdvance" onchange="changeSelect()">
+                            <option value="">--Select--</option>
+                            <option value="1">Loan</option>
+                            <option value="2">Advance</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2" id="labLoanAmound">Loan Amount</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtLoanAmound" name="txtLoanAmound">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Designation</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtDesignation" readonly>
+                    </div>
+                    <label class="col-sm-2">Department</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtDeparment" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Total Salary</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtTotalSalary" readonly>
+                    </div>
+                    <label class="col-sm-2" id="labLoanId">Loan Id</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtLoanId" name="txtLoanId" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2" id="labLoanType">Loan Type</label>
+                    <div class="col-sm-4">
+                        <select class="form-control defaultNA select2" class="form-control" id="txtLoanType" name="txtLoanType"></select>
+                    </div>
+                    <label class="col-sm-2">Installment Amount</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control isnumber" id="txtInstallmentAmound" name="txtInstallmentAmound">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Note</label>
+                    <div class="col-sm-10">
+                        <textarea rows="1" cols="50" class="form-control" id="txtNote" name="txtNote"></textarea>
+
+                    </div>
+                    <div class="none"><input type="text" class="form-control" id="txtprojectId" name="txtprojectId" readonly></div>
+                </div>
+
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save()" value="Save">
+                    <input type="submit" class="btn btn-sm btn-info" id="btnList" onclick="getAll()" value="View All">
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit">
+    <div class="modal-dialog">
+        <div class="box box-info">
+            <div class="box-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <p class="modal-title">Update Loan Installment</p>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Amount</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtinstallmentAmound">
+                        <input type="text" class="none" id="txtEmpId">
+                        <input type="text" class="none" id="txtloanNo">
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-success btn-sm" onclick="UpdateLoanInstallment()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetEmployeeID();
+        GetLoanId();
+        //GetLoanType();
+       
+
+    });
+
+
+    function getAll() {
+        $(".list-area").fadeToggle(500);
+        LoadDataTable();
+    }
+    
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+            url: "@UrlConfig.Action("GetLoanList", "LoanAndAdvanceApi")",
+            dataSrc: ""
+            },
+            "columns": [
+                { "data": "employeeId", "title": "employeeId", className: "employeeId none" },
+                { "data": "loanNo", "title": "loanNo", className: "loanNo none" },
+                { "data": "emName", "title": "Name" },
+                { "data": "loanAmound", "title": "Loan Amount" },
+                { "data": "emDesignationName", "title": "Designation" },
+                { "data": "loanNo", "title": "loanNo" },
+                { "data": "restLoanAmount", "title": "restLoanAmount" },
+                { "data": "installmentAmound", "title": "Installment Amount", className: "installmentAmound" },
+                {
+                    "data": "employeeId", width: "50px", "title": "Action",
+                    "render": function (data) {
+                        return "<a class=" + data + "  data-toggle='modal' data-target='#edit' href='javascript:;' onclick='return GetUpdateLoanInstallment(" + data + ")'><span class='glyphicon glyphicon-edit'></span></a> | <a href='javascript:;' onclick='return GetLoanSheet(" + data + ")'><span class='glyphicon glyphicon-print'></span></a>";
+                    }
+                }
+            ]
+        });
+    }
+    
+    function GetUpdateLoanInstallment(param) {
+        empid = $("." + param).parent().closest("tr").find(".employeeId").text();
+        loanNo = $("." + param).parent().closest("tr").find(".loanNo").text();
+        amount = $("." + param).parent().closest("tr").find(".installmentAmound").text();
+        $("#txtEmpId").val(empid);
+        $("#txtloanNo").val(loanNo);
+        $("#txtinstallmentAmound").val(amount);
+
+    }
+    
+    function GetLoanSheet(param) {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetLoanSheet", "LoanAndAdvanceApi")",
+            dataType: "Json",
+            data: { 'EmpId': param },
+            success: function (data) {
+                window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+            },
+
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function UpdateLoanInstallment() {
+        $.ajax({
+            url: "@UrlConfig.Action("GetUpdateLoanInstallment", "LoanAndAdvanceApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'EmpId': parseInt($("#txtEmpId").val()), 'LoanId': parseInt($("#txtloanNo").val()), 'Amount': parseInt($("#txtinstallmentAmound").val()) },
+            success: function (data) {
+                if (data.output != "error") {
+                    alert(data.result);
+                    location.reload(true);
+                } else {
+                    alert(data.result);
+                }
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function GetEmployeeID() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeId", "LoanAndAdvanceApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtEmployeeId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtEmployeeId').append(rows);
+                });
+            },
+
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function GetEmployeeDetailById() {
+        GetLoanType();
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetEmployeeDetailById", "LoanAndAdvanceApi")',
+            dataType: "Json",
+
+            data: { 'param': $('#txtEmployeeId').val() },
+            success: function (data) {
+                $.each(data, function(key, item) {
+                    $("#txtEmployeeName").val(item.name);
+                    $("#txtDesignation").val(item.designationName);
+                    $("#txtDeparment").val(item.departmentName);
+                    $("#txtTotalSalary").val(item.grossSalary);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+
+
+    }
+
+
+    function GetLoanId() {
+       
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetLoanId", "LoanAndAdvanceApi")',
+            dataType: "Json",
+
+            success: function (data) {
+                $("#txtLoanId").val(data);
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetLoanType() {
+
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetLoanType", "LoanAndAdvanceApi")',
+            dataType: "Json",
+            data: { 'param': $('#txtEmployeeId').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                //return false;
+                $('#txtLoanType').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtLoanType').append(rows);
+                });
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function changeSelect() {
+        if (document.getElementById("txLoanAndAdvance").value == "1") {
+            document.getElementById("labLoanId").innerHTML = "Loan Id";
+            document.getElementById("labLoanAmound").innerHTML = "Loan Amount";
+            document.getElementById("labLoanType").innerHTML = "Loan Type";
+            document.getElementById("txtLoanAmound").value = "";
+            document.getElementById("txtInstallmentAmound").readOnly = false;
+            
+            } else {
+            document.getElementById("labLoanId").innerHTML = "Advance Id";
+            document.getElementById("labLoanAmound").innerHTML = "Advance Amount";
+            document.getElementById("labLoanType").innerHTML = "Advance Type";
+            document.getElementById("txtLoanAmound").value = "";
+            document.getElementById("txtInstallmentAmound").readOnly = true;
+           
+
+        }
+    }
+
+    $("#txtLoanAmound").on('keyup', function () {
+        if ($("#txLoanAndAdvance").val() == 2) {
+            
+            if (parseFloat($("#txtLoanAmound").val()) > parseFloat($("#txtTotalSalary").val())) {
+                alert("your monthly salary not sufficient for this advanced");
+                $("#txtLoanAmound").val('0').select();
+            }
+            $("#txtInstallmentAmound").val($("#txtLoanAmound").val());
+        }
+    });
+    function gMonth() {
+        var date = $("#txtDate").datepicker("getDate");
+        var month = date.getMonth()+1;
+        return month;
+    };
+    function gYear() {
+        var date = $("#txtDate").datepicker("getDate");
+        var year = date.getFullYear();
+        return year;
+    };
+
+    function Save() {
+
+        var res = validation();
+        if (res == true) {
+            var object = {
+                EmployeeId: $('#txtEmployeeId').val(),
+                LoanId: $('#txtLoanId').val(),
+                LoanType: $('#txtLoanType').val(),
+                LoanAmound: $('#txtLoanAmound').val(),
+                InstallmentAmound: $('#txtInstallmentAmound').val(),
+                LoanAndAdvance: $('#txLoanAndAdvance').val(),
+                Note: $('#txtNote').val(),
+                //EmployeeName: $('#txtEmployeeName').val(),
+                //Status: $('#txtStatus').val(),
+               //Designation: $('#txtDesignation').val(),
+                //Deparment: $('#txtDeparment').val(),
+                //TotalSalary: $('#txtTotalSalary').val(),
+                //Date: $('#txtDate').val(),
+                //SequentialStatuss: $('#txtSequentialStatuss').val(),
+                //ProjectId: $('#txtprojectId').val(),
+                //monthId: gMonth(),
+                //year: gYear(),
+            };
+            //alert(JSON.stringify(object));
+            //return false;
+            $.ajax({
+                url: "@UrlConfig.Action("Post", "LoanAndAdvanceApi")",
+                data: JSON.stringify(object),
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            datatype: JSON,
+            success: function (data) {
+                if (data.output != "error") {
+                    alert(data.msg);
+                    location.reload(true);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+    else {
+            alert("Please fill required field");
+    }
+    return false;
+    }
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+</script>
+
+

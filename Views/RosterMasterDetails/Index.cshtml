@@ -1,0 +1,429 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Employee Roster Details</h3>
+    </div>
+    <div class="box-body">
+        <div class="form-group">
+            <label class="col-sm-1">Employee Code</label>
+            <div class="col-sm-3">
+                <select class="form-control required selectNoAdd" id="txtCode" onchange="getEmployeeDetailById();"> </select>
+            </div>
+
+            <label class="col-sm-2">Name </label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="txtEmployeeName" disabled>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2"> Department</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="txtDepartment" disabled>
+            </div>
+
+            <label class="col-sm-2">Designation</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="txtDesignation" disabled>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1">Form Date</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control datepicker" id="txtFormDate" onchange="chakeDate();" readonly>
+            </div>
+            <label class="col-sm-1">To Date</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control datepicker" id="txtToDate" onchange="chakeDate();" readonly>
+            </div>
+            <div class="col-sm-6">
+                <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Create();" value="Create">
+                <input type="submit" class="btn btn-sm btn-danger" id="btnSave" onclick="Delete();" value="Delete">
+                <input type="submit" class="btn btn-sm btn-info" id="btnList" onclick="getAll()" value="View All">
+                <input type="submit" class="btn btn-sm btn-warning" id="btnList" onclick="Report()" value="individual Report">
+                @*<input type="submit" class="btn btn-sm btn-warning" id="btnList" onclick="Report()" value="Report For Department">*@
+                <a data-toggle="modal" data-target="#newDepartment" class="btn btn-sm btn-primary"> Report For Department</a>
+            </div>
+           
+        </div>
+        <div class="form-group list-area">
+            <div class="table-scrollable">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="col-sm-3">Date</th>
+                        <th class="col-sm-3">Day Name</th>
+                        <th class="col-sm-3">General Shift</th>
+                        <th class="col-sm-2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center" id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="newProject" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <p class="modal-title">Edit Time Shift</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-4">Edit Time Shift</label>
+                            <div class="col-sm-8">
+                                <select class="form-control selectNoAdd" id="txtTimeShift"></select>
+                                <input type="text" class="none" id="txtRowId">
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-success btn-sm" onclick="SaveTimeShift()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="newDepartment" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <p class="modal-title">Department Wise Report</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-4">Select Department</label>
+                            <div class="col-sm-8">
+                                <select class="form-control selectNoAdd" id="txtDepartmentList"> </select>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-success btn-sm" onclick="ReportDepartment()">Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<Script>
+
+    $(document).ready(function () {
+        EmployeeCode();
+        GetShiftList();
+        DepartmentList();
+
+    });
+
+    function EmployeeCode() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetEmployeeList",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtCode').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data,
+                    function (key, item) {
+                        var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                        $('#txtCode').append(rows);
+                    });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function DepartmentList() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetDepartmentList",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtDepartmentList').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data,
+                    function (key, item) {
+                        var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                        $('#txtDepartmentList').append(rows);
+                    });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function GetShiftList() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetShiftList",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtTimeShift').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data,
+                    function (key, item) {
+                        var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                        $('#txtTimeShift').append(rows);
+                    });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function getAll() {
+        $(".list-area").fadeToggle(500);
+        getAllData();
+        //alert($("#txtFormDate").val());
+
+    }
+
+    function chakeDate() {
+        var formDate = new Date($('#txtFormDate').val());
+        var toDate = new Date($('#txtToDate').val());
+        if (formDate > toDate) {
+            alert("Invalid Date Input");
+            $('#txtToDate').val('Select');
+            $('#txtToDate').val('Select');
+
+        }
+    }
+
+    function getEmployeeDetailById() {
+        $.ajax({
+            type: "GET",
+            @*url: "@UrlConfig.Action("GetEmployeeDetalsList", "RosterMasterApi")",*@
+            url: apiUrl + "RosterMasterDetailsApi/GetEmployeeDetalsList",
+            dataType: "Json",
+            data: { 'searchString': $('#txtCode').val() },
+            success: function (data) {
+                $('#tbody').empty();
+                $('#txtEmployeeName').val(data[0].emName);
+                $('#txtDepartment').val(data[0].departmentName);
+                $("#txtDesignation").val(data[0].emDesignationName);
+
+            },
+            error: function(errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function Create() {
+        //alert($('#txtFormDate').val());
+        //alert($('#txtToDate').val());
+        //alert($('#txtCode').val());
+        //return false;
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "RosterMasterDetailsApi/GetCreaye",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "Json",
+                    data: { 'formDate': $('#txtFormDate').val(), 'toDate': $('#txtToDate').val(), 'emId': $('#txtCode').val() },
+                    success: function (data) {
+                        //alert(JSON.stringify(data));
+                        if (data.output == 'error') {
+                            alert("This Date Already Entry!!");
+                            location.reload(true);
+                            
+                        } else {
+                            alert(data.result);
+                            location.reload(true);
+                        }
+                        
+                    },
+                    error: function(errormessage) {
+                        alert(errormessage.responseText);
+                        location.reload(true);
+                    }
+                });
+                return false;
+     
+    }
+
+
+    function Delete() {
+        //alert($('#txtFormDate').val());
+        //alert($('#txtToDate').val());
+        //alert($('#txtCode').val());
+        //return false;
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetDelete",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'formDate': $('#txtFormDate').val(), 'toDate': $('#txtToDate').val(), 'emId': $('#txtCode').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                if (data.output == 'error') {
+                    alert("This Date Already Entry!!");
+                    location.reload(true);
+
+                } else {
+                    alert(data.result);
+                    location.reload(true);
+                }
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+                location.reload(true);
+            }
+        });
+        return false;
+
+    }
+
+
+    function getAllData() {
+        //alert($('#txtFormDate').val());
+        //alert($('#txtToDate').val());
+        //alert($('#txtCode').val());
+        //return false;
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetAll",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: {'emId': $('#txtCode').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $('#tbody').empty();
+                $.each(data, function (key, item) {
+                    var rows = "<tr>"
+                        + "<td class='none'>" + item.id + "</td>"
+                        + "<td>" + ToJsonDate(item.emFirstDate) + "</td>"
+                        + "<td class='none'>" + item.dayNameId + "</td>"
+                        + "<td>" + item.dayName + "</td>"
+                        + "<td class='none'>" + item.ShiftNameId + "</td>"
+                        + "<td>" + item.shiftName + "</td>"
+                        + "<td><a href='javascript:;' class='deleteRow' data-toggle='modal' onclick='editData(" + item.id + ");' data-target='#newProject'><span class='glyphicon glyphicon-edit'></span></a></td>"
+                        + "</tr>";
+                    $('#tbody').append(rows);
+                });
+                //if (data.output == 'error') {
+                //    alert("This Date Already Entry!!");
+                //    location.reload(true);
+
+                //} else {
+                //    alert(data.result);
+                //    location.reload(true);
+                //}
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+                location.reload(true);
+            }
+        });
+        return false;
+
+    }
+
+    function editData(param) {
+        $("#txtRowId").empty();
+        $("#txtRowId").val(param);
+    }
+    function Report() {
+      
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetReport",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'formDate': $('#txtFormDate').val(), 'toDate': $('#txtToDate').val(), 'emId': $('#txtCode').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                if (data.msg == "Please Select valid Date!!") {
+                    alert(data.msg);
+                    return false;
+                } else {
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                    //  location.reload(true);
+                }
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+                location.reload(true);
+            }
+        });
+        return false;
+
+    }
+
+    function ReportDepartment() {
+        if ($('#txtDepartmentList').val() == 0) {
+            return false;
+            location.reload(true);
+        }
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetReportDepartment",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'DepartmentId': $('#txtDepartmentList').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                //if (data.msg == "Please Select valid Date!!") {
+                //    alert(data.msg);
+                //    return false;
+                //} else {
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                      location.reload(true);
+                //}
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+                location.reload(true);
+            }
+        });
+        return false;
+
+    }
+
+
+    function SaveTimeShift() {
+        //alert($('#txtFormDate').val());
+        //alert($('#txtToDate').val());
+        //alert($('#txtCode').val());
+        //return false;
+        if (($('#txtTimeShift').val()) == 0) {
+            alert("Please Selete Shift time");
+            return false;
+            location.reload(true);
+        }
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "RosterMasterDetailsApi/GetEdit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'timeShiftId': $('#txtTimeShift').val(), 'rowId': $('#txtRowId').val() },
+            success: function (data) {
+                alert(data.result);
+                $('#newProject').modal('hide');
+                getAll();
+                //alert(JSON.stringify(data));
+                //if (data.output == 'error') {
+                //    alert("This Date Already Entry!!");
+                //    location.reload(true);
+
+                //} else {
+                //    alert(data.result);
+                //    location.reload(true);
+                //}
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+                location.reload(true);
+            }
+        });
+        return false;
+
+    }
+
+    
+</Script>
+
+

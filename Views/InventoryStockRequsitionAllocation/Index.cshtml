@@ -1,0 +1,414 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-header with-border">Stock Requsition Allocation<input type="submit" class="btn btn-sm btn-success" style="margin-left:1065px;" id="" onclick="location.reload();" value="Refresh Page"></div>
+
+            <div class="box-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover datatable">
+                        <tbody id="dataget"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 toshow" style="display:none;">
+        <div class="box box-info">
+
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2">Requistion No</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control " id="txtRequistion" disabled>
+                    </div>
+                    <label class="col-sm-2">Status</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control " id="txtStatus" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="txtDate">Date </label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control datepicker required" id="txtDate" />
+                    </div>
+                    <label class="col-sm-2">Allocation By</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control " id="txtAllocationBy" value="@System.Web.HttpContext.Current.Session["UserName"]" readonly>
+                    </div>
+                   
+                </div>
+              
+                <div class="form-group">
+                    <label class="col-sm-2">Note</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required" id="txtNote">
+                    </div>
+                    <label class="col-sm-2">Department</label>
+                    <div class="col-sm-4">
+                        <select class="form-control select2" id="txtDepartmentID" disabled></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Requsition Note</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control required" id="txtRequsitionNote" disabled>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <div class="table-scrollable">
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center none">ID </th>
+                                        <th class="text-center">Product Name</th>
+                                        <th class="text-center"> Unit</th>
+                                        <th class="text-center"> Stock IN Hand</th>
+                                        <th class="text-center"> List issue</th>
+
+                                        <th class="text-center">Req Qty</th>
+                                        <th class="text-center">Allocation Qty</th>
+                                        <th class="text-center">Stock</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center" id="tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <div class="button-group text-center">
+                <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+                @*<input type="submit" class="btn btn-sm btn-primary" id="btnList" value="View All">*@
+            </div>
+            
+            <div class="modal fade" id="newProject" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                            <p class="modal-title">product Transition Table</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="table-scrollable">
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center"> Date</th>
+                                            <th class="text-center">In Quantity</th>
+                                            <th class="text-center">Out Quantity</th>
+                                            <th class="text-center">Receved By</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="text-center" id="tbody2"></tbody>
+                                    </table>
+                                    <div class="form-group">
+                                        <label class="col-sm-2">Total Quantity</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control " id="txtQuantity" disabled>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        LoadDataTable();
+        GetDepartmentList();
+        $(document).on("keyup", "#tbody .allocationQty", calculateGrid);
+        @*GetDepartmentList();
+        $('#txtReqNo').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetPharRequisitionList", "PharRequisitionAllocationApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtReqNo").val() ,'status':1,'userName': "@System.Web.HttpContext.Current.Session["UserName"]"},
+                    success: function (data) {
+                        //alert(JSON.stringify(data));
+                        response(data.slice(0, 10));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#txtReqNo").val(ui.item.reqNo);
+                $("#txtReqId").val(ui.item.id);
+                GetPharRequisitionDetailList(ui.item.reqNo);
+                return false;
+            },
+            minLength: 3
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead><tr><th>ReqNo</th><th>Date</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.reqNo + "</td>";
+            html += "<td>" + ToJsonDate(item.reqDate) + "</td>";
+
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };*@
+    });
+
+    //$('#btnList').on('click', function () {
+    //    $(".list-area").fadeToggle(500);
+    //    LoadDataTable();
+    //});
+    function LoadDataTable() {
+        $(".datatable").DataTable({
+            destroy: true,
+            "ajax": {
+                url: apiUrl + "InventoryStockRequsitionAllocationApi/GetInventoryRequisitionListTable?userName=" +@System.Web.HttpContext.Current.Session["UserName"] +
+                    "",
+                dataSrc: ""
+            },
+            "columns": [
+                //{ "data": "reqNo", "title": "ReqNo" },
+                {
+                    "data": "reqNo",
+                    "title": "ReqNo",
+                    "render": function (data) {
+                        return '<a href="javascript:;" onclick="GetPharRequisitionDetailList(' +
+                            data +
+                            ');">' +
+                            data +
+                            '</a>';
+                    }
+                },
+                {
+                    "data": "reqDate",
+                    "title": "ReqDate",
+                    "render": function (data) { return (window.ToJsonDate(data)); }
+                },
+                { "data": "reqNote", "title": "ReqNote" },
+                { "data": "deptName", "title": "DeptName" },
+                { "data": "status", "title": "Status" },
+                { "data": "reqBy", "title": "ReqBy"},
+                //  {  "data": "reqNo", width: "80px", "title": "Action","render": function (data) {
+                // return "<a href='javascript:;' class='md-trigger' onclick='return GetReprintByInvoice(\"" + data + "\")'><span class='glyphicon glyphicon-edit'></span></a>";
+                //         }
+            ]
+
+        });
+    }
+    //function test(reqNo) {
+    //    return alert(reqNo);
+    //}
+
+    function GetPharRequisitionDetailList(reqNumber) {
+        $("div.toshow").fadeToggle(500);
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetInventoryRequisitionDetailList", "InventoryStockRequsitionAllocationApi")',
+            dataType: "Json",
+            //  data: { searchString: reqNumber },
+            data: { 'searchString': reqNumber, 'userName': "@System.Web.HttpContext.Current.Session["UserName"]" },
+            success: function (data) {
+                   //alert(JSON.stringify(data));
+
+                $("#txtDepartmentID").val(data[0].deptId).trigger('change');
+                $("#txtRequistion").val(data[0].reqNo);
+                $("#txtStatus").val(data[0].status);
+                $("#txtRequsitionNote").val(data[0].reqNote);
+                $('#tbody').html("");
+                $.each(data, function (key, item) {
+                    var allocationQty = 0;
+                    if (item.balQty < item.reqQty) {
+                        var allocationQty = item.balQty;
+                    }
+                    if (item.balQty >= item.reqQty) {
+                        var allocationQty = item.reqQty;
+                    }
+                    if (ToJsonDate(item.lestIssue) == '1900-01-01') {
+                        var lisuue = "Not Fount";
+
+                    } else {
+                        var lisuue = ToJsonDate(item.lestIssue);
+                    }
+                    var rows = "<tr id=" + item.reqNo + ">"
+                        + "<td class='none'>" + item.id + "</td>"
+                        + "<td class='none'>" + item.productId + "</td>"
+                        //+ "<td>" + item.productName + "</td>"
+                        + "<td><a href='javascript:;' data-toggle='modal' data-target='#newProject' onclick='GetDetailsByProduct(" + item.productId + "," + item.deptId + ");'> " + item.productName + " </a></td>"
+                        + "<td>" + item.unit + "</td>"
+                        + "<td>" + item.stockInHand + "</td>"
+                        + "<td>" + lisuue + "</td>"
+                        + "<td class='reqQty'>" + item.reqQty + "</td>"
+                        + "<td><input class='form-control allocationQty' type='text' value='" + allocationQty + "' /></td>"
+                        + "<td class='stock'>" + item.balQty + "</td>"
+                        //   + "<td><a href='javascript:;' class='deleteRow'><span class='glyphicon glyphicon-trash'></span></a></td>"
+                        + "<td class='none'>" + item.reqNo + "</td>"
+                        + "</tr>";
+                    $('#tbody').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetDetailsByProduct(Id, DipId) {
+
+        //alert(Id);
+        //alert(DipId);
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetDetailsByProduct", "InventoryStockRequsitionAllocationApi")',
+            dataType: "Json",
+            //  data: { searchString: reqNumber },
+            data: { 'productId': Id, 'depId': DipId },
+            success: function (data) {
+                //alert(JSON.stringify(data.TotalQty));
+                //alert(data.trList);
+                //alert(JSON.stringify(data.trList));
+                //return false;
+
+                $("#txtQuantity").val(data.TotalQty);
+                $('#tbody2').html("");
+                $.each(data.trList, function (key, item) {
+                    if (item.RecevedBy == 'N/A') {
+                        var recevedBy = 'Direct in Stock';
+                    } else {
+                        var recevedBy = item.RecevedBy;
+                    }
+                    var rows = "<tr >"
+                        + "<td>" + item.ReqDate + "</td>"
+                        + "<td>" + item.InQty + "</td>"
+                        + "<td>" + item.OutQty + "</td>"
+                        + "<td>" + recevedBy + "</td>"
+                        + "</tr>";
+                    $('#tbody2').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function calculateGrid() {
+        $(".allocationQty").each(function () {
+            if (!isNaN(this.value) && this.value.length != 0) {
+                var reqQty = parseFloat($(this).closest("tr").find('.reqQty').text());
+                var stock = parseFloat($(this).closest("tr").find('.stock').text());
+                if (parseFloat(this.value) > stock) {
+
+                    alert("This Item out of range...");
+                    parseFloat(this.value = 0);
+                }
+                if (parseFloat(this.value) > reqQty) {
+
+                    alert("This Item out of range...");
+                    parseFloat(this.value = 0);
+                }
+            }
+        });
+    }
+    function GetPharRequisitionList() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetPharRequisitionList", "PharRequisitionAllocationApi")',
+            dataType: "Json",
+            data: { 'searchString': 0, 'status': 1, 'userName': "@System.Web.HttpContext.Current.Session["UserName"]" },
+            success: function (data) {
+                $('#txtReqNo').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.regNo + ">" + item.reqNo + " -- " + ToJsonDate(item.reqDate) + "</option>";
+                    $('#txtReqNo').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    $("table #tbody").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        return false;
+    });
+
+
+    function Save() {
+        var res = true;
+        var custom = true;
+        if (res & custom == true) {
+            var vouchers = [];
+            var table = $('table #tbody');
+            table.find('tr').each(function () {
+                var $tds = $(this).find('td'),
+                    treqNo = $tds.eq(9).text(),
+                    MasterId = $tds.eq(0).text(),
+                    tproductId = $tds.eq(1).text(),
+                    tunit = $tds.eq(3).text(),
+                    treqQty = $tds.eq(6).find("input").val(),
+                    tallocationQty = $tds.eq(7).find("input").val();
+                var voucher = {
+                    MasterId: MasterId,
+                    ProductId: tproductId,
+                    AllocationQty: tallocationQty,
+                    Unit: tunit,
+                    ReqQty: treqQty,
+                    ReqNo: treqNo,
+                    //Allocationby: $('#txtAllocationBy').val(),
+                    UserDtls: "@System.Web.HttpContext.Current.Session["UserName"]" + $("#txtDepartmentID option:selected").val(),
+                    AllocationDate: $('#txtDate').val(),
+                    DeptId: $("#txtDepartmentID option:selected").val(),
+                    AllocationNote: $("#txtNote").val(),
+                    //MasterId: $("#txtReqId").val(),
+                    UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+                };
+                vouchers.push(voucher);
+            });
+            //alert(JSON.stringify(vouchers));
+            //return false;
+            var json = { aModels: vouchers };
+            $.ajax({
+                type: "POST",
+                url: '@UrlConfig.Action("Save", "InventoryStockRequsitionAllocationApi")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        //    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            });
+            return false;
+        }
+        else { alert("Please fill required field"); }
+        return false;
+    }
+
+
+    function GetDepartmentList() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetDepartmentList", "InventoryStockRequsitionReqApi")',
+            dataType: "Json",
+            //  data: { searchString: 0 },
+            success: function (data) {
+                $('#txtDepartmentID').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtDepartmentID').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+</script>
+

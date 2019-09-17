@@ -1,0 +1,603 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .datebg label {
+        background: #fff;
+    }
+
+    table tbody tr td {
+        text-align: left !important;
+    }
+
+    #Chartbody tr.selected td {
+        background-color: #ffd659;
+    }
+
+    #tbody td textarea {
+        width: 100%;
+    }
+
+    #tbody .normalvalue {
+        height: 24px;
+        overflow: hidden;
+        width: 100%;
+        display: block;
+    }
+
+        #tbody .normalvalue:hover {
+            height: auto;
+        }
+</style>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group datebg">
+                    <label class="col-sm-2">Date</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control datepicker" id="txtDate">
+                    </div>
+                    <label class="col-sm-2">Delivery Date</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control datepicker" id="txtDeliveryDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control required" id="txtPatientName" placeholder="Name" disabled>
+                        <input type="text" class="none" id="txtId" />
+                        <input type="text" class="none" id="txtInvmasterId" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtPatientAge" placeholder="Age" disabled>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="txtPatientGender" placeholder="Gender" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="txtSpecimen" placeholder="Specimen" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="txtDoctor" placeholder="Doctor" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control required" id="txtInvId" placeholder="Invoice Number" autofocus>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <select class="form-control" id="txtDepartment" onchange="getTestlistByDeptId();"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group table-scrollable">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-2">Code</th>
+                                <th class="col-sm-9">Investigation Name</th>
+                                <th class="col-sm-1">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center" id="Chartbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-4">ReportDr</label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <select class="form-control required" id="txtReportDr" onchange="GetDrDetails('ReportDr')"></select>
+                            <span class="input-group-btn">
+                                <a data-toggle="modal" data-target=".newReportDr" class="btn btn-info btn-flat">+</a>
+                            </span>
+                        </div>
+                    </div>
+                    <input type="text" class="none details" id="txtReportDrDetails">
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4">LabIncharge</label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <select class="form-control required" id="txtLabIncharge" onchange="GetDrDetails('LabIncharge')"></select>
+                            <span class="input-group-btn">
+                                <a data-toggle="modal" data-target=".newReportDr" class="btn btn-info btn-flat">+</a>
+                            </span>
+                        </div>
+                    </div>
+                    <input type="text" class="none details" id="txtLabInchargeDetails">
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4">CheckedBy</label>
+                    <div class="col-sm-8">
+                        <div class="input-group input-group-sm">
+                            <select class="form-control required" id="txtCheckedBy" onchange="GetDrDetails('CheckedBy')"></select>
+                            <span class="input-group-btn">
+                                <a data-toggle="modal" data-target=".newReportDr" class="btn btn-info btn-flat">+</a>
+                            </span>
+                        </div>
+                    </div>
+                    <input type="text" class="none details" id="txtCheckedByDetails">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade newReportDr">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-2">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtName">
+                            <input type="text" class="none" id="txtDrId">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">Details</label>
+                        <div class="col-sm-10 drDetails">
+                            <textarea class="form-control summernote" id="txtDetails"></textarea>
+                        </div>
+                    </div>
+                    <input type="text" class="none" id="txtDescription">
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewDr()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="box box-info payment-area">
+            <div class="box-body">
+                <div class="form-group table-scrollable" style="height: 480px;">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-3">Test Name</th>
+                                <th class="col-sm-4">Result</th>
+                                <th class="col-sm-2">Unit</th>
+                                <th class="col-sm-4">Normal Value</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center" id="tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="button-group text-center">
+                    <div class="form-group">
+                        <label class="col-sm-2">Comments</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control defaultNA" id="txtComments" />
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-info" id="btnSave" onclick="Save();" value="Save">
+                    <input type="submit" class="btn btn-primary" id="btnList" onclick="RePrint();" value="Print">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function GetDrDetails(param) {
+        var drId = 0;
+        switch (param) {
+            case "ReportDr":
+                drId = $('#txtReportDr').val();
+                break;
+            case "LabIncharge":
+                drId = $('#txtLabIncharge').val();
+                break;
+            case "CheckedBy":
+                drId = $('#txtCheckedBy').val();
+                break;
+        }
+        $('#txtDrId').val(0);
+        $('.drDetails .note-editable').empty();
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "LabDoctorApi/GetLabDoctorList",
+            dataType: "Json",
+            data: { 'id': drId, 'searchString': 0, 'drStatus': param },
+            success: function (data) {
+                switch (param)
+                {
+                    case "ReportDr":
+                        $('#txtReportDrDetails').val(data[0].details);
+                        break;
+                    case "LabIncharge":
+                        $('#txtLabInchargeDetails').val(data[0].details);
+                        break;
+                    case "CheckedBy":
+                        $('#txtCheckedByDetails').val(data[0].details);
+                        break;
+                }
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    $('#txtName').on('keyup', function() {
+        $('.drDetails .note-editable').html("<b>"+$(this).val()+"</b>");
+    });
+    function SaveNewDr() {
+        var newDr = newDrvalid();
+
+        if ($('#txtDrId').val()==0) {
+            detail = $('#txtName').val() + '' + $('#txtDetails').val();
+        }else{detail = $('#txtDetails').val();}
+
+        if (newDr == true) {
+            var object = {
+                DrId: $('#txtDrId').val(),
+                Name: $('#txtName').val(),
+                Details: detail,
+                Description: $('#txtDescription').val(),
+                UserName: "@System.Web.HttpContext.Current.Session["UserName"]",
+            };
+          //  alert(JSON.stringify(object));
+            $.ajax({
+                url: apiUrl + "LabDoctorApi/Post",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+            }
+            else {
+                alert("Please fill required field");
+            }
+        return false;
+    }
+
+    function newDrvalid() {
+        var isValid = true;
+        if ($('#txtName').val() == '') { alert("Please Add Name"); isValid = false; }
+        if ($('#txtName').val() == '-- Select --') { alert("Please Add Valid Name"); isValid = false; }
+        return isValid;
+    }
+    $(document).ready(function () {
+        getReportDr();
+        getLabIncharge();
+        getCheckedBy();
+        $('#txtInvId').keydown(function(e) {
+            if (e.which === 13) {
+                GetItemListForLabReport();
+            }
+        });
+
+        $('.btn-flat').on('click', function() {
+            $('#txtDrId').val($(this).closest('div.form-group').find('select option:selected').val());
+            $('#txtName').val($(this).closest('div.form-group').find('select option:selected').text());
+            $('.drDetails .note-editable').html($(this).closest('div.form-group').find('.details').val());
+            $('#txtDescription').val($(this).closest('div.form-group').find('label').text());
+        });
+    });
+
+
+
+    function getReportDr() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "LabDoctorApi/GetLabDoctorList?id=0&searchString=0",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtReportDr').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.drId + "'>" + item.name + "</option>";
+                    $('#txtReportDr').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function getLabIncharge() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "LabDoctorApi/GetLabDoctorList?id=0&searchString=0",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtLabIncharge').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.drId + "'>" + item.name + "</option>";
+                    $('#txtLabIncharge').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function getCheckedBy() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "LabDoctorApi/GetLabDoctorList?id=0&searchString=0",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtCheckedBy').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.drId + "'>" + item.name + "</option>";
+                    $('#txtCheckedBy').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    $(document).on('keydown', '#tbody input', function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            var index = $('#tbody input').index(this) + 1;
+            $('#tbody input').eq(index).focus();
+        }
+    });
+    function GetItemListForLabReport() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "LabParameterEntryApi/GetItemListForLabReport",
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'invoiceNo': $("#txtInvId").val() },
+
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $('#txtInvId').val(data[0].invoiceNo);
+                $("#txtInvmasterId").val(data[0].invMasterId);
+                $('#txtId').val(data[0].ptRegId);
+                $('#txtPatientName').val(data[0].name);
+                $("#txtPatientAge").val(data[0].ptAgeDetail);
+                $("#txtPatientGender").val(data[0].ptGenderName);
+                $("#txtDoctor").val(data[0].drName);
+
+                $('#txtDepartment').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value='" + item.deptId + "'>" + item.subDeptName + "</option>";
+                    $('#txtDepartment').append(rows);
+                });
+                var optionValues = [];
+                $('#txtDepartment option').each(function () {
+                    if ($.inArray(this.value, optionValues) > -1) {
+                        $(this).remove();
+                    } else {
+                        optionValues.push(this.value);
+                    }
+                });
+                $('#tbody').empty();
+                $('#Chartbody').empty();
+                $.each(data, function (key, item) {
+                    var rows = "<tr class=" + item.itemId + " onclick='getTestlist(" + item.itemId + ");'>"
+                        + "<td class='none'>" + item.itemId + "</td>"
+                        + "<td>" + item.pCode + "</td>"
+                        + "<td>" + item.description + "</td>"
+                        + "<td class='none'>" + item.deptId + "</td>"
+                        + "<td><a href='javascript:;'><span class='glyphicon glyphicon-edit'></span></a></td>"
+                        + "</tr>";
+                    $('#Chartbody').append(rows);
+                });
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+    $("table #tbody").on("click", "a.deleteRow", function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+        $(function () {
+        });
+        return false;
+    });
+
+    $("#Chartbody").on("click", "tr", function (e) {
+        $('#tbody').empty();
+        $(this).closest('tr').toggleClass("selected").siblings(".selected").removeClass("selected");
+    });
+
+    function getTestlistByDeptId() {
+        var table = $("table #Chartbody");
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td'),
+                tableValue = $tds.eq(3).text();
+            if (tableValue == $("#txtDepartment").val()) {
+                itemId = parseInt($tds.eq(0).text());
+                $('#tbody').empty();
+                getTestlist(itemId);
+            }
+        });
+    }
+
+    function getTestlist(param) {
+        $.ajax({
+            url: apiUrl + "LabParameterEntryApi/GetParameterListByItemId",
+            type: "GET",
+            datatype: "json",
+            data: { 'itemId': param },
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#txtSpecimen").val(data[0].specimen);
+                    $.each(data, function(key, item) {
+                        var rows = "";
+                        rows += "<tr>";
+                        rows += "<td class='none'>" + item.itemId + "</td>";
+                        rows += "<td>" + item.parameterName + "</td>";
+                        rows += "<td calss='txtResult'><input id='testResult' type='text' class='from-control'/></td>";
+                        rows += "<td>" + item.unit + "</td>";
+                        rows += "<td class='normalvalue'>" + item.normalValue + "</td>";
+                        rows += "<td class='none'>" + item.groupName + "</td>";
+                        rows += "<td class='none'>" + item.groupSlNo + "</td>";
+                        rows += "<td class='none'>" + item.itemSlNo + "</td>";
+                        rows += "<td class='none'>" + item.aliasName + "</td>";
+                        rows += "<td><a href='javascript:;' class='deleteRow'><span class='glyphicon glyphicon-trash'></span></a></td>";
+                        rows += "</tr>";
+                        $('#tbody').append(rows);
+                    });
+                } else {
+
+                    $.ajax({
+                        url: apiUrl + "LabParameterEntryOthersApi/GetParameterByItemId",
+                        type: "GET",
+                        datatype: "json",
+                        data: { 'itemId': param },
+                        success: function (data) {
+                            $("#txtSpecimen").val(data.specimen);
+                            $('#tbody').empty();
+                            var row = "";
+                            row += "<tr>";
+                            row += "<td class='none'>" + param + "</td>";
+                            row += "<td class='none'>n/a</td>";
+                            row += "<td colspan='5' class='txtResult notGrid'></td>";
+                            row += "<td class='none'>n/a</td>";
+                            row += "<td class='none'>n/a</td>";
+                            row += "<td class='none'>n/a</td>";
+                            row += "<td class='none'>n/a</td>";
+                            row += "<td class='none'>n/a</td>";
+                            row += "<td class='none'>n/a</td>";
+                            row += "</tr>";
+                            $('#tbody').append(row);
+                            $("<textarea class='from-control summernote' id='testResult'>"+data.result+"</textarea>").appendTo('.notGrid').summernote({ height: 400 });
+                        }
+                    });
+                }
+            },
+        });
+    }
+
+    function RePrint() {
+        $.ajax({
+            type: "GET",
+            url: apiUrl + "LabDataApi/GetReprintLabReport?invNo=" + $('#txtInvId').val() + "&itemId=" + $('#Chartbody').find('.selected td').eq(0).text() + "",
+            dataType: "Json",
+            success: function (data) {
+                var popupWindow = window.open("/Report/ReportViewer/ReportViewer.aspx", "directories=no,height=100,width=100");
+                $(document).ready(function (e) {
+                    detectPopup();
+                    function detectPopup() {
+                        if (!popupWindow) {
+                            alert("Popups blocked!!! Please Enable from Your Browser Setting Ex: Chrome->Advanced Settings->Content Settings->Popups' ");
+                            return false;
+                        } else {
+                            window.open('', '_self');
+                            window.close();
+                        }
+                    }
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function Save() {
+        var res = validation();
+        var custom = customvalid();
+        if (res & custom == true) {
+            var vouchers = [];
+            $('table #tbody>tr').each(function () {
+                var $tds = $(this).find('td'),
+                    tItemId = $tds.eq(0).text(),
+                    tParameterName = $tds.eq(1).text(),
+                    tAliasName = $tds.eq(8).text(),
+                    tNormalValue = $tds.eq(4).html(),
+                    tUnit = $tds.eq(3).text(),
+                    tGroupName = $tds.eq(5).text(),
+                    tGroupSlNo = $tds.eq(6).text(),
+                    tItemSlNo = $tds.eq(7).text(),
+                    tResult = $tds.eq(2).find('#testResult').val();
+                var voucher = {
+                    InvmasterId: $("#txtInvmasterId").val(),
+                    ItemId: tItemId,
+                    Specimen: $("#txtSpecimen").val(),
+                    AliasName: tAliasName,
+                    ParameterName: tParameterName,
+                    Result: tResult,
+                    Unit: tUnit,
+                    NormalValue: tNormalValue,
+                    GroupName: tGroupName,
+                    GroupSlNo: tGroupSlNo,
+                    ItemSlNo: tItemSlNo,
+                    ReportDrId: $("#txtReportDr").val(),
+                    LabInchargeId: $("#txtLabIncharge").val(),
+                    CheckedById: $("#txtCheckedBy").val(),
+                    ReportDrDetails: $('#txtReportDrDetails').val(),
+                    LabInchargeDetails: $('#txtLabInchargeDetails').val(),
+                    CheckedByDetails: $('#txtCheckedByDetails').val(),
+                };
+                vouchers.push(voucher);
+            });
+            //alert(JSON.stringify(vouchers));
+            //return false;
+            $.ajax({
+                type: "Post",
+                url: apiUrl + "LabDataApi/Post",
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: JSON.stringify(vouchers),
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else { alert("Please fill required field"); }
+        return false;
+    }
+
+    function customvalid() {
+        var isValid = true;
+        if ($('#tbody').html() == '') { alert('Please add an item to table grid.'); isValid = false; }
+
+        return isValid;
+    }
+</script>
+
+@section Scripts
+{
+
+}

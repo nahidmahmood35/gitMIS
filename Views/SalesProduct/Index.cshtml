@@ -1,0 +1,298 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Product Registration </h3>
+    </div>
+    <div class="panel-body ">
+        <div class="form-group">
+            <label class="col-sm-3">Product Category</label>
+            <div class="col-sm-6">
+                <select class="form-control" id="txtProductCategory">
+                    @{
+                        <option value="0">---Select---</option>
+                        foreach (var alist in @ViewBag.ProductCategory)
+                        {
+                            <option value=@alist.Id>@alist.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-sm-3"><a data-toggle="modal" data-target="#newBed" class="btn btn-sm btn-success">Add</a></div>
+        </div>
+        <div class="modal fade" id="newBed" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <p class="modal-title">Product Category</p>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-4">Product Category Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="txtProductCategoryName" placeholder="Product Category Name">
+                            </div>
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-success btn-sm" onclick="SaveProductCategory()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3">Product Id</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtProductId">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3">Product Name</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtProductName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3">Unit </label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtUnit">
+            </div>
+            <label class="col-sm-3">Unit Price</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtUnitPrice">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3">Rack Name</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="txtRackName">
+                    @{
+                        <option value="0">---Select---</option>
+                        foreach (var alist in @ViewBag.RackName)
+                        {
+                            <option value=@alist.Id>@alist.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <label class="col-sm-3">Row </label>
+            <div class="col-sm-3">
+                <select class="form-control" id="txtRow" name="txtRow">
+                    @{
+                        <option value="0">---Select---</option>
+                        foreach (var alist in @ViewBag.RowNumber)
+                        {
+                            <option value=@alist.Id>@alist.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3">Store Name</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="txtStoreName" name="txtStoreName">
+                    @{
+                        <option value="0">---Select---</option>
+                        foreach (var alist in @ViewBag.StoreName)
+                        {
+                            <option value=@alist.Id>@alist.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <label class="col-sm-3">Reminder Stock </label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtReminderStock">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3">A/C Code </label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtA/CCode">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3">Cost Center</label>
+            <div class="col-sm-9">
+                <select class="form-control" id="txtCostCenter" name="txtCostCenter">
+                    @{
+                        <option value="0">---Select---</option>
+                        foreach (var alist in @ViewBag.CostCenter)
+                        {
+                            <option value=@alist.Id>@alist.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="txtIdNo" style="display: none">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+                <input type="submit" class="btn btn-sm btn-success" id="Save" onclick="Save();" value="Save">
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-hover" id="table-example">
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th>ProductID </th>
+                    <th>ProductName</th>
+                    <th>ProductCategory</th>
+                    <th>UnitPrice</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+     loadData();
+    });
+</script>
+<script>
+    function loadData() {
+        $("#table-example").DataTable({
+            searching: true,
+            destroy: true,
+            bAutoWidth: false,
+            aaSorting: [],
+            "ajax": {
+                url: '@Url.Action("GetProductList", "ProductRegistration")',
+                type: "GET",
+                datatype: "json",
+                data: { 'searchString': 0 },
+            },
+            "columns": [
+                { "data": "IdNo", "name": "IdNo", visible: false },//{ "data": "IdNo", "name": "IdNo", visible: false },
+                { "data": "ProductID", "name": "ProductID" },
+                { "data": "ProductName", "name": "ProductName" },
+                { "data": "ProductCategory", "name": "ProductCategory"},
+                { "data": "UnitPrice", "name": "UnitPrice" },
+                { "data": "IdNo", width: "100px", "render": function (data) { return "<a href='javascript:;'class='md-trigger' onclick='return GetProductDetailsById(" + data + ")'><span class='glyphicon glyphicon-edit'></span></a> | <a href='javascript:;' onclick='DeleteProductDetailsById(" + data + ")'><span class='glyphicon glyphicon-trash'></span></a>"; } }
+               ]
+        });
+    }
+
+    function SaveProductCategory() {
+       var object = {
+            Name: $('#txtProductCategoryName').val(),
+        };
+        alert(JSON.stringify(object));
+        $.ajax({
+            url: '@Url.Action("AddNewProductCategory", "ProductRegistration")',
+            data: JSON.stringify(object),
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            datatype: JSON,
+            success: function (result) {
+                alert(result);
+                if (result != 404) {
+                    location.reload(true);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+
+
+    function DeleteProductDetailsById(id) {
+        //  alert(id);
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Delete", "ProductRegistration")',
+            contentType: "application/json;charset=utf-8",
+            datatype: JSON,
+            data: { 'searchString': id },
+            success: function (data) {
+                alert(data);
+                if (data != 404) {
+                    location.reload(true);
+                }
+            },
+        });
+    }
+
+    function GetProductDetailsById(id) {
+       //  alert(id);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetProductDetailsById", "ProductRegistration")',
+            dataType: "Json",
+            data: { 'searchString': id},
+            success: function (data) {
+              //  alert(JSON.stringify(data));
+                $('#txtIdNo').val(data.data[0].IdNo);
+                $('#txtProductCategory').val(data.data[0].ProductCategoryId);
+                $('#txtProductId').val(data.data[0].ProductID);
+                $('#txtProductName').val(data.data[0].ProductName);
+                $('#txtUnit').val(data.data[0].Unit);
+                $('#txtUnitPrice').val(data.data[0].UnitPrice);
+                $('#txtRow').val(data.data[0].RowId);
+                $('#txtStoreName').val(data.data[0].StoreId);
+                $('#txtRackName').val(data.data[0].RackId);
+                $('#txtReminderStock').val(data.data[0].ReminderStock);
+                $('#txtCostCenter').val(data.data[0].SubSubPNOId);
+            }
+        });
+    }
+    
+    function Save() {
+        //   var res = validation();
+        //   var cfm = Confirm();
+        //  if (res == true && cfm == true) {
+       // alert(JSON.stringify(data));
+        var object = {
+            IdNo: $('#txtIdNo').val(),
+            ProductCategoryId: $('#txtProductCategory option:selected').val(),
+            ProductID: $('#txtProductId').val(),
+            ProductName: $('#txtProductName').val(),
+            Unit: $('#txtUnit').val(),
+            UnitPrice: $('#txtUnitPrice').val(),
+            RackId: $('#txtRackName option:selected').val(),
+            RowId: $('#txtRow option:selected').val(),
+            StoreId: $('#txtStoreName option:selected').val(),
+            SubSubPNOId: $('#txtCostCenter').val(),
+          };
+        //  alert(JSON.stringify(object));
+        $.ajax({
+            url: '@Url.Action("Save", "ProductRegistration")',
+            data: JSON.stringify(object),
+            type: 'POST',
+            contentType: "application/json;charset=utf-8",
+            datatype: JSON,
+            success: function (result) {
+                alert(result);
+                if (result != 404) {
+                    location.reload(true);
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+    //   else {
+    //       alert("Please fill required field");
+    //    }
+    //   return false;
+    //   }
+
+
+</script>

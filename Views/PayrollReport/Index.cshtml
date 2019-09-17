@@ -1,0 +1,384 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-body">
+
+                <div class="form-group">
+                    <label class="col-sm-2">EmpId</label>
+                    <div class="col-sm-4 none">
+
+                        <input type="text" class="form-control" id="txtEmployeeId">
+                    </div>
+                    <div class="col-sm-4">
+
+                        <input type="text" class="form-control" id="txtEmployeeCode">
+                    </div>
+                    <label class="col-sm-2">Name</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtEmployeeName" readonly>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Disingation</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtDisingation" readonly>
+                    </div>
+
+                    <label class="col-sm-2">Department</label>
+                    <div class="col-sm-4">
+                        @*<select class="form-control required select2 selectNoAdd" id="txtDeparmentId" name="txtDeparmentId"></select>*@
+                        <input type="text" class="form-control" id="txtDeparmentId" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Month</label>
+                    <div class="col-sm-4">
+                        <select class="form-control required select2 selectNoAdd" id="txtMonth" name="txtMonth"></select>
+                    </div>
+                    <label class="col-sm-2">Year</label>
+                    <div class="col-sm-4">
+                        <select class=" form-control isnumber year select2" id="txtYear"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Bonus type</label>
+                    <div class="col-sm-4">
+                        <select class="form-control required" id="txtBonustype" name="txtBonustype">
+                            <option value="1">Eid-Ul-Fitr</option>
+                            <option value="2">Eid-Ul-Azha</option>
+                            <option value="3">Pohela Boisak</option>
+                            <option value="4">Festival Bonus for Other Religions</option>
+                        </select>
+                    </div>
+                   
+                </div>
+
+                <div class="button-group text-center">
+                    <input type="submit" class="btn btn-sm btn-success" onclick="PaySlip();" value="pay Slip">
+                    <input type="submit" class="btn btn-sm btn-success" onclick="FutureFund();" value="Future Fund Detaction">
+                    <input type="submit" class="btn btn-sm btn-success"  onclick="WelfareInsurance();" value="Welfare And Insurance">
+                    <input type="submit" class="btn btn-sm btn-success" onclick="ThirdAndFourthClassEmployeePayslip()" value="10 to 20 grede Employee Payslip">
+      
+                </div>
+                <div class="button-group text-center" style="margin-top : -25px">
+                    <input type="submit" class="btn btn-sm btn-info" onclick="Bonus();" value="Bonus PaySlip">
+                    <input type="submit" class="btn btn-sm btn-info" onclick="BonusFor10To20GredeEmployee();" value="Bonus 10 to 20 Grede Employee Payslip">
+                </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        GetMonth();
+        GetDeparmentList();
+        //-----------Autocompleate------
+        $('#txtEmployeeCode').autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetEmployeeDetalsList", "PayrollreportApi")",
+                    dataType: "Json",
+                    data: { 'searchString': $("#txtEmployeeCode").val() },
+                    success: function (data) {
+                        response(data.slice(0, 10));
+                        //alert(JSON.stringify(data));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#txtEmployeeId').val(ui.item.id);
+                $('#txtEmployeeCode').val(ui.item.emCode);
+                $('#txtEmployeeName').val(ui.item.emName);
+                $('#txtDisingation').val(ui.item.designationName);
+                $('#txtDeparmentId').val(ui.item.departmentName);
+                return false;
+            },
+            minLength: 1
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            if (ul.children().length === 0) {
+                $("<thead id='asd'><tr><th>ID</th><th>Code</th><th>Name</th><th>Deparment</th><th>Designation</th></tr></thead>").appendTo(ul);
+            }
+            var html = "<td>" + item.id + "</td>";
+            html += "<td>" + item.emCode + "</td>";
+            html += "<td>" + item.emName + "</td>";
+            html += "<td>" + item.departmentName + "</td>";
+            html += "<td>" + item.designationName + "</td>";
+            return $("<tr></tr>").append(html).appendTo(ul);
+        };
+        //----------End Autocompleate-----
+    });
+    function GetMonth() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetGenderList", "SalaryCreateApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtMonth').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtMonth').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function PaySlip() {
+        if ($('#txtEmployeeId').val() == '') {
+            $('#txtEmployeeId').val(0);
+        };
+        //alert($('#txtEmployeeId').val());
+        //alert($('#txtMonth').val());
+        //alert($('#txtYear').val());
+        //return false;
+
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetPaySlipGov", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'employeeId': $('#txtEmployeeId').val(), 'monthId': $('#txtMonth').val(), 'year': $('#txtYear').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data.msg));
+                //return false;
+                if (data.msg == "This employee salary are not created.!!") {
+                    alert(data.msg);
+                    return false;
+                } else {
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                  //  location.reload(true);
+                }
+                
+            },
+            error: function (data) { }
+        });
+    }
+
+    function FutureFund() {
+        if ($('#txtEmployeeId').val() == '') {
+            $('#txtEmployeeId').val(0);
+        };
+        //alert($('#txtEmployeeId').val());
+        //alert($('#txtMonth').val());
+        //alert($('#txtYear').val());
+        //return false;
+
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetFutureFund", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'employeeId': $('#txtEmployeeId').val(), 'monthId': $('#txtMonth').val(), 'year': $('#txtYear').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data.msg));
+                //return false;
+                if (data.msg == "This employee salary are not created.!!") {
+                    alert(data.msg);
+                    return false;
+                } else {
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                    //  location.reload(true);
+                }
+
+            },
+            error: function (data) { }
+        });
+    }
+    function WelfareInsurance() {
+        if ($('#txtEmployeeId').val() == '') {
+            $('#txtEmployeeId').val(0);
+        };
+        //alert($('#txtEmployeeId').val());
+        //alert($('#txtMonth').val());
+        //alert($('#txtYear').val());
+        //return false;
+
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetWelfareInsurance", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'employeeId': $('#txtEmployeeId').val(), 'monthId': $('#txtMonth').val(), 'year': $('#txtYear').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data.msg));
+                //return false;
+                if (data.msg == "This employee salary are not created.!!") {
+                    alert(data.msg);
+                    return false;
+                } else {
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                    //  location.reload(true);
+                }
+
+            },
+            error: function (data) { }
+        });
+    }
+    function ThirdAndFourthClassEmployeePayslip() {
+        //if ($('#txtEmployeeId').val() == '') {
+        //    $('#txtEmployeeId').val(0);
+        //};
+        //alert($('#txtEmployeeId').val());
+        //alert($('#txtMonth').val());
+        //alert($('#txtYear').val());
+        //return false;
+
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetThirdAndFourthClassEmployeePayslip", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'monthId': $('#txtMonth').val(), 'year': $('#txtYear').val() },
+            success: function (data) {
+                //alert(JSON.stringify(data.msg));
+                //return false;
+                if (data.msg == "This employee salary are not created.!!") {
+                    alert(data.msg);
+                    return false;
+                } else {
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                    //  location.reload(true);
+                }
+
+            },
+            error: function (data) { }
+        });
+    }
+    function SalarySheet() {
+        //alert($('#txtDeparmentId').val());
+        //return false;
+
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetSalarySheet", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'DepartmentId': $('#txtDeparmentId').val() },
+            success: function (data) {
+                //   alert(JSON.stringify(data));
+                window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                location.reload(true);
+            },
+            error: function (data) { }
+        });
+    }
+
+
+    function GetDeparmentList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetDeparmentList", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtDeparmentId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtDeparmentId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function AcknowledgmentSheet() {
+      
+        if ($('#PaymentType').val() == 1) {
+            //alert('its is cash');
+            $.ajax({
+                type: 'GET',
+                url: '@UrlConfig.Action("GetAckCash", "PayrollreportApi")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: { 'DepartmentId': $('#txtDeparmentId').val(), 'MonthId': $('#txtMonth').val(), 'Year': $('#txtYear').val() },
+                success: function (data) {
+                    //   alert(JSON.stringify(data));
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                    location.reload(true);
+                },
+                error: function (data) { }
+            });
+
+
+        } else {
+            $.ajax({
+                type: 'GET',
+                url: '@UrlConfig.Action("GetAckBank", "PayrollreportApi")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                data: { 'DepartmentId': $('#txtDeparmentId').val(), 'MonthId': $('#txtMonth').val(), 'Year': $('#txtYear').val() },
+                success: function (data) {
+                    //   alert(JSON.stringify(data));
+                    window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                    location.reload(true);
+                },
+                error: function (data) { }
+            });
+        }
+
+
+    }
+
+
+    function BankCash() {
+        //alert($('#txtMonth').val());
+        //return false;
+
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetBankCash", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'monthId': $('#txtMonth').val(), 'year': $('#txtYear').val() },
+            success: function (data) {
+                //   alert(JSON.stringify(data));
+                window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                location.reload(true);
+            },
+            error: function (data) { }
+        });
+    }
+
+    function Bonus() {
+        //alert('test');
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetBonus", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'employeeId': $('#txtEmployeeId').val(), 'year': $('#txtYear').val(), 'BonusFor': $('#txtBonustype').val() },
+            success: function (data) {
+                  // alert(JSON.stringify(data));
+                window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                location.reload(true);
+            },
+            error: function (data) { }
+        });
+    }
+
+    function BonusFor10To20GredeEmployee() {
+
+        $.ajax({
+            type: 'GET',
+            url: '@UrlConfig.Action("GetBonusFor10To20GredeEmployee", "PayrollreportApi")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "Json",
+            data: { 'year': $('#txtYear').val(), 'BonusFor': $('#txtBonustype').val()},
+            success: function (data) {
+                //   alert(JSON.stringify(data));
+                window.open("/Report/ReportViewer/ReportViewer.aspx", "_blank");
+                location.reload(true);
+            },
+            error: function (data) { }
+        });
+    }
+</script>
+

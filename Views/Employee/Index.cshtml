@@ -1,0 +1,1030 @@
+﻿
+@{
+    ViewBag.Title = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel with-nav-tabs panel-info">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a class="grid-btn" href="#tab1default" data-toggle="tab">Employee Registration</a></li>
+                    <li><a href="#tab2default" data-toggle="tab">Employee List</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1default">
+                        <div class="none">
+                            <input type="text" class="form-control" id="txtId">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2">Code No</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control required " id="txtCodeNo" maxlength="11">
+                            </div>
+                            <label class="col-sm-2">Employee Name</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control required" id="txtEmployeeName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Mobile No</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" id="txtMobileNo" maxlength="11">
+                            </div>
+                            <label class="col-sm-2">Date Of Birth</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control defaultZero datepicker" id="txtDateOfBirth">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Present Address</label>
+                            <div class="col-sm-4">
+                                
+                                <textarea id="txtPresentAddress" rows="2" class="form-control defaultNA "></textarea>
+                            </div>
+                            <label class="col-sm-2">Permanent Address</label>
+                            <div class="col-sm-4">
+                               
+                                <textarea id="txtPermanentAddress" rows="2" class="form-control defaultNA "></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Gender</label>
+                            <div class="col-sm-4">
+                                <select class="form-control defaultNA select2" id="txtGender" name="txtGender"></select>
+                            </div>
+                            <label class="col-sm-2">Nationality</label>
+                            <div class="col-sm-4">
+                             
+                                <select class="form-control defaultNA select2" id="txtNationality" name="txtNationality"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Religion</label>
+                            <div class="col-sm-4">
+                                <select class="form-control defaultNA select2" id="txtReligion" name="txtReligion"></select>
+                            </div>
+                            <label class="col-sm-2">Date Of Joining</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control datepicker defaultZero" id="txtDateOfJoining">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Date Of Confirmation</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control datepicker defaultZero " id="txtDateOfConfirmation">
+                            </div>
+                            <label class="col-sm-2">Working Status</label>
+                            <div class="col-sm-4">
+                                
+                                <select class="form-control required" id="txtWorkingStatus" name="txtWorkingStatus">
+                                   
+                                    
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                        
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Deparment</label>
+                            <div class="col-sm-3">
+                                
+                                <select class="form-control required select2 selectNoAdd" id="txtDeparmentId" name="txtDeparmentId"></select>
+                            </div>
+                            <div class="col-sm-1"><a data-toggle="modal" data-target="#newDepartment" class="btn btn-sm btn-success">Add</a></div>
+                            <label class="col-sm-2">Designation</label>
+                            <div class="col-sm-3">
+                               
+                                <select class="form-control required select2 selectNoAdd" id="txtDesignationId" name="txtDesignationId"></select>
+                            </div>
+                            <div class="col-sm-1"><a data-toggle="modal" data-target="#newDesignation" class="btn btn-sm btn-success">Add</a></div>
+                        </div>
+                        <div class="modal fade" id="newDepartment" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <p class="modal-title">New Department Entry</p>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-4">Department Name</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="txtNewDepartmentName" placeholder="New Department Name">
+                                                @*<input type="text" class="form-control none" id="txtNewDepartmentId" />*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            
+                                            <input type="button" class="btn btn-primary btn-sm" value="Save" onclick="SaveNewDepartment();" />
+                                            @*<input type="button" class="btn btn-info btn-sm" value="Update" onclick="UpdateNewDepartment()" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="newDesignation" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <p class="modal-title">New Designation Entry</p>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-4">Designation Name</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="txtNewDesignationName" placeholder="New Designation Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewDesignation()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Employee Bank Account No</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control defaultNA " id="txtEmployeeBankAccountNo">
+                            </div>
+                            <label class="col-sm-2">Company Bank Account No</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control defaultNA" id="txtCompanyBankAccountNo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Company Bank</label>
+                            <div class="col-sm-3">
+                                
+                                <select class="form-control defaultNA select2" id="txtCompanyBankName" name="txtCompanyBankName"  onchange="GetBranceNameByCatId()"></select>
+                            </div>
+                            <div class="col-sm-1"><a data-toggle="modal" data-target="#newMainBank" class="btn btn-sm btn-success">Add</a></div>
+                            <label class="col-sm-2">Company Bank Branch</label> 
+                            <div class="col-sm-3">
+                                
+                                <select class="form-control defaultNA select2 selectNoAdd" id="txtCompanyBankBranch" name="txtCompanyBankBranch"></select>
+                            </div>
+                            <div class="col-sm-1"><a data-toggle="modal" data-target="#CallCompanyBankBranch" class="btn btn-sm btn-success">Add</a></div>
+                            <div class="modal fade" id="CallCompanyBankBranch" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                            <p class="modal-title">New Branch Name Entry</p>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Bank Name</label>
+                                                <div class="col-sm-8">
+
+                                                    <input type="text" class="form-control isnumber" id="txtNameOfBank" disabled>
+                                                    
+                                                </div>
+                                                <label class="col-sm-4" style="margin-top: 10px;">Branch Name</label>
+                                                <div class="col-sm-8">
+                                                    
+                                                   
+                                                    <input type="text" class="form-control" id="txtNewBranchName" placeholder="New Branch Entry" style="margin-top: 10px;">
+                                                </div>
+                                            </div>
+                                            <div class="form-group text-right">
+                                                <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewBankBranch()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="newMainBank" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <p class="modal-title">New Main Bank Entry</p>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-4">Bank Name</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="txtNewBankName" placeholder="New Main Bank Entry">
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewMainBank()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Employee Bank</label>
+                            <div class="col-sm-3">
+                               
+                                <select class="form-control defaultNA select2" id="txtEmployeeBankName" name="txtEmployeeBankName" onchange="GetBranceNameByCatIdEmployee();"></select>
+                            </div>
+                            <div class="col-sm-1"><a data-toggle="modal" data-target="#newEmployeeBank" class="btn btn-sm btn-success">Add</a></div>
+                            <label class="col-sm-2">Employee Bank Branch</label>
+                            <div class="col-sm-3">
+                                
+                                <select class="form-control selectNoAdd select2" id="txtEmployeeBankBranch" name="txtEmployeeBankBranch"></select>
+                            </div>
+                            <div class="col-sm-1"><a data-toggle="modal" data-target="#CallEmployeeBankBranch" class="btn btn-sm btn-success">Add</a></div>
+                            <div class="modal fade" id="CallEmployeeBankBranch" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                            <p class="modal-title">New Branch Name Entry</p>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="col-sm-4">Bank Name</label>
+                                                <div class="col-sm-8">
+
+                                                    <input type="text" class="form-control isnumber" id="txtNameOfEmployeeBank" disabled>
+
+                                                </div>
+                                                <label class="col-sm-4" style="margin-top: 10px;">Branch Name</label>
+                                                <div class="col-sm-8">
+
+
+                                                    <input type="text" class="form-control" id="txtNewEmployeeBankBranchName" placeholder="New Branch Entry" style="margin-top: 10px;">
+                                                </div>
+                                            </div>
+                                            <div class="form-group text-right">
+                                                <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewEmployeeBankBranch()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="newEmployeeBank" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <p class="modal-title">New Employee Bank Entry</p>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-4">Employee Bank Name</label>
+                                            <div class="col-sm-8">
+                                                
+                                                @*<input type="text" class="form-control isnumber" id="txtNameOfBank" readonly>*@
+                                                <input type="text" class="form-control defaultNA select2" id="txtNewEmployeeBankName" placeholder="New Employee Bank Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewEmployeeBank()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Basic Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber  " id="txtBasicAl" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">HouseRent Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtHouseRentAl" onkeyup="sumAI();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Conveyance Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber  " id="txtConveyanceAl" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Project Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtProjectAl" onkeyup="sumAI();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Mobile Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber  " id="txtMobileAl" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Night Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtNightAl" onkeyup="sumAI();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Medical Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber  " id="txtMedicalAl" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Technical Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtTechnicalAl" onkeyup="sumAI();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Meal Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtMealAl" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Transport Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtTransportAl" onkeyup="sumAI();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Other Al</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber  " id="txtOtherAl" onkeyup="sumAI();">
+                            </div>
+                            <label class="col-sm-2">Basic Earning</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" id="txtBasicEarning" readonly>
+                            </div>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label class="col-sm-2">Provident Fund Deduct</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtProvidentFundDeduct" onkeyup="sumDeduct();">
+                            </div>
+                            <label class="col-sm-2">TDS Deduct</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" id="txtTDSDeduct" onkeyup="sumDeduct();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Security Deduct</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber " id="txtSecurityDeduct" onkeyup="sumDeduct();">
+                            </div>
+                            <label class="col-sm-2">Others Deduct</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" id="txtOthersDeduct" onkeyup="sumDeduct();">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Basic Deduction</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" value="0" id="txtBasicDeduction" disabled>
+                            </div>
+                            <label class="col-sm-2">Gross Salary</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber" id="txtGrossSalary" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Payment Type</label>
+                            <div class="col-sm-4">
+                                @*<input type="text" class="form-control required " id="txtPaymentType" maxlength="11">*@
+                                <select class="form-control required" id="txtPaymentType" name="txtPaymentType">
+
+                                    <option value="0">---Select---</option>
+                                    <option value="1">Case</option>
+                                    <option value="2">Bank</option>
+
+
+                                </select>
+                            </div>
+                            <label class="col-sm-2">Payment Amount Cash Pc</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber defaultZero" id="txtPaymentAmountCashPc">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Payment Amount Bank Pc</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control isnumber defaultZero " id="txtPaymentAmountBankPc">
+                            </div>
+                            <label class="col-sm-2">Shift Status</label>
+                            <div class="col-sm-4">
+                                @*<input type="text" class="form-control required" id="txtShiftStatus">*@
+                                <select class="form-control  defaultZero" id="txtShiftStatus" name="txtShiftStatus">
+
+                                    <option value="0">---Select---</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Employee Card No</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control required  " id="txtEmpCardNo">
+                            </div>
+                            <label class="col-sm-2">Is Get Holiday</label>
+                            <div class="col-sm-4">
+                                @*<input type="text" class="form-control required" id="txtIsGetHoliday">*@
+                                <select class="form-control defaultZero" id="txtIsGetHoliday" name="txtIsGetHoliday">
+
+                                    <option value="0">---Select---</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Employee Image</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control  " id="txtEmpImage" >
+                            </div>
+                            <label class="col-sm-2">User Name</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control  defaultNA" id="txtUserName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Project</label>
+                            <div class="col-sm-3">
+                                
+                                <select class="form-control defaultNA select2" id="txtProjectId" name="txtProjectId"></select>
+                            </div>
+                            <div class="col-sm-1"><a data-toggle="modal" data-target="#newProject" class="btn btn-sm btn-success">Add</a></div>
+                            <label class="col-sm-2">Valid</label>
+                            <div class="col-sm-4">
+                                @*<input type="text" class="form-control required" id="txtValid">*@
+                                <select class="form-control defaultZero" id="txtValid" name="txtValid">
+
+                                    <option value="0">---Select---</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="newProject" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <p class="modal-title">New Project Entry</p>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-4">Project Name</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="txtNewProjectName" placeholder="New Project Entry">
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <button type="submit" class="btn btn-success btn-sm" onclick="SaveNewProject()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2">Entry Date</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control required datepicker" id="txtEntryDate" >
+                            </div>
+                            
+                        </div>
+                        
+                
+
+                        
+                        <div class="button-group text-center">
+                            <input type="submit" class="btn btn-sm btn-success" id="btnSave" onclick="Save();" value="Save">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab2default">
+                        <table class="table table-bordered table-striped table-hover" id="new-tb">
+                            <thead>
+                                <tr>
+                                    <th>Reg.No</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>FatherName</th>
+                                    <th>Address</th>
+                                    <th>MobileNo</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script>
+    var test = $('#txtCodeNo').val();
+    console.log(test);
+</script>*@
+
+<script>
+    $(document).ready(function () {
+        GetGenderList();
+        GetNationalityList();
+        GetReligionList();
+        GetDeparmentList();
+        GetDesignationList();
+        GetCompanyBankName();
+        GetEmployeeBankName();
+        GetProjectId();
+        SetZero();
+    });
+
+    function Save() {
+        var res = validation();
+        if (res == true) {
+            var object = {
+                EmId: $('#txtId').val(),
+                EmCode: $('#txtCodeNo').val(),
+                EmName: $('#txtEmployeeName').val(),
+                EmPresentAddress: $('#txtPresentAddress').val(),
+                EmPermanentAddress: $('#txtPermanentAddress').val(),
+                EmMobileNo: $('#txtMobileNo').val(),
+                EmDob: $('#txtDateOfBirth').val(),
+                EmGender: $('#txtGender').val(),
+                EmNationality: $('#txtNationality').val(),
+                Emreligion: $('#txtReligion').val(),
+                EmDoj: $('#txtDateOfJoining').val(),
+                EmDoConfirmation: $('#txtDateOfConfirmation').val(),
+                EmWorkingStatus: $('#txtWorkingStatus').val(),
+                EmDepartmentId: $('#txtDeparmentId').val(),
+                EmDesignationId: $('#txtDesignationId').val(),
+                EmSalaryBankAccountNo: $('#txtEmployeeBankAccountNo').val(),
+                EmMainBankAccountNo: $('#txtCompanyBankAccountNo').val(),
+                EmMainBankId: $('#txtCompanyBankName').val(),
+                EmMainBankBranchId: $('#txtCompanyBankBranch').val(),
+                EmBankId: $('#txtEmployeeBankName').val(),
+                EmBranchId: $('#txtEmployeeBankBranch').val(),
+                EmBasicAl: $('#txtBasicAl').val(),
+                EmHouseRentAl: $('#txtHouseRentAl').val(),
+                EmConveyanceAl: $('#txtConveyanceAl').val(),
+                EmProjectAl: $('#txtProjectAl').val(),
+                EmMobileAl: $('#txtMobileAl').val(),
+                EmNightAl: $('#txtNightAl').val(),
+                EmMedicalAl: $('#txtMedicalAl').val(),
+                EmTechnicalAl: $('#txtTechnicalAl').val(),
+                EmMealAl: $('#txtNameofIntroducer').val(),
+                EmTransportAl: $('#txtTransportAl').val(),
+                EmOtherAl: $('#txtOtherAl').val(),
+                EmBasicEarning: $('#txtBasicEarning').val(),
+                EmProvidentFundDeduct: $('#txtrovidentFundDeduct').val(),
+                EmTdsDeduct: $('#txtTdsDeduct').val(),
+                EmSecurityDeduct: $('#txtSecurityDeduct').val(),
+                EmOthersDeduct: $('#txtOthersDeduct').val(),
+                EmBasicDeduction: $('#txtBasicDeduction').val(),
+                EmGrossSalary: $('#txtGrossSalary').val(),
+                EmPaymentType: $('#txtPaymentType').val(),
+                EmPaymentAmountCashPc: $('#txtPaymentAmountCashPc').val(),
+                EmPaymentAmountBankPc: $('#txtPaymentAmountBankPc').val(),
+                EmShiftStatus: $('#txtShiftStatus').val(),
+                EmEmpCardNo: $('#txtEmpCardNo').val(),
+                EmIsGetHoliday: $('#txtIsGetHoliday').val(),
+                //EmEmpImage: $('#txtEmpImage').val(),
+                EmUserName: $('#txtUserName').val(),
+                EmProjectId: $('#txtProjectId').val(),
+                EmValid: $('#txtValid').val(),
+                EmEntryDate: $('#txtEntryDate').val(),
+            };
+            //alert(JSON.stringify(object));
+            //return false;
+            $.ajax({
+                url: "@UrlConfig.Action("Post", "EmployeeApi")",
+                data: JSON.stringify(object),
+                type: 'POST',
+                contentType: "application/json;charset=utf-8",
+                datatype: JSON,
+                success: function (data) {
+                    if (data.output != "error") {
+                        alert(data.msg);
+                        location.reload(true);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+        else {
+            alert("Please fill required field");
+        }
+        return false;
+    }
+
+
+    function validation() {
+        var isValid = true;
+
+        return isValid;
+    }
+
+    function GetGenderList() {
+        //alert('test');
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetGenderList", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                //alert(data);
+                $('#txtGender').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.name + ">" + item.name + "</option>";
+                    $('#txtGender').append(rows);
+                });
+            },
+
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetNationalityList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetNationalityList", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtNationality').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.name + ">" + item.name + "</option>";
+                    $('#txtNationality').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetReligionList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetReligionList", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtReligion').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.name + ">" + item.name + "</option>";
+                    $('#txtReligion').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetDeparmentList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetDeparmentList", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtDeparmentId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtDeparmentId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetDesignationList() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetDesignationList", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtDesignationId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtDesignationId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function GetCompanyBankName() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetCompanyBankName", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtCompanyBankName').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtCompanyBankName').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetEmployeeBankName() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetCompanyBankName", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtEmployeeBankName').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtEmployeeBankName').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function GetProjectId() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetProjectId", "EmployeeApi")",
+            dataType: "Json",
+            success: function (data) {
+                $('#txtProjectId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtProjectId').append(rows);
+                });
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetBranchNameByBankId() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetBranchNameByBankId", "EmployeeApi")',
+            dataType: "Json",
+            data: { 'CatId': $("#txtCompanyBankName").val() },
+            success: function (data) {
+                $('#txtCompanyBankBranch').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtCompanyBankBranch').append(rows);
+                });
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+    function GetBranchNameByBankIdEmployee() {
+        $.ajax({
+            type: "GET",
+            url: '@UrlConfig.Action("GetBranchNameByBankId", "EmployeeApi")',
+            dataType: "Json",
+            data: { 'catId': $("#txtEmployeeBankName").val() },
+            success: function (data) {
+                $('#txtEmployeeBankBranch').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtEmployeeBankBranch').append(rows);
+                });
+
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+
+
+    function sumAI() {
+        var sum = parseFloat($("#txtBasicAl").val()) + parseFloat($("#txtHouseRentAl").val()) + parseFloat($("#txtConveyanceAl").val())
+            + parseFloat($("#txtProjectAl").val()) + parseFloat($("#txtMobileAl").val()) + parseFloat($("#txtNightAl").val())
+            + parseFloat($("#txtMedicalAl").val()) + parseFloat($("#txtTechnicalAl").val()) + parseFloat($("#txtMealAl").val())
+            + parseFloat($("#txtTransportAl").val()) + parseFloat($("#txtOtherAl").val());
+        $("#txtBasicEarning").val(sum);
+        var sumgross = parseFloat($("#txtBasicEarning").val()) - parseFloat($("#txtBasicDeduction").val());
+        $("#txtGrossSalary").val(sumgross);
+    }
+
+    function SetZero() {
+        if ($("#txtBasicAl").val() == "") { $("#txtBasicAl").val(0); }
+        if ($("#txtHouseRentAl").val() == "") { $("#txtHouseRentAl").val(0); }
+        if ($("#txtConveyanceAl").val() == "") { $("#txtConveyanceAl").val(0); }
+        if ($("#txtProjectAl").val() == "") { $("#txtProjectAl").val(0); }
+        if ($("#txtMobileAl").val() == "") { $("#txtMobileAl").val(0); }
+        if ($("#txtNightAl").val() == "") { $("#txtNightAl").val(0); }
+        if ($("#txtMedicalAl").val() == "") { $("#txtMedicalAl").val(0); }
+        if ($("#txtTechnicalAl").val() == "") { $("#txtTechnicalAl").val(0); }
+        if ($("#txtMealAl").val() == "") { $("#txtMealAl").val(0); }
+        if ($("#txtTransportAl").val() == "") { $("#txtTransportAl").val(0); }
+        if ($("#txtOtherAl").val() == "") { $("#txtOtherAl").val(0); }
+        if ($("#txtProvidentFundDeduct").val() == "") { $("#txtProvidentFundDeduct").val(0); }
+        if ($("#txtTDSDeduct").val() == "") { $("#txtTDSDeduct").val(0); }
+        if ($("#txtSecurityDeduct").val() == "") { $("#txtSecurityDeduct").val(0); }
+        if ($("#txtOthersDeduct").val() == "") {
+            $("#txtOthersDeduct").val(0);
+        }
+    }
+
+    function sumDeduct() {
+        var sum = parseFloat($("#txtProvidentFundDeduct").val()) + parseFloat($("#txtTDSDeduct").val()) + parseFloat($("#txtSecurityDeduct").val())
+            + parseFloat($("#txtOthersDeduct").val());
+        $("#txtBasicDeduction").val(sum);
+        var sumgross = parseFloat($("#txtBasicEarning").val()) - parseFloat($("#txtBasicDeduction").val());
+        $("#txtGrossSalary").val(sumgross);
+    }
+
+    $("#txtPaymentAmountCashPc").on('keyup', function () {
+        $("#txtPaymentAmountBankPc").val(0);
+        $("#txtPaymentAmountBankPc").val(parseFloat($("#txtGrossSalary").val()) - parseFloat($("#txtPaymentAmountCashPc").val()));
+    });
+    $("#txtPaymentAmountBankPc").on('keyup', function () {
+        $("#txtPaymentAmountCashPc").val(0);
+        $("#txtPaymentAmountCashPc").val(parseFloat($("#txtGrossSalary").val()) - parseFloat($("#txtPaymentAmountBankPc").val()));
+    });
+
+
+    function SaveNewDepartment() {
+
+
+        if ($('#txtNewDepartmentName').val() == '') { $('#txtNewDepartmentName').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveDepartmentName", "EmployeeApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtNewDepartmentName").val() },
+            success: function (data) {
+
+                $('#txtDeparmentId').append($('<option></option>').val(data.result).html($("#txtNewDepartmentName").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function SaveNewMainBank() {
+
+
+        if ($('#txtNewBankName').val() == '') { $('#txtNewBankName').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveBankName", "EmployeeApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtNewBankName").val() },
+            success: function (data) {
+
+                $('#txtCompanyBankName').append($('<option></option>').val(data.result).html($("#txtNewBankName").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+
+    function SaveNewEmployeeBank() {
+
+
+        if ($('#txtNewEmployeeBankName').val() == '') { $('#txtNewEmployeeBankName').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveBankName", "EmployeeApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtNewEmployeeBankName").val() },
+            success: function (data) {
+
+                $('#txtEmployeeBankName').append($('<option></option>').val(data.result).html($("#txtNewEmployeeBankName").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+    function SaveNewProject() {
+
+
+        if ($('#txtNewProjectName').val() == '') { $('#txtNewProjectName').css('border-color', 'Red'); return false; }
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveProjectName", "EmployeeApi")",
+            type: 'GET',
+            datatype: JSON,
+            data: { 'name': $("#txtNewProjectName").val() },
+            success: function (data) {
+
+                $('#txtProjectId').append($('<option></option>').val(data.result).html($("#txtNewProjectName").val()).prop('selected', true));
+                $('.modal').modal('hide');
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+        return false;
+    }
+
+
+    function GetBranceNameByCatId() {
+
+        $('#txtNameOfBank').val($('#txtCompanyBankName').select2('data')[0]['text']);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetBranchNameByBankId", "EmployeeApi")",
+            dataType: "Json",
+            data: { 'catId': $("#txtCompanyBankName").val() },
+            success: function (data) {
+                $('#txtCompanyBankBranch').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                $.each(data, function (key, item) {
+                    var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                    $('#txtCompanyBankBranch').append(rows);
+                });
+                //$("#txtRemarks").focus();
+            },
+            error: function (errormessage) { alert(errormessage.responseText); }
+        });
+    }
+    function GetBranceNameByCatIdEmployee() {
+
+        $('#txtNameOfEmployeeBank').val($('#txtEmployeeBankName').select2('data')[0]['text']);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetBranchNameByBankId", "EmployeeApi")",
+            dataType: "Json",
+            data: { 'catId': $("#txtEmployeeBankName").val() },
+        success: function (data) {
+            $('#txtEmployeeBankBranch').html($("<option></option>").attr("value", 0).text("-- Select --"));
+            $.each(data, function (key, item) {
+                var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                $('#txtEmployeeBankBranch').append(rows);
+            });
+            //$("#txtRemarks").focus();
+        },
+        error: function (errormessage) { alert(errormessage.responseText); }
+    });
+    }
+
+    function SaveNewBankBranch() {
+
+        if ($('#txtNewBranchName').val() == '') { $('#txtNewBranchName').css('border-color', 'Red'); return false; }
+    
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveBankBranchName", "EmployeeApi")",
+            type: 'GET',
+            datatype: JSON,
+            //data: JSON.stringify(object),
+           
+        data: { 'param': $("#txtNewBranchName").val(), 'catId': $("#txtCompanyBankName").val() },
+        success: function (data) {
+            //alert(data);
+            if (data == 'This Name Already Exist') {
+                $('#CallCompanyBankBranch').modal('hide');
+                alert(data);
+            } else {
+                $('#txtCompanyBankBranch').append($('<option></option>').val(data).html($("#txtNewBranchName").val()).prop('selected', true));
+                $('#CallCompanyBankBranch').modal('hide');
+                alert('Save Successfully...');
+            }
+
+        },
+        error: function (errormessage) { alert(errormessage.responseText); }
+
+    });
+    return false;
+    }
+
+    function SaveNewEmployeeBankBranch() {
+
+        if ($('#txtNewEmployeeBankBranchName').val() == '') { $('#txtNewEmployeeBankBranchName').css('border-color', 'Red'); return false; }
+    
+        $.ajax({
+            url: "@UrlConfig.Action("GetSaveBankBranchName", "EmployeeApi")",
+            type: 'GET',
+        datatype: JSON,
+        //data: JSON.stringify(object),
+           
+        data: { 'param': $("#txtNewEmployeeBankBranchName").val(), 'catId': $("#txtEmployeeBankName").val() },
+        success: function (data) {
+            //alert(data);
+            if (data == 'This Name Already Exist') {
+                $('#CallEmployeeBankBranch').modal('hide');
+                alert(data);
+            } else {
+                $('#txtEmployeeBankBranch').append($('<option></option>').val(data).html($("#txtNewEmployeeBankBranchName").val()).prop('selected', true));
+                $('#CallEmployeeBankBranch').modal('hide');
+                alert('Save Successfully...');
+            }
+
+        },
+        error: function (errormessage) { alert(errormessage.responseText); }
+
+    });
+    return false;
+    }
+
+
+
+</script>
+
+
+    
+    

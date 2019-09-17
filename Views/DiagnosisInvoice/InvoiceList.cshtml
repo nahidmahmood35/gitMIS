@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Date From</label>
+                    <div class="col-sm-2"><input type="text" class="form-control datepicker" id="txtDateFrom" /></div>
+                    <label class="col-sm-2 control-label">Date To</label>
+                    <div class="col-sm-2"><input type="text" class="form-control datepicker" id="txtDateTo" /></div>
+                    <div class="col-sm-2"><button type="button" class="btn btn-info btn-sm" onclick="show();">Show</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Diagnosis Invoice</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered table-striped datatable none">
+                        <thead>
+                            <tr>
+                                <th class="text-center">InvNo</th>
+                                <th class="text-center">InvDate</th>
+                                <th class="text-center">TrNo</th>
+                                <th class="text-center">TrDate</th>
+                                <th class="text-center">Reg.No</th>
+                                <th class="text-center col-sm-2">Patient Name</th>
+                                <th class="text-right">Sales</th>
+                                <th class="text-right">Less</th>
+                                <th class="text-right">Return</th>
+                                <th class="text-right">Collection</th>
+                                <th class="text-right">Due</th>
+                                <th class="text-right">Balance</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th colspan="6" class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                                <th class="text-right"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function show() {
+        $(".datatable").css('display', 'table');
+        $(".datatable").DataTable({
+            searching: true,
+            destroy: true,
+            bAutoWidth: false,
+            "ajax": {
+                type: "GET",
+                url: '@Url.Action("GetInvoiceList", "DiagnosisInvoice")',
+                datatype: JSON,
+                data: { 'dateFrom': $("#txtDateFrom").val(), 'dateTo': $("#txtDateTo").val() },
+            },
+            "columns": [
+                { "data": "InvoiceNo" },
+                { "data": "InvoiceDate", "render": function (data) { return (ToJsonDate(data)); } },
+                { "data": "TrNo" },
+                { "data": "TrDate", "render": function (data) { return (ToJsonDate(data)); } },
+                { "data": "PtRegNo" },
+                { "data": "PtName" },
+                { "data": "TotalAmount", className: "text-right" },
+                { "data": "LessAmount", className: "text-right" },
+                { "data": "ReturnAmount", className: "text-right" },
+                { "data": "ReceiveAmount", className: "text-right" },
+                { "data": "DueAmt", className: "text-right" },
+                { "data": "BalAmt", className: "text-right" },
+                { "data": "Id", autoWidth: true, "render": function (data) { return "<a href='javascript:;' class='md-trigger' onclick='return GetInvoicePrint(" + data + ")'><i class='fa fa-print'></i></a>"; } },
+            ],
+
+            "footerCallback": function () {
+                var api = this.api();
+                // computing column Total of the complete result 
+                var totalAmount = api.column(6).data().reduce(function (a, b) { return parseFloat(a) + parseFloat(b); }, 0);
+                var lessAmount = api.column(7).data().reduce(function (a, b) { return parseFloat(a) + parseFloat(b); }, 0);
+                var returnAmount = api.column(8).data().reduce(function (a, b) { return parseFloat(a) + parseFloat(b); }, 0);
+                var receiveAmount = api.column(9).data().reduce(function (a, b) { return parseFloat(a) + parseFloat(b); }, 0);
+                var dueAmt = api.column(10).data().reduce(function (a, b) { return parseFloat(a) + parseFloat(b); }, 0);
+                var balAmt = api.column(11).data().reduce(function (a, b) { return parseFloat(a) + parseFloat(b); }, 0);
+                // Update footer by showing the total with the reference of the column index 
+                $(api.column(5).footer()).html('Total');
+                $(api.column(6).footer()).html(totalAmount);
+                $(api.column(7).footer()).html(lessAmount);
+                $(api.column(8).footer()).html(returnAmount);
+                $(api.column(9).footer()).html(receiveAmount);
+                $(api.column(10).footer()).html(dueAmt);
+                $(api.column(11).footer()).html(balAmt);
+            },
+        });
+   }
+
+</script>
+
+
+

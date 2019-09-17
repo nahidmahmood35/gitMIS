@@ -1,0 +1,623 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet" />
+<style>
+    tbody .isnumber, #txtBasicEarning, #txtBasicDeduction, #txtGrossSalary, #txtPaymentAmountBankPc, #txtPaymentAmountCashPc {
+        font-family: 'KalpurushANSI', sans-serif;
+    }
+    .commoninfo .row {border-bottom: 1px solid #ddd;}
+    table thead th {text-align: center;}
+    table tfoot th{ text-align: right;}
+</style>
+
+
+<section class="employeeSearch">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">ব্যাক্তিগত তথ্য</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label class="col-sm-2 none">প্রাতিষ্ঠানিক কোড</label>
+                <div class="col-sm-4 none">
+                    <input type="text" class="form-control " id="txtProtithanikCode">
+                    <input type="text" class="form-control defaultZero" id="txtEmployeeId">
+                </div>
+                <label class="col-sm-2">আইডি কোড</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control required " id="txtCodeNo">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content none">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <!--<img class="profile-user-img img-responsive img-circle" id="image1" src="" alt="User profile picture">-->
+                    <img class="profile-user-img img-responsive img-circle" id="image1" src="" width="100">
+                    <h3 class="profile-username text-center" id="EmployeeName"></h3>
+                    <p class="text-muted text-center" id="Designation"></p>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>আইডি কোড</b> <a class="pull-right" id="CodeNo"></a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>গ্রেড</b> <a class="pull-right" id="Grade"></a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>মোবাইল নাম্বার</b> <a class="pull-right" id="MobileNo"></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- About Me Box -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">ব্যাক্তিগত তথ্য</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item"><b>জন্ম তারিখ:</b> <a class="pull-right" id="DateOfBirth"></a></li>
+                        <li class="list-group-item"><b>এন.আই.ডি. নং:</b> <a class="pull-right" id="NID"></a></li>
+                        <li class="list-group-item"><b>লিঙ্গ:</b> <a class="pull-right" id="Gender"></a></li>
+                        <li class="list-group-item"><b>জাতীয়তা:</b> <a class="pull-right" id="Nationality"></a></li>
+                        <li class="list-group-item"><b>ধর্ম:</b> <a class="pull-right" id="Religion"></a></li>
+                        <li class="list-group-item"><b>বর্তমান ঠিকানা:</b> <a class="pull-right" id="PresentAddress"></a></li>
+                        <li class="list-group-item"><b>স্থায়ী ঠিকানা:</b> <a class="pull-right" id="PermanentAddress"></a></li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">কর্মকর্তার সাধারন তথ্য</h3>
+                </div>
+                <div class="box-body commoninfo">
+                    <table class="table table-bordered">
+                        <tr><td>ইউনিট:</td><td><p id="Project"></p></td></tr>
+                        <tr><td>বিভাগ:</td><td><p id="Deparment"></p></td></tr>
+                        <tr><td>টি.আই.এন/ই-টি.আই.এন:</td><td><p id="TAXNumber"></p></td></tr>
+                        <tr><td>তহবিল নাম্বার:</td><td><p id="Tahabil"></p></td></tr>
+                        <tr><td>নিয়গের তারিখ:</td><td><p id="DateOfJoining"></p></td></tr>
+                        <tr><td>নিশ্চয়তার তারিখ:</td><td><p id="DateOfConfirmation"></p></td></tr>
+                        <tr><td>ব্যংক হিসাব নং:</td><td><p id="EmployeeBankAccountNo"></p></td></tr>
+                        <tr><td>ব্যংক এর নাম:</td><td><p id="EmployeeBankName"></p></td></tr>
+                        <tr><td>ব্যংক শাখার নাম:</td><td><p id="EmployeeBankBranch"></p></td></tr>
+                        <tr><td>জীবন বীমা নাম্বার:</td><td><p id="JibonBimaNumber"></p></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">উপার্জন</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>কোড</th>
+                                <th>নাম</th>
+                                <th>বিগত বছরের উপার্জন</th>
+                                <th>নতুন বছরের উপার্জন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="Earningbody"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">Total</th>
+                                <th id="prevEarningTotal">0</th>
+                                <th id="newEarningTotal">0</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">কর্তন</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>কোড</th>
+                                <th>নাম</th>
+                                <th>বিগত বছরের কর্তন</th>
+                                <th>নতুন বছরের কর্তন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="Deductionbody"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2">Total</th>
+                                <th id="prevDeductionTotal">0</th>
+                                <th id="newDeductionTotal">0</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="box box-info">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label class="col-sm-2">প্রাথমিক মোট উপার্জন</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control isnumber" value="0" id="txtBasicEarning" disabled>
+                        </div>
+                        <label class="col-sm-2">প্রাথমিক মোট কর্তন </label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control isnumber" value="0" id="txtBasicDeduction" disabled>
+                        </div>
+                        <label class="col-sm-2">মোট বেতন</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control isnumber" id="txtGrossSalary" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2">Yaer</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control year-picker required" id="Year">
+                        </div>
+                        <label class="col-sm-2">Month</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control month-picker required" id="Month">
+                        </div>
+                    </div>
+
+                    <div class="button-group text-center">
+                        <input type="submit" class="btn btn-success" id="btnSave" onclick="Save();" value="Save">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+    <script>
+        $(function () {
+            $(".year-picker").datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years"
+            });
+            $(".month-picker").datepicker({
+                format: "MM",
+                minViewMode: 1,
+                maxViewMode: 1
+            });
+        });
+
+        $(document).ready(function () {
+            GetGenderList();
+            GetReligionList();
+            GetNationality();
+            GetEarrinngName();
+            GetDeductionName();
+            GetDeparmentList();
+            GetDesignationList();
+            GetProjectId();
+            GetCompanyBankName();
+
+            $(document).on("keyup", "tbody .deduction, tbody .earning", calculateGrid);
+            $(document).on("keyup", "tbody .isnumber", isnumber);
+
+            $('#txtCodeNo').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetEmployeeList", "EmployeeGLOApi")",
+                        dataType: "Json",
+                        data: { 'searchString': $("#txtCodeNo").val() },
+                        success: function (data) {
+                            response(data.slice(0, 10));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    getEmployeeDetailById(ui.item.emId);
+                    $('.employeeSearch').addClass('none');
+                    $('.content').removeClass('none');
+                    return false;
+                },
+                minLength: 3
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                if (ul.children().length === 0) {
+                    $("<thead><tr><th>কোড</th><th>নাম</th><th>মোবাইল</th><th>পদবী</th></tr></thead>").appendTo(ul);
+                }
+                var html = "<td>" + item.emCode + "</td>";
+                html += "<td>" + item.emName + "</td>";
+                html += "<td>" + item.emMobileNo + "</td>";
+                html += "<td>" + item.emDesignationName + "</td>";
+                return $("<tr></tr>").append(html).appendTo(ul);
+            };
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) { $('#image1').attr('src', e.target.result); }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $(".image1").change(function () {
+            var imgSize = parseFloat(this.files[0].size);
+            if (imgSize > 1000000) {
+                alert("Upload image size not more 1MB!!!");
+            } else {
+                readURL(this);
+            }
+        });
+
+        function isnumber() {
+            $('.isnumber').keypress(function (e) {
+                var character = String.fromCharCode(e.keyCode);
+                var newValue = this.value + character;
+                if (isNaN(newValue) || parseFloat(newValue) * 100 % 1 > 0) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        }
+
+        function getEmployeeDetailById(param) {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetEmployeeDetalsList", "EmployeeGloApi")",
+                dataType: "Json",
+                data: { 'searchString': param },
+                success: function (data) {
+                    $('#txtEmployeeId').text(data[0].emId);
+                    $('#CodeNo').text(data[0].emCode);
+                    $("#Grade").text(data[0].grade);
+                    $('#EmployeeName').text(data[0].emName);
+                    $('#MobileNo').text(data[0].emMobileNo);
+                    $('#Project').text(data[0].unitName);
+                    $('#Deparment').text(data[0].departmentName);
+                    $('#Designation').text(data[0].emDesignationName);
+                    $("#NID").text(data[0].nid);
+                    $("#TAXNumber").text(data[0].taxNumber);
+                    $("#Tahabil").text(data[0].tahabil);
+                    $('#DateOfBirth').text(ToJsonDate(data[0].emDob));
+                    $('#Gender').text(data[0].genderName);
+                    $('#Nationality').text(data[0].nationalName);
+                    $('#Religion').text(data[0].religionName);
+                    $('#DateOfJoining').text(ToJsonDate(data[0].emDoj));
+                    $('#DateOfConfirmation').text(ToJsonDate(data[0].emDoConfirmation));
+                    $('#PresentAddress').text(data[0].emPresentAddress);
+                    $('#PermanentAddress').text(data[0].emPermanentAddress);
+                    $('#EmployeeBankAccountNo').text(data[0].emSalaryBankAccountNo);
+                    $('#EmployeeBankName').text(data[0].bankName);
+                    $('#JibonBimaNumber').text(data[0].jibonBimaNumber);
+                    $('#txtPaymentAmountBankPc').text(data[0].emPaymentAmountBankPc);
+                    $('#txtPaymentAmountCashPc').text(data[0].emPaymentAmountCashPc);
+
+                    $('#EmployeeBankBranch').text(data[0].emBankBanchName);
+                    $('#image1').attr("src", data[0].emEmpImage);
+                    //$("#txtJibonBimaNumber").val(data[0].jibonBimaNumber);
+                    //$('#txtBasicEarning').val(data[0].emBasicEarning);
+                    //$('#txtBasicDeduction').val(data[0].emBasicDeduction);
+                    //$('#txtGrossSalary').val(data[0].emGrossSalary);
+
+                    for (var i = 0; i < data.length; i++) {
+                        var table = $('#Earningbody, #Deductionbody');
+                        subtotal = 0;
+                        table.find('tr').each(function () {
+                            var $tds = $(this).find('td');
+                            if ($tds.eq(0).text() == data[i].itemid) {
+                                $tds.eq(4).text(data[i].itemCharge);
+                                $tds.eq(1).text(data[i].salaryCustomId);
+                                total = parseFloat(data[i].itemCharge);
+                            }
+                            subtotal += total;
+                        });
+                        //$("#txtBasicEarning").val(subtotal);
+                    }
+                    var table = $('#Earningbody');
+                    Earningtotal = 0;
+                    table.find('tr').each(function () {
+                        var $tds = $(this).find('td');
+                        Earning = parseFloat($tds.eq(4).text());
+                        Earningtotal += Earning;
+                    });
+                    $("#prevEarningTotal").text(Earningtotal);
+
+                    var table = $('#Deductionbody');
+                    Deductiontotal = 0;
+                    table.find('tr').each(function () {
+                        var $tds = $(this).find('td');
+                        Deduction = parseFloat($tds.eq(4).text());
+                        Deductiontotal += Deduction;
+                    });
+                    $("#prevDeductionTotal").text(Deductiontotal);
+                    $("#txtGrossSalary").val($("#txtBasicEarning").val() - $("#txtBasicDeduction").val());
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+        function GetCompanyBankName() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetCompanyBankName", "EmployeeGloApi")",
+                dataType: "Json",
+                success: function (data) {
+                    $('#txtEmployeeBankName, #txtCompanyBankName').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                    $.each(data, function (key, item) {
+                        var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                        $('#txtEmployeeBankName, #txtCompanyBankName').append(rows);
+                    });
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+        function GetBranceNameByCatIdEmployee() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetBranchNameByBankId", "EmployeeGloApi")",
+                dataType: "Json",
+                data: { 'catId': $("#txtEmployeeBankName").val() },
+                success: function (data) {
+                    $('#txtEmployeeBankBranch').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                    $.each(data, function (key, item) {
+                        var rows = "<option value=" + item.id + ">" + item.name + "</option>";
+                        $('#txtEmployeeBankBranch').append(rows);
+                    });
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+        function GetBranceNameByCatId() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("txtCompanyBankName", "EmployeeGloApi")",
+                dataType: "Json",
+                data: { 'catId': $("#txtCompanyBankBranch").val() },
+                success: function (data) {
+                    $('#txtCompanyBankBranch').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                    $.each(data, function (key, item) {
+                        var rows = "<option value=" + item.Id + ">" + item.name + "</option>";
+                        $('#txtCompanyBankBranch').append(rows);
+                    });
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+        function GetDeparmentList() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetDeparmentList", "EmployeeGloApi")",
+                dataType: "Json",
+                success: function (data) {
+                    $('#txtDeparmentId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                    $.each(data, function (key, item) {
+                        var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                        $('#txtDeparmentId').append(rows);
+                    });
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+        function GetDesignationList() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetDesignationList", "EmployeeGloApi")",
+                dataType: "Json",
+                success: function (data) {
+                    $('#txtDesignationId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                    $.each(data, function (key, item) {
+                        var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                        $('#txtDesignationId').append(rows);
+                    });
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+        function GetProjectId() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetProjectId", "EmployeeGloApi")",
+                dataType: "Json",
+                success: function (data) {
+                    $('#txtProjectId').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                    $.each(data, function (key, item) {
+                        var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                        $('#txtProjectId').append(rows);
+                    });
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+        function GetNationality() {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetNationalityList", "EmployeeGloApi")",
+                dataType: "Json",
+                success: function (data) {
+                    $('#txtNationality').html($("<option></option>").attr("value", 0).text("-- Select --"));
+                    $.each(data, function (key, item) {
+                        var rows = "<option value='" + item.id + "'>" + item.name + "</option>";
+                        $('#txtNationality').append(rows);
+                    });
+                },
+                error: function (errormessage) { alert(errormessage.responseText); }
+            });
+        }
+
+
+        function GetDeductionName() {
+            $.ajax({
+                url: "@UrlConfig.Action("GetDetecttionName", "EmployeeGloApi")",
+                type: "GET",
+                datatype: "json",
+                success: function (data) {
+                    $('#Deductionbody').empty();
+                    $.each(data, function (key, item) {
+                        var rows = "<tr>"
+                            + "<td class='none'>" + item.id + "</td>"
+                            + "<td></td>"
+                            + "<td>" + item.name + "</td>"
+                            + "<td class='none'>" + item.anotherName + "</td>"
+                            + "<td style='text-align:right'>0</td>"
+                            + "<td><input type='text' class='isnumber deduction' value='0'></td>"
+                            + "</tr>";
+                        $('#Deductionbody').append(rows);
+                    });
+                },
+            });
+        }
+
+        function GetEarrinngName() {
+            $.ajax({
+                url: "@UrlConfig.Action("GetEarrinngName", "EmployeeGloApi")",
+                type: "GET",
+                datatype: "json",
+                success: function (data) {
+                    $('#Earningbody').empty();
+                    $.each(data, function (key, item) {
+                        var rows = "<tr>"
+                            + "<td class='none'>" + item.id + "</td>"
+                            + "<td></td>"
+                            + "<td>" + item.name + "</td>"
+                            + "<td class='none'>" + item.anotherName + "</td>"
+                            + "<td style='text-align:right'>0</td>"
+                            + "<td><input type='text' class='isnumber earning' value='0'></td>"
+                            + "</tr>";
+                        $('#Earningbody').append(rows);
+                    });
+                },
+            });
+        }
+
+
+        function calculateGrid() {
+            var totalEarning = 0, totalDeduction = 0;
+            $(".earning").each(function () {
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    var total = parseFloat(this.value);
+                    totalEarning += parseFloat(total);
+                }
+            });
+            $(".deduction").each(function () {
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    var total = parseFloat(this.value);
+                    totalDeduction += parseFloat(total);
+                }
+            });
+            $("#txtBasicEarning").val(totalEarning);
+            $("#txtBasicDeduction").val(totalDeduction);
+            $("#newEarningTotal").text(totalEarning);
+            $("#newDeductionTotal").text(totalDeduction);
+            $("#txtGrossSalary").val(totalEarning - totalDeduction);
+        }
+
+        function Save() {
+
+            if (confirm("Are you sure!!")) {
+                var res = validation();
+                if (res == true) {
+                    var vouchers = [];
+                    var table = $('#Earningbody, #Deductionbody');
+                    table.find('tr').each(function () {
+                        var $tds = $(this).find('td'),
+                            tItemId = $tds.eq(0).text(),
+                            tItemType = $tds.eq(3).text(),
+                            tItemCharge = $tds.eq(5).find("input").val();
+
+                        var voucher = {
+                            //ProtithanikCode: '১৬২০৪০১',
+                            EmId: $('#txtEmployeeId').text(),
+                            EmCode: $('#CodeNo').text(),
+                            Grade: $("#Grade").text(),
+                            DepartmentName: $("#Deparment").text(),
+                            EmDesignationName: $("#Designation").text(),
+                            UnitName: $("#Project").text(),
+                            MonthName: $('#Month').val(),
+                            Year: $('#Year').val(),
+                            
+                            itemid: tItemId,
+                            itemType: tItemType,
+                            itemCharge: tItemCharge,
+
+                            EmUserName: "@System.Web.HttpContext.Current.Session["UserName"]"
+                        };
+
+                        vouchers.push(voucher);
+                        //console.log(vouchers);
+                    });
+                    //alert(JSON.stringify(vouchers));
+                    //console.log(vouchers);
+                    //return false;
+                    $.ajax({
+                        type: "Post",
+                        url: apiUrl + "EmployeeIncrementApi/Post",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "Json",
+                        data: JSON.stringify(vouchers),
+                        success: function (data) {
+                                alert(JSON.stringify(data.msg));
+                                location.reload(true);
+                            },
+                            error: function(errormessage) {
+                                alert(errormessage.responseText);
+                                location.reload(true);
+                        }
+                    });
+                    
+                } else { alert("Please fill required field"); }
+                return false;
+                location.reload(true);
+            } else { return false; }
+
+        }
+
+
+        //$("#txtPaymentAmountCashPc").on('keyup', function () {
+        //    $("#txtPaymentAmountBankPc").val(0);
+
+        //    $("#txtPaymentAmountBankPc").val(parseFloat($("#txtGrossSalary").val()) - parseFloat($("#txtPaymentAmountCashPc").val()));
+        //    if (parseFloat($("#txtPaymentAmountCashPc").val()) > parseFloat($("#txtGrossSalary").val())) {
+        //        alert("Over to gross salary");
+        //        $("#txtPaymentAmountCashPc").val(0);
+        //        $("#txtPaymentAmountBankPc").val(0);
+        //    }
+        //});
+        //$("#txtPaymentAmountBankPc").on('keyup', function () {
+        //    $("#txtPaymentAmountCashPc").val(0);
+        //    $("#txtPaymentAmountCashPc").val(parseFloat($("#txtGrossSalary").val()) - parseFloat($("#txtPaymentAmountBankPc").val()));
+
+        //    if (parseFloat($("#txtPaymentAmountBankPc").val()) > parseFloat($("#txtGrossSalary").val())) {
+        //        alert("Over to gross salary");
+        //        $("#txtPaymentAmountBankPc").val(0);
+        //        $("#txtPaymentAmountCashPc").val(0);
+        //    }
+        //});
+    </script>
+}
