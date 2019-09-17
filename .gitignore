@@ -14,6 +14,7 @@ Global.asax.cs
 HospitalManagementApp_Api.csproj
 HospitalManagementApp_Api.csproj.user
 packages.config
-./Web.config
+Web.config
+!Views/Web.config
 Web.Debug.config
 Web.Release.config
